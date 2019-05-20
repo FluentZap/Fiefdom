@@ -19,6 +19,8 @@ var GameScene = new Phaser.Class({
 
 
 	preload: function () {
+		this.load.image('mill', 'assets/mill.png');
+		this.load.image('scroll', 'assets/scroll.png');
 		this.load.image('log', 'assets/logPile.png');
 		this.load.image('bg', 'assets/BG.png');
 		this.load.image('bg1', 'assets/plx-1.png');
@@ -27,8 +29,6 @@ var GameScene = new Phaser.Class({
 		this.load.image('bg4', 'assets/plx-4.png');
 		this.load.image('bg5', 'assets/plx-5.png');
 		this.load.spritesheet('character', 'assets/adventurer-Sheet.png', { frameWidth: 50, frameHeight: 37 });
-
-
 	},
 
 	//Create
@@ -53,6 +53,14 @@ var GameScene = new Phaser.Class({
 		var platforms = this.physics.add.staticGroup();
 		platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
 		//groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
+
+		//test text window
+		this.scroll = this.add.image(10,10,'scroll').setOrigin(0,0);
+		this.txt = this.add.text(100, 100, 'hello');
+		this.scroll.setScrollFactor(0);
+		this.scroll.setVisible(false);
+		this.txt.setScrollFactor(0);
+		this.txt.setVisible(false);
 
 		//this.bg.setScrollFactor(0);
 		this.bg1.setScrollFactor(0);
@@ -129,7 +137,9 @@ var GameScene = new Phaser.Class({
 
 		}, this);
 
-		this.physics.add.overlap(this.player, plots, this.plotBuildOptions, null, this);
+		this.bKey = this.input.keyboard.addKey('B');
+		this.physics.add.overlap(this.player, plots, this.plotBuildOptions, this.bIsDown, this);
+
 	},
 
 	update: function (time, theta) {
@@ -171,8 +181,18 @@ var GameScene = new Phaser.Class({
 
 	},
 
+	bIsDown: function(){
+		if(this.bKey.isDown){
+			return true;
+		}
+		return false;
+	},
+
 	plotBuildOptions: function(player, plot){
 		console.log(plot.Id);
+		plot.setTexture('mill');
+		this.txt.setVisible(true);
+		this.scroll.setVisible(true);
 	}
 
 });

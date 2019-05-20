@@ -21,6 +21,7 @@ namespace Fiefdom
             WebHost.CreateDefaultBuilder(args)
             .ConfigureLogging(config => {
                 config.ClearProviders();})
+            .UseUrls("http://0.0.0.0:5000")
             .UseStartup<Startup>();
     }
 }
