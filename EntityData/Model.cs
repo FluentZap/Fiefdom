@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Fiefdom.Models
 {
 
-  public class FiefdomContext : DbContext
+  public class FdContext : DbContext
   {
     public DbSet<GameState> GameState { get; set; }
     public DbSet<Market> Market { get; set; }
