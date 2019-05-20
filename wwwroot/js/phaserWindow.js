@@ -19,6 +19,7 @@ var GameScene = new Phaser.Class({
 
 
 	preload: function () {
+		this.load.image('log', 'assets/logPile.png');
 		this.load.image('bg', 'assets/BG.png');
 		this.load.image('bg1', 'assets/plx-1.png');
 		this.load.image('bg2', 'assets/plx-2.png');
@@ -39,6 +40,16 @@ var GameScene = new Phaser.Class({
 		this.bg5 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg5').setOrigin(0, 0);
 		//this.bg = this.add.tileSprite(0, game.config.height - 16, game.config.width, 16, 'bg').setOrigin(0, 0);
 
+		// this.log = this.physics.add.image(50, 0).setOrigin(0,0);
+
+		var plots = this.physics.add.staticGroup();
+		this.plot1 = plots.create(500,710,'log');
+		this.plot1.Id = "test";
+		this.plot2 = plots.create(900, 700, 'log');
+		this.plot2.Id = "test2";
+
+		this.plots = plots;
+		
 		var platforms = this.physics.add.staticGroup();
 		platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
 		//groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
@@ -117,6 +128,8 @@ var GameScene = new Phaser.Class({
 			}
 
 		}, this);
+
+		this.physics.add.overlap(this.player, plots, this.plotBuildOptions, null, this);
 	},
 
 	update: function (time, theta) {
@@ -158,7 +171,9 @@ var GameScene = new Phaser.Class({
 
 	},
 
-
+	plotBuildOptions: function(player, plot){
+		console.log(plot.Id);
+	}
 
 });
 
@@ -182,5 +197,6 @@ var config = {
 	},
 	scene: GameScene
 };
+
 
 var game = new Phaser.Game(config);
