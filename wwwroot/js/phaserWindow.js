@@ -1,5 +1,11 @@
 var sprite;
 
+var goldTotal = 0;
+var woodTotal = 0;
+var stoneTotal = 0;
+var metalTotal = 0;
+var foodTotal = 0;
+
 let ratio = 720 / 216;
 var GameScene = new Phaser.Class({
 
@@ -8,14 +14,17 @@ var GameScene = new Phaser.Class({
 	initialize:
 
 
-		function GameScene() {
-			Phaser.Scene.call(this, { key: 'gameScene', active: true });
+	function GameScene() {
+		Phaser.Scene.call(this, { key: 'gameScene', active: true });
 
-			this.player = null;
-			this.cursors = null;
-			this.score = 0;
-			this.scoreText = null;
-		},
+		this.player = null;
+		this.cursors = null;
+		this.goldCount = null;
+		this.woodCount = null;
+		this.stoneCount = null;
+		this.metalCount = null;
+		this.foodCount = null;
+	},
 
 
 	preload: function () {
@@ -39,9 +48,22 @@ var GameScene = new Phaser.Class({
 		this.bg5 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg5').setOrigin(0, 0);
 		//this.bg = this.add.tileSprite(0, game.config.height - 16, game.config.width, 16, 'bg').setOrigin(0, 0);
 
+		goldCount = this.add.text(50, 20, '💰: 0', {fontSize: '20px'}).setScrollFactor(0);
+		woodCount = this.add.text(50, 50, '🌳: 0', {fontSize: '20px'}).setScrollFactor(0);
+		stoneCount = this.add.text(50, 80, '🎸: 0', {fontSize: '20px'}).setScrollFactor(0);
+		metalCount = this.add.text(50, 110, '🗡: 0', {fontSize: '20px'}).setScrollFactor(0);
+		foodCount = this.add.text(50, 140, '🍖: 0', {fontSize: '20px'}).setScrollFactor(0);
+
+
 		var platforms = this.physics.add.staticGroup();
 		platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
 		//groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
+
+		var plots = this.physics.add.staticGroup();
+		this.plot1 = plots.create(500, 710, 'bg');
+		this.plot2 = plots.create(900, 710, 'bg');
+
+		this.plots = plots;
 
 		//this.bg.setScrollFactor(0);
 		this.bg1.setScrollFactor(0);
@@ -117,6 +139,10 @@ var GameScene = new Phaser.Class({
 			}
 
 		}, this);
+
+
+		this.bKey = this.input.keyboard.addKey('b');
+		this.physics.add.overlap(this.player, plots, this.plotBuild, this.bIsDown, this);
 	},
 
 	update: function (time, theta) {
@@ -155,12 +181,56 @@ var GameScene = new Phaser.Class({
 			player.anims.play('idle', true);
 		}
 
-
 	},
 
+	bIsDown: function(){
+		if(this.bKey.isDown){
+			return true;
+		}
+		return false;
+	},
 
+	plotBuild: function(player, plot){
+		countGold();
+		countWood();
+		countStone();
+		countMetal();
+		countFood();
+	}
 
 });
+
+function countGold ()
+{
+	this.goldTotal += 10;
+	goldCount.setText('Gold: ' + goldTotal);
+}
+
+function countWood ()
+{
+	this.woodTotal += 5;
+	woodCount.setText('Wood: ' + woodTotal);
+}
+
+function countStone ()
+{
+	this.stoneTotal += 3;
+	stoneCount.setText('Stone: ' + stoneTotal);
+}
+
+function countMetal ()
+{
+	this.metalTotal += 8;
+	metalCount.setText('Metal: ' + metalTotal);
+}
+
+function countFood ()
+{
+	this.foodTotal += 1;
+	foodCount.setText('Food: ' + foodTotal);
+}
+
+
 
 var config = {
 	type: Phaser.AUTO,
