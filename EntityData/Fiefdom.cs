@@ -8,6 +8,41 @@ namespace Fiefdom
 
   public static class FiefdomAcions
   {
+    public static void  CreateNewFiefdom(string Name, string SessionId)
+    {
+      using ( var db = new FiefContext())
+      {
+        Fief fief = new Fief {Name, SessionId};
+        fief.FiefdomResources.Add(new FiefdomResources{ Type = "Gold", Quantity = 200});
+        fief.FiefdomResources.Add(new FiefdomResources{ Type = "Wood", Quantity = 10});
+        fief.FiefdomResources.Add(new FiefdomResources{ Type = "Stone", Quantity = 10});
+        fief.FiefdomResources.Add(new FiefdomResources{ Type = "Food", Quantity = 10});
+        for (int i = 0; i < 10; i++) {
+          FiefdomPlot.Add(new FiefdomPlot{Type = "Empty"});
+        }
+        db.Fiefdom.Add(fief);
+        db.SaveChanges();
+      }
+    }
+
+    public static bool UserExist(string name)
+    {
+      using ( var db = new FiefContext())
+      {
+        var user = db.Fiefdom.Where(f => f.Name == name).FirstOrDefault();
+        return user != null;
+      }
+    }
+
+    public static void UserUpdateSessionId(string name, string sessionId)
+    {
+      using ( var db = new FiefContext())
+      {
+        var user = db.Fiefdom.Where(f => f.Name == name).FirstOrDefault();
+        user.SessionId = sessionId;
+        db.SaveChanges();
+      }
+    }
 
 
     public static void BuyQuanity(int Id, string name, int quantity)

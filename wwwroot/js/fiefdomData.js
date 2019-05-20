@@ -1,26 +1,15 @@
-var connection = new signalR.HubConnectionBuilder().withUrl("/fiefdomHub").build();
-
-
-// function fiefType () {
-//   this.plots = [],
-//   this.resources = {},
-// }
-
-// function plot(){
-//   fief.add(this);
-// }
-var fief = {};
-fief.plots = [];
-fief.resources = {};
-
-$(function () {
-
-  connection.start().then(function () {
-    SendData();
-    console.log("connected");
-  });
-
-});
+// var connection = new signalR.HubConnectionBuilder().withUrl("/fiefdomHub").build();
+//
+// var fief = {};
+// fief.plots = [];
+// fief.resources = {};
+//
+// $(function () {
+//   connection.start().then(function () {
+//     SendData();
+//     console.log("connected");
+//   });
+// });
 
 function SendData() {
   connection.invoke("RequestFiefdomData").catch(function (err) {
