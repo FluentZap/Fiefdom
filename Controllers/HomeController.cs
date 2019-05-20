@@ -14,17 +14,10 @@ namespace Fiefdom.Controllers
       return View();
     }
 
-    [HttpGet("/New")]
-    public IActionResult New()
-    {
-      return View();
-    }
-
-    [HttpPost("/Login")]
-    public IActionResult Login()
+    [HttpGet("/game")]
+    public IActionResult Game()
     {
       return View();
     }
   }
-
 }

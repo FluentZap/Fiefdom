@@ -15,7 +15,7 @@ namespace Fiefdom.Models
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-      optionsBuilder.UseMySQL("server=localhost;database=fiefdom;user=root;password=root;port=8889;");
+      optionsBuilder.UseMySQL("server=localhost;database=fiefdom;user=root;password=root;port=3306;");
     }
   }
 

@@ -6,9 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-      <Watch Include = "**\*.cshtml"/>
-      <Watch Include = "**\*.css"/>
-      <Watch Include = "**\*.js"/>
+      <Watch Include="**\*.cshtml" />
+      <Watch Include="**\*.css" />
+      <Watch Include="**\*.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Watch Remove="Views\Home\Game.cshtml" />
+    <Watch Remove="Views\Home\Index.cshtml" />
   </ItemGroup>
 
   <ItemGroup>

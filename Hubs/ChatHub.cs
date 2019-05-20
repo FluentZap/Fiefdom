@@ -19,15 +19,15 @@ namespace Fiefdom.Hubs
 
 		public async Task UserLogin(string name)
 		{
-			if (FiefdomAcions.UserExist())
-			{
-				FiefdomAcions.UserUpdateSessionId(name, Context.ConnectionId);
-			}
-			else
-			{
-				FiefdomAcions.CreateNewFiefdom(name, Context.ConnectionId);
-			}
-
+            //if (FiefdomAcions.UserExist(name))
+            //{
+            //    FiefdomAcions.UserUpdateSessionId(name, Context.ConnectionId);
+            //}
+            //else
+            //{
+                FiefdomAcions.CreateNewFiefdom(name, Context.ConnectionId);
+            //}
+            Console.WriteLine("Login");
 			await Clients.All.SendAsync("LoginUser");
 
 			// Console.WriteLine(Context.ConnectionId);

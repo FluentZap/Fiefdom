@@ -17,5 +17,5 @@ document.getElementById("login").addEventListener("click", function (event) {
 
 
 connection.on("LoginUser", function () {
-  window.location.href = "/index";
+  window.location.href = "/game";
 });
