@@ -193,25 +193,45 @@ var GameScene = new Phaser.Class({
 	},
 
 	plotBuild: function(player, plot){
-		countResources()
+		countGold();
+		countWood();
+		countStone();
+		countMetal();
+		countFood();
 	}
 
 });
 
-function countResources()
+	// Replace this.Total += #; with a DB call to retrieve actual totals
+function countGold()
 {
 	this.goldTotal += 10;
-	goldCount.setText('💰: ' + goldTotal);
-	this.woodTotal += 5;
-	woodCount.setText('🌳: ' + woodTotal);
-	this.stoneTotal += 3;
-	stoneCount.setText('🎸: ' + stoneTotal);
-	this.metalTotal += 8;
-	metalCount.setText('🗡: ' + metalTotal);
-	this.foodTotal += 1;
-	foodCount.setText('🍖: ' + foodTotal);
+	goldCount.setText('Gold: ' + goldTotal);
 }
 
+function countWood()
+{
+	this.woodTotal += 5;
+	woodCount.setText('Wood: ' + woodTotal);
+}
+
+function countStone()
+{
+	this.stoneTotal += 3;
+	stoneCount.setText('Stone: ' + stoneTotal);
+}
+
+function countMetal()
+{
+	this.metalTotal += 8;
+	metalCount.setText('Metal: ' + metalTotal);
+}
+
+function countFood()
+{
+	this.foodTotal += 1;
+	foodCount.setText('Food: ' + foodTotal);
+}
 
 var config = {
 	type: Phaser.AUTO,
