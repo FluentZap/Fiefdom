@@ -39,6 +39,12 @@ var GameScene = new Phaser.Class({
 		this.bg5 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg5').setOrigin(0, 0);
 		//this.bg = this.add.tileSprite(0, game.config.height - 16, game.config.width, 16, 'bg').setOrigin(0, 0);
 
+		// Playing with text
+		this.boo = this.add.text(500, 200, "🐉", {fontSize: '400px'});
+		// this.boo = this.add.image(30, 30, 'bg5').setOrigin(0, 0);
+		this.boo.setScrollFactor(0);
+		//
+
 		var platforms = this.physics.add.staticGroup();
 		platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
 		//groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
