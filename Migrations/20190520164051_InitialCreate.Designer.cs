@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fiefdom.Migrations
 {
-    [DbContext(typeof(FiefdomContext))]
+    [DbContext(typeof(FiefContext))]
     [Migration("20190520164051_InitialCreate")]
     partial class InitialCreate
     {

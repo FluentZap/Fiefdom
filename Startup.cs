@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
+using Fiefdom.Hubs;
 namespace Fiefdom
 {
     public class Startup
@@ -40,6 +40,7 @@ namespace Fiefdom
                 options.Cookie.IsEssential = true;
             });
 
+            services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -50,6 +51,10 @@ namespace Fiefdom
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseSignalR(routes =>
+			{
+				routes.MapHub<FiefdomHub>("/fiefdomHub");
+			});
 
             app.UseMvc(routes =>
             {
