@@ -55,12 +55,14 @@ var GameScene = new Phaser.Class({
 		//groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
 
 		//test text window
+
 		this.scroll = this.add.image(10,10,'scroll').setOrigin(0,0);
 		this.txt = this.add.text(100, 100, 'hello');
 		this.scroll.setScrollFactor(0);
 		this.scroll.setVisible(false);
 		this.txt.setScrollFactor(0);
 		this.txt.setVisible(false);
+		this.statsWindow = this.add.group([this.txt, this.scroll]);
 
 		//this.bg.setScrollFactor(0);
 		this.bg1.setScrollFactor(0);
@@ -137,7 +139,7 @@ var GameScene = new Phaser.Class({
 
 		}, this);
 
-		this.bKey = this.input.keyboard.addKey('B');
+		this.bKey = this.input.keyboard.addKey('DOWN');
 		this.physics.add.overlap(this.player, plots, this.plotBuildOptions, this.bIsDown, this);
 
 	},
@@ -190,10 +192,15 @@ var GameScene = new Phaser.Class({
 
 	plotBuildOptions: function(player, plot){
 		console.log(plot.Id);
-		plot.setTexture('mill');
+		plot.setTexture('mill').refreshBody();
 		this.txt.setVisible(true);
 		this.scroll.setVisible(true);
+		// this.statsWindow.toggleVisible();
 	}
+
+	// hideGroup: function(){
+	// 	write function to hide images
+	// }
 
 });
 
