@@ -45,15 +45,13 @@ namespace Fiefdom.Models
   {
     public int Id{ get; set; }
     public string Type{ get; set; }
-    public int Quanity{ get; set; }
-    public int FiefdomId{ get; set; }
+    public int Quantity{ get; set; }
   }
 
   public class FiefdomPlot
   {
     public int Id{ get; set; }
     public string Type{ get; set; }
-    public int FiefdomId{ get; set; }
   }
 
 }

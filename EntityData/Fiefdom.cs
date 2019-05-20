@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore;
 namespace Fiefdom
 {
 
-  public class FiefdomAcions
+  public static class FiefdomAcions
   {
 
 
-    public static void BuyQuanity(int Id, string name, int quanity)
+    public static void BuyQuanity(int Id, string name, int quantity)
     {
       using ( var db = new FiefContext())
       {
@@ -19,11 +19,21 @@ namespace Fiefdom
         var item = fiefdom.FiefdomResources.Where(t => t.Type == name).FirstOrDefault();
 
         var marketItem = db.Market.Where(t => t.Type == name).FirstOrDefault();
-        int cost = marketItem.Price * quanity;
+        int cost = marketItem.Price * quantity;
         //Add matket flux here
-        item.Quanity += quanity;
-        gold.Quanity -= cost;
+        item.Quantity += quantity;
+        gold.Quantity -= cost;
         db.SaveChanges();
+      }
+    }
+
+    public static void BuildPlot(string build, int id, int plot)
+    {
+      using ( var db = new FiefContext())
+      {
+        var fiefdom = db.Fiefdom.Where(f => f.Id == id).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
+        //Subtract resources
+        fiefdom.FiefdomPlot.Where( p => p.Id == plot).FirstOrDefault().Type = build;
       }
     }
 

@@ -52,17 +52,17 @@ namespace Fiefdom.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
                     Type = table.Column<string>(nullable: true),
-                    FiefdomId = table.Column<int>(nullable: false)
+                    FiefId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FiefdomPlot", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FiefdomPlot_Fiefdom_FiefdomId",
-                        column: x => x.FiefdomId,
+                        name: "FK_FiefdomPlot_Fiefdom_FiefId",
+                        column: x => x.FiefId,
                         principalTable: "Fiefdom",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,29 +72,29 @@ namespace Fiefdom.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
                     Type = table.Column<string>(nullable: true),
-                    Quanity = table.Column<string>(nullable: true),
-                    FiefdomId = table.Column<int>(nullable: false)
+                    Quantity = table.Column<int>(nullable: false),
+                    FiefId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_FiefdomResources", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_FiefdomResources_Fiefdom_FiefdomId",
-                        column: x => x.FiefdomId,
+                        name: "FK_FiefdomResources_Fiefdom_FiefId",
+                        column: x => x.FiefId,
                         principalTable: "Fiefdom",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_FiefdomPlot_FiefdomId",
+                name: "IX_FiefdomPlot_FiefId",
                 table: "FiefdomPlot",
-                column: "FiefdomId");
+                column: "FiefId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FiefdomResources_FiefdomId",
+                name: "IX_FiefdomResources_FiefId",
                 table: "FiefdomResources",
-                column: "FiefdomId");
+                column: "FiefId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
