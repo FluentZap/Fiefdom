@@ -5,11 +5,11 @@ using System.Collections.Generic;
 namespace Fiefdom.Models
 {
 
-  public class FdContext : DbContext
+  public class FiefContext : DbContext
   {
     public DbSet<GameState> GameState { get; set; }
     public DbSet<Market> Market { get; set; }
-    public DbSet<Fiefdom> Fiefdom { get; set; }
+    public DbSet<Fief> Fiefdom { get; set; }
     public DbSet<FiefdomResources> FiefdomResources { get; set; }
     public DbSet<FiefdomPlot> FiefdomPlot { get; set; }
 
@@ -32,7 +32,7 @@ namespace Fiefdom.Models
     public int Price{ get; set; }
   }
 
-  public class Fiefdom
+  public class Fief
   {
     public int Id{ get; set; }
     public string Name{ get; set; }
@@ -45,7 +45,7 @@ namespace Fiefdom.Models
   {
     public int Id{ get; set; }
     public string Type{ get; set; }
-    public string Quanity{ get; set; }
+    public int Quanity{ get; set; }
     public int FiefdomId{ get; set; }
   }
 

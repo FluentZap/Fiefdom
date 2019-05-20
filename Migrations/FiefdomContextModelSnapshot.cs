@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Fiefdom.Migrations
 {
-    [DbContext(typeof(FiefdomContext))]
+    [DbContext(typeof(FiefContext))]
     partial class FiefdomContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
