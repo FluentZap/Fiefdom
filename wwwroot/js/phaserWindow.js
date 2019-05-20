@@ -131,7 +131,9 @@ var GameScene = new Phaser.Class({
 		let onGround = (player.body.touching.down || player.body.blocked.down);
 		let moving = false;
 		if (cursors.up.isDown && onGround) {
-			player.setVelocityY(-330);
+			player.setVelocityY(-330);			
+			 console.log(fief.plots);
+			 console.log(fief.resources);
 		}
 
 		if (cursors.left.isDown) {
