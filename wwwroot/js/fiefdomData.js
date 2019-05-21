@@ -1,64 +1,40 @@
-// var connection = new signalR.HubConnectionBuilder().withUrl("/fiefdomHub").build();
-//
-// var fief = {};
-// fief.plots = [];
-// fief.resources = {};
-//
-// $(function () {
-//   connection.start().then(function () {
-//     SendData();
-//     console.log("connected");
-//   });
-// });
+var connection = new signalR.HubConnectionBuilder().withUrl("/fiefdomHub").build();
 
-function SendData() {
-  connection.invoke("RequestFiefdomData").catch(function (err) {
+
+var fief = {};
+
+fief.plots = [];
+fief.resources = {};
+
+$(function () {
+	connection.start().then(function () {
+		UserLogin();
+		console.log("Connected");
+		UpdateFiefdom();
+	});
+});
+
+function UserLogin() {	
+	connection.invoke("UserLogin", userName).catch(function (err) {
+		return console.error(err.toString());
+	});
+}
+
+function UpdateFiefdom() {
+	connection.invoke("RequestFiefdomData").catch(function (err) {
     return console.error(err.toString());
   });
 }
 
 connection.on("RecieveFiefdomData", function (plots, resources) {
+	if (plots == null) {
+		window.location.href = "/";
+	}
   for (var i = 0; i < plots.length; i++) {
     fief.plots[i] = plots[i].type;
-  }
+	}
   resources.forEach(function(p)
   {
     fief.resources[p.type] = p.quantity;
-  });
+	});
 });
-
-function GetFiefdomData() {
-
-}
-
-
-// "use strict";
-
-
-//Disable send button until connection is established
-//document.getElementById("sendButton").disabled = true;
-
-// connection.on("ReceiveMessage", function (user, message) {
-  // 	var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  // 	var encodedMsg = user + " says " + msg;
-  // 	var li = document.createElement("li");
-  // 	li.textContent = encodedMsg;
-  // 	document.getElementById("messagesList").appendChild(li);
-  // });
-  //
-  // connection.start().then(function () {
-    //
-    // 	document.getElementById("sendButton").disabled = false;
-    // }).catch(function (err) {
-      // 	return console.error(err.toString());
-      //
-      // });
-      //
-      // document.getElementById("sendButton").addEventListener("click", function (event) {
-        // 	var user = document.getElementById("userInput").value;
-        // 	var message = document.getElementById("messageInput").value;
-        // 	connection.invoke("SendMessage", user, message).catch(function (err) {
-          // 		return console.error(err.toString());
-          // 	});
-          // 	event.preventDefault();
-          // });

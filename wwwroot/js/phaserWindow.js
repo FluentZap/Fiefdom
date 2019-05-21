@@ -1,6 +1,7 @@
 var sprite;
 
 let ratio = 720 / 216;
+
 var GameScene = new Phaser.Class({
 
 	Extends: Phaser.Scene,
@@ -131,9 +132,10 @@ var GameScene = new Phaser.Class({
 		let onGround = (player.body.touching.down || player.body.blocked.down);
 		let moving = false;
 		if (cursors.up.isDown && onGround) {
-			player.setVelocityY(-330);			
-			 console.log(fief.plots);
-			 console.log(fief.resources);
+			player.setVelocityY(-330);
+			UpdateFiefdom();
+			console.log(fief.plots);
+			console.log(fief.resources);
 		}
 
 		if (cursors.left.isDown) {
