@@ -5,7 +5,10 @@ var fief = {};
 
 fief.plots = [];
 fief.resources = {};
+
+var initialStart = false;
 var market = {};
+
 $(function () {
 	connection.start().then(function () {
 		UserLogin();
@@ -14,7 +17,7 @@ $(function () {
 	});
 });
 
-function UserLogin() {	
+function UserLogin() {
 	connection.invoke("UserLogin", userName).catch(function (err) {
 		return console.error(err.toString());
 	});
@@ -61,4 +64,9 @@ connection.on("RecieveFiefdomData", function (plots, resources) {
   {
     fief.resources[p.type] = p.quantity;
 	});
+	if (initialStart === false)
+	{
+		game.scene.run('scene');
+		initialStart = true;
+	}
 });
