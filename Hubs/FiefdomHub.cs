@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 using System;
-using Fiefdom.Models;
+using Fiefdom.Context;
 using Fiefdom;
 using System.Linq;
 

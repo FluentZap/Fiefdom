@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
 
-namespace Fiefdom.Models
+namespace Fiefdom.Context
 {
 
 	public class FiefContext : DbContext
