@@ -174,10 +174,15 @@ function updatePlayerUi() {
 
 	let onGround = (player.body.touching.down || player.body.blocked.down);
 	let moving = false;
+
+	// Testing buying and selling
 	if (cursors.up.isDown && onGround) {
 		player.setVelocityY(-330);
+		SellResource("Wood", 1);
 		UpdateFiefdom();
+		GetMarketPrice();
 		console.log(fief.plots);
+		console.log(market);
 		console.log(fief.resources);
 	}
 
