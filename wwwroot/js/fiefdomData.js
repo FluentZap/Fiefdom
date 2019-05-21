@@ -32,6 +32,12 @@ function BuyResource(type, quantity) {
   });
 }
 
+function SellResource(type, quantity) {
+	connection.invoke("SellResource", type, quantity).catch(function (err) {
+    return console.error(err.toString());
+  });
+}
+
 connection.on("RecieveFiefdomData", function (plots, resources) {
 	if (plots == null) {
 		window.location.href = "/";

@@ -34,7 +34,7 @@ namespace Fiefdom
             {
 				var fiefdom = db.Fiefdom.Where(f => f.SessionId == sessionId).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
 				var gold = fiefdom.FiefdomResources.Where(x => x.Type == "Gold").FirstOrDefault();
-				var sellType = fiefdom.FiefdomResources.Where(x => x.Type == type).FirstOrDefault();
+				var buyType = fiefdom.FiefdomResources.Where(x => x.Type == type).FirstOrDefault();
 				var price = db.Market.Where(w => w.Type == type).FirstOrDefault();
 				int canBuy = gold.Quantity / price.Price;
 				if (canBuy < quantity)
@@ -42,7 +42,30 @@ namespace Fiefdom
 					quantity = canBuy;
 				}
 				gold.Quantity -= quantity * price.Price;
-				sellType.Quantity += quantity;
+				buyType.Quantity += quantity;
+				
+				db.SaveChanges();
+            }
+        }
+
+
+        public static void SellResource(string sessionId, string type, int quantity)
+        {
+				// Add market fluctuations in this method
+            using (var db = new FiefContext())
+            {
+				var fiefdom = db.Fiefdom.Where(f => f.SessionId == sessionId).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
+				var gold = fiefdom.FiefdomResources.Where(x => x.Type == "Gold").FirstOrDefault();
+				var sellType = fiefdom.FiefdomResources.Where(x => x.Type == type).FirstOrDefault();
+				var price = db.Market.Where(w => w.Type == type).FirstOrDefault();
+				int sellTotal = price.Price * quantity;
+				if(sellType.Quantity >= quantity)
+				{
+					gold.Quantity += quantity * price.Price;
+					sellType.Quantity -= quantity;
+				}
+
+				
 				
 				db.SaveChanges();
             }
