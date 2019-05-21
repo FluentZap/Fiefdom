@@ -117,18 +117,19 @@ function updatePlayerUi() {
 
 function buildPlots(){
 	console.log("buildplots");
-	var plots = this.physics.add.staticGroup();
+	var plotGroup = this.physics.add.staticGroup();
+	this.plotGroup = plotGroup;
 	var x = 0;
 	var y = 710;
 	var imgKey = "log";
 	console.log(fief.plots);
-	fief.plots.forEach(function(plot){
-		x += 500;
-		this['Plot' + plot.Id] = plots.create(x, y, imgKey);
-		this['Plot' + plot.Id].Id = plot.Id;
+	this.plots = [];
+	// this.plot[0] = plotGroup.create(100, 710, "log");
 
-	})
-	this.plots = plots;
+	for (var i = 0; i < fief.plots.length; i++) {
+		x += 300;
+		this.plots[i] = plotGroup.create(x, y, imgKey);
+	}
 }
 
 function updateUi() {

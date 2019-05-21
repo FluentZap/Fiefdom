@@ -6,11 +6,12 @@ var fief = {};
 fief.plots = [];
 fief.resources = {};
 
+var initialStart = false;
+
 $(function () {
 	connection.start().then(function () {
 		UserLogin();
 		console.log("Connected");
-		game.scene.run('scene');
 		UpdateFiefdom();
 	});
 });
@@ -38,4 +39,9 @@ connection.on("RecieveFiefdomData", function (plots, resources) {
   {
     fief.resources[p.type] = p.quantity;
 	});
+	if (initialStart === false)
+	{
+		game.scene.run('scene');
+		initialStart = true;
+	}
 });
