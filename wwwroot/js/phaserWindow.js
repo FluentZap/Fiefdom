@@ -228,7 +228,6 @@ update(time, theta) {
 
 };
 
-
 var config = {
 	type: Phaser.AUTO,
 	scale: {
