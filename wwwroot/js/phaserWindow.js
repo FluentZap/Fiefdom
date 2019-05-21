@@ -2,7 +2,7 @@ var sprite;
 
 let ratio = 720 / 216;
 
-
+//create canvas objects
 function createBackgrounds() {
 	//Add backgrounds
 	this.bg1 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg1').setOrigin(0, 0).setScrollFactor(0);
@@ -61,9 +61,23 @@ function createPlayerAnimation() {
 	});
 };
 
+function buildPlots(){
+	var plotGroup = this.physics.add.staticGroup();
+	this.plotGroup = plotGroup;
+	var x = 0;
+	var y = 710;
+	var imgKey = "log";
+	this.plots = [];
+
+	for (var i = 0; i < fief.plots.length; i++) {
+		x += 300;
+		this.plots[i] = plotGroup.create(x, y, imgKey);
+		this.plots[i].Id = i;
+	}
+}
 
 
-
+// update functions
 function updateBackground() {
 	this.bg1.tilePositionX = this.cameras.main.scrollX * .2 / ratio;
 	this.bg2.tilePositionX = this.cameras.main.scrollX * .4 / ratio;
@@ -71,7 +85,6 @@ function updateBackground() {
 	this.bg4.tilePositionX = this.cameras.main.scrollX * .8 / ratio;
 	this.bg5.tilePositionX = this.cameras.main.scrollX * 1 / ratio;
 }
-
 
 function updatePlayerUi() {
 	var cursors = this.cursors;
@@ -108,42 +121,30 @@ function updatePlayerUi() {
 	}
 }
 
-//build plots
-// var plots = this.physics.add.staticGroup();
-// this.plot1 = plots.create(500,710,'log');
-// this.plot1.Id = "test";
-// this.plot2 = plots.create(900, 700, 'log');
-// this.plot2.Id = "test2";
-
-function buildPlots(){
-	console.log("buildplots");
-	var plotGroup = this.physics.add.staticGroup();
-	this.plotGroup = plotGroup;
-	var x = 0;
-	var y = 710;
-	var imgKey = "log";
-	console.log(fief.plots);
-	this.plots = [];
-	// this.plot[0] = plotGroup.create(100, 710, "log");
-
-	for (var i = 0; i < fief.plots.length; i++) {
-		x += 300;
-		this.plots[i] = plotGroup.create(x, y, imgKey);
-	}
-}
-
 function updateUi() {
 	this.gold.setText("Gold " + fief.resources.Gold);
-
 }
 
 
-// function init() {
-// 	updateBackground.call(this);
-// 	updatePlayerUi.call(this);
-// 	updateUi.call(this);
-// 	buildPlots.call(this);
-// };
+
+//keydown objects/events
+function initKeys(){
+	this.downKey = this.input.keyboard.addKey('DOWN');
+}
+
+function downIsDown(){
+		if(Phaser.Input.Keyboard.JustDown(this.downKey)){
+		return true;
+	}
+	return false;
+}
+
+function plotMenuDisplay(player, plot){
+	console.log(plot);
+}
+
+
+
 
 
 
@@ -171,8 +172,7 @@ preload() {
 create() {
 	createBackgrounds.call(this);
  	buildPlots.call(this);
-
-
+	initKeys.call(this);
 
 
 	var platforms = this.physics.add.staticGroup();
@@ -187,6 +187,8 @@ create() {
 
 
 	this.physics.add.collider(this.player, platforms);
+	this.physics.add.overlap(this.player, this.plotGroup, plotMenuDisplay, downIsDown, this);
+
 
 	this.physics.world.bounds.width = 4000;
 	//this.physics.world.bounds.height = 800;
