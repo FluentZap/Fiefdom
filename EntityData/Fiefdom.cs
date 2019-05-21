@@ -58,17 +58,23 @@ namespace Fiefdom
 
             using (var db = new FiefContext())
             {
-                var fiefdom = db.Fiefdom.Where(f => f.SessionId == sessionId).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
+               var fiefdom = db.Fiefdom.Where(f => f.SessionId == sessionId).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
                 var gold = fiefdom.FiefdomResources.Where(x => x.Type == "Gold").FirstOrDefault();
                 var buyType = fiefdom.FiefdomResources.Where(x => x.Type == type).FirstOrDefault();
                 var price = db.Market.Where(w => w.Type == type).FirstOrDefault();
                 int canBuy = gold.Quantity / price.Price;
                 if (canBuy < quantity)
                 {
-                    quantity = canBuy;
+                  quantity = canBuy;
                 }
                 gold.Quantity -= quantity * price.Price;
                 buyType.Quantity += quantity;
+                Random rnd = new Random();
+                int diff = Math.Abs(price.Price - 10);
+                if(rnd.Next(1,1000) % (10 - diff) > 1)
+                {
+                  price.Price++;
+                }
                 db.SaveChanges();
             }
         }
@@ -119,6 +125,7 @@ namespace Fiefdom
                         break;
                 }
                 db.SaveChanges();
+
             }
         }
 
@@ -136,18 +143,23 @@ namespace Fiefdom
             // Add market fluctuations in this method
             using (var db = new FiefContext())
             {
-                var fiefdom = db.Fiefdom.Where(f => f.SessionId == sessionId).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
-                var gold = fiefdom.FiefdomResources.Where(x => x.Type == "Gold").FirstOrDefault();
-                var sellType = fiefdom.FiefdomResources.Where(x => x.Type == type).FirstOrDefault();
-                var price = db.Market.Where(w => w.Type == type).FirstOrDefault();
-                int sellTotal = price.Price * quantity;
-                if (sellType.Quantity >= quantity)
-                {
-                    gold.Quantity += quantity * price.Price;
-                    sellType.Quantity -= quantity;
-                }
-
-                db.SaveChanges();
+              var fiefdom = db.Fiefdom.Where(f => f.SessionId == sessionId).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
+              var gold = fiefdom.FiefdomResources.Where(x => x.Type == "Gold").FirstOrDefault();
+              var sellType = fiefdom.FiefdomResources.Where(x => x.Type == type).FirstOrDefault();
+              var price = db.Market.Where(w => w.Type == type).FirstOrDefault();
+              int sellTotal = price.Price * quantity;
+              if(sellType.Quantity >= quantity)
+              {
+                gold.Quantity += quantity * price.Price;
+                sellType.Quantity -= quantity;
+              }
+              Random rnd = new Random();
+              int diff = Math.Abs(price.Price - 10);
+              if(rnd.Next(1,1000) % (10 - diff) > 1)
+              {
+                price.Price--;
+              }
+              db.SaveChanges();
             }
         }
 
@@ -188,13 +200,44 @@ namespace Fiefdom
             }
         }
 
-        public static void BuildPlot(string build, int id, int plot)
+        // public static void BuildPlot(string build, int id, int plot)
+        // {
+        //     using (var db = new FiefContext())
+        //     {
+        //         var fiefdom = db.Fiefdom.Where(f => f.Id == id).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
+        //         //Subtract resources
+        //         fiefdom.FiefdomPlot.Where(p => p.Id == plot).FirstOrDefault().Type = build;
+        //     }
+        // }
+
+		 public static void BuildPlot(string sessionId, int id, string type)
         {
             using (var db = new FiefContext())
             {
-                var fiefdom = db.Fiefdom.Where(f => f.Id == id).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
+				List<FiefdomResources> cost = new List<FiefdomResources>{new FiefdomResources{Type = "Gold", Quantity = 100}, new FiefdomResources{Type = "Wood", Quantity = 1}};
+                Fief fief = db.Fiefdom.Where(f => f.SessionId == sessionId).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
+				bool canAfford = true;
+				foreach(var res in cost)
+				{
+					if(fief.FiefdomResources.Where(t => t.Type == res.Type).FirstOrDefault().Quantity < res.Quantity)
+					{
+						canAfford = false;
+					}
+				}
                 //Subtract resources
-                fiefdom.FiefdomPlot.Where(p => p.Id == plot).FirstOrDefault().Type = build;
+				if(canAfford == true)
+				{	
+					if(fief.FiefdomPlot[id].Type == "Empty")
+					{
+						fief.FiefdomPlot[id].Type = type;
+						foreach(var res in cost)
+						{
+							fief.FiefdomResources.Where(t => t.Type == res.Type).FirstOrDefault().Quantity -= res.Quantity;
+						}
+					}
+				}
+                
+				db.SaveChanges();
             }
         }
 
