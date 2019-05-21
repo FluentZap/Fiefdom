@@ -58,8 +58,11 @@ namespace Fiefdom.Hubs
         {
 			await Clients.Caller.SendAsync("ReceiveMarketPrices", FiefdomActions.GetMarketPrice());
         }
-
-
+		public async Task BuildPlot(int id, string type)
+        {
+			
+            FiefdomActions.BuildPlot(Context.ConnectionId, id, type);
+        }
 
     }
 }

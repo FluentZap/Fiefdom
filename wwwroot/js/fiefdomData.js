@@ -41,6 +41,12 @@ function GetMarketPrice() {
   });
 }
 
+function BuildPlot(id, type) {
+	connection.invoke("BuildPlot", id, type).catch(function (err) {
+		return console.error(err.toString());
+	});
+}
+
 connection.on("ReceiveMarketPrices", function (prices) {
 	prices.forEach(function(x){
 		market[x.type] = x.price;
