@@ -22,8 +22,18 @@ function createBackgrounds() {
 	this.bg5.setDisplaySize(game.config.width, game.config.height);
 	this.bg5.setScale(ratio);
 
-
 	this.marketBackground = this.add.tileSprite(0, 0, 821, 507, 'marketBorder').setOrigin(0, 0).setScrollFactor(0);
+
+	this.gold = this.add.text(40, 40, "Fiefdom", {
+		//alagard.ttf
+		font: "40px Alagard",
+		fill: "#ff0044",
+		align: "center"
+	});
+	this.gold.setScrollFactor(0);
+
+
+	this.marketMenu = this.add.group([this.marketBackground, this.gold]);
 };
 
 function createPlayer() {
@@ -130,6 +140,7 @@ function updateUi() {
 //keydown objects/events
 function initKeys(){
 	this.downKey = this.input.keyboard.addKey('DOWN');
+	this.mKey = this.input.keyboard.addKey("M");
 }
 
 function downIsDown(){
@@ -141,6 +152,12 @@ function downIsDown(){
 
 function plotMenuDisplay(player, plot){
 	console.log(plot);
+}
+
+function toggleMarket(){
+	console.log("m down");
+	// this.marketBackground.setVisible(false);
+	this.marketMenu.toggleVisible();
 }
 
 
@@ -170,9 +187,14 @@ preload() {
 
 //Create
 create() {
+
+
 	createBackgrounds.call(this);
  	buildPlots.call(this);
 	initKeys.call(this);
+
+	//keypresses
+	// this.mKey.addListener(, toggleMarket);
 
 
 	var platforms = this.physics.add.staticGroup();
@@ -210,22 +232,15 @@ create() {
 		}
 	}, this);
 
-
-	this.gold = this.add.text(40, 40, "Fiefdom", {
-		//alagard.ttf
-		font: "40px Alagard",
-		fill: "#ff0044",
-		align: "center"
-	});
-	this.gold.setScrollFactor(0);
-	//this.gold.anchor.setTo(0.5, 0.5);
-
 };
 
 update(time, theta) {
 	updateBackground.call(this);
 	updatePlayerUi.call(this);
 	updateUi.call(this);
+	if(Phaser.Input.Keyboard.JustDown(this.mKey)){
+		toggleMarket.call(this);
+	}
 };
 
 };
