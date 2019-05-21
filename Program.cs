@@ -10,18 +10,22 @@ using Microsoft.Extensions.Logging;
 
 namespace Fiefdom
 {
-    public class Program
-    {
-        public static void Main(string[] args)
-        {
-            CreateWebHostBuilder(args).Build().Run();
-        }
+	public class Program
+	{
+		public static void Main(string[] args)
+		{
+			var host = CreateWebHostBuilder(args).Build();
+			ServerUpdate update = new ServerUpdate();
+			host.Run();
+		}
 
-        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-            .ConfigureLogging(config => {
-                config.ClearProviders();})
-            .UseUrls("http://0.0.0.0:5000")
-            .UseStartup<Startup>();
-    }
+		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+			WebHost.CreateDefaultBuilder(args)
+			.ConfigureLogging(config =>
+			{
+				config.ClearProviders();
+			})
+			.UseUrls("http://0.0.0.0:5000")
+			.UseStartup<Startup>();
+	}
 }

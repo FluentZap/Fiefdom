@@ -35,7 +35,7 @@ namespace Fiefdom
             {
                 // Set a short timeout for easy testing.
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
+                options.Cookie.HttpOnly = true;				
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
@@ -47,9 +47,8 @@ namespace Fiefdom
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-
-            app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
+            app.UseDeveloperExceptionPage();
             app.UseCookiePolicy();
             app.UseSignalR(routes =>
 			{
