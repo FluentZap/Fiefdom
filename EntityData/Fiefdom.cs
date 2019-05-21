@@ -30,6 +30,7 @@ namespace Fiefdom
         public static void BuyResource(string sessionId, string type, int quantity)
         {
 				// Add market fluctuations in this method
+				
             using (var db = new FiefContext())
             {
 				var fiefdom = db.Fiefdom.Where(f => f.SessionId == sessionId).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
@@ -43,8 +44,16 @@ namespace Fiefdom
 				}
 				gold.Quantity -= quantity * price.Price;
 				buyType.Quantity += quantity;
-				
 				db.SaveChanges();
+            }
+        }
+
+		public static List<Market> GetMarketPrice()
+        {	
+            using (var db = new FiefContext())
+            {
+				Console.WriteLine("hey");
+				return db.Market.ToList();
             }
         }
 
@@ -64,8 +73,6 @@ namespace Fiefdom
 					gold.Quantity += quantity * price.Price;
 					sellType.Quantity -= quantity;
 				}
-
-				
 				
 				db.SaveChanges();
             }

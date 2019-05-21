@@ -5,7 +5,7 @@ var fief = {};
 
 fief.plots = [];
 fief.resources = {};
-
+var market = {};
 $(function () {
 	connection.start().then(function () {
 		UserLogin();
@@ -31,6 +31,18 @@ function BuyResource(type, quantity) {
     return console.error(err.toString());
   });
 }
+
+function GetMarketPrice() {
+	connection.invoke("GetMarketPrice").catch(function (err) {
+    return console.error(err.toString());
+  });
+}
+
+connection.on("ReceiveMarketPrices", function (prices) {
+	prices.forEach(function(x){
+		market[x.type] = x.price;
+	});
+});
 
 function SellResource(type, quantity) {
 	connection.invoke("SellResource", type, quantity).catch(function (err) {
