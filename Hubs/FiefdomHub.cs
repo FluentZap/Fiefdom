@@ -22,7 +22,7 @@ namespace Fiefdom.Hubs
             Fief fief = FiefdomActions.GetFiefdomBySessionId(Context.ConnectionId);
             if (fief != null)
             {
-                await Clients.Caller.SendAsync("RecieveFiefdomData", fief.FiefdomPlot, fief.FiefdomResources);
+                await Clients.Caller.SendAsync("RecieveFiefdomData", fief.FiefdomPlot, fief.FiefdomResources, fief.Title);
             }
             else
             {

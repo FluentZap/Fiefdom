@@ -38,12 +38,18 @@ namespace Fiefdom.Context
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public string SessionId { get; set; }
+		public int Title { get; set; } 
 		public List<FiefdomResources> FiefdomResources { get; set; } = new List<FiefdomResources>();
 		public List<FiefdomPlot> FiefdomPlot { get; set; } = new List<FiefdomPlot>();
 	}
 
 	public class FiefdomResources
 	{
+		public FiefdomResources()
+		{
+			Id = 0;
+		}
+
 		public int Id { get; set; }
 		public string Type { get; set; }
 		public int Quantity { get; set; }

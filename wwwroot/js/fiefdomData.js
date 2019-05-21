@@ -59,7 +59,7 @@ function SellResource(type, quantity) {
   });
 }
 
-connection.on("RecieveFiefdomData", function (plots, resources) {
+connection.on("RecieveFiefdomData", function (plots, resources, title) {
 	if (plots == null) {
 		window.location.href = "/";
 	}
@@ -70,6 +70,7 @@ connection.on("RecieveFiefdomData", function (plots, resources) {
   {
     fief.resources[p.type] = p.quantity;
 	});
+	fief.title = title;
 	if (initialStart === false)
 	{
 		game.scene.run('scene');

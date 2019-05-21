@@ -25,6 +25,8 @@ namespace Fiefdom.Migrations
 
                     b.Property<string>("SessionId");
 
+                    b.Property<int>("Title");
+
                     b.HasKey("Id");
 
                     b.ToTable("Fiefdom");

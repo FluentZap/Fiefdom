@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fiefdom.Migrations
 {
     [DbContext(typeof(FiefContext))]
-    [Migration("20190521050634_InitialCreate")]
+    [Migration("20190521205638_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,8 @@ namespace Fiefdom.Migrations
                     b.Property<string>("Name");
 
                     b.Property<string>("SessionId");
+
+                    b.Property<int>("Title");
 
                     b.HasKey("Id");
 
