@@ -176,6 +176,7 @@ function updatePlayerUi() {
 	let moving = false;
 	if (cursors.up.isDown && onGround) {
 		player.setVelocityY(-330);
+		BuyResource("Wood", 1);
 		UpdateFiefdom();
 		console.log(fief.plots);
 		console.log(fief.resources);

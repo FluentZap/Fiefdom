@@ -19,7 +19,7 @@ namespace Fiefdom.Hubs
 		public async Task RequestFiefdomData()
 		{
 			//int test = new FiefContext().FiefdomResources.Where(f => f.Id == 2).FirstOrDefault().Quantity;
-			Fief fief = FiefdomAcions.GetFiefdomBySessionId(Context.ConnectionId);
+			Fief fief = FiefdomActions.GetFiefdomBySessionId(Context.ConnectionId);
 			if (fief != null)
 			{
 				await Clients.Caller.SendAsync("RecieveFiefdomData", fief.FiefdomPlot, fief.FiefdomResources);
@@ -33,15 +33,22 @@ namespace Fiefdom.Hubs
 		public async Task UserLogin(string name)
 		{
 			name = name.ToLower();
-			if (FiefdomAcions.UserExist(name))
+			if (FiefdomActions.UserExist(name))
 			{
-				FiefdomAcions.UserUpdateSessionId(name, Context.ConnectionId);
+				FiefdomActions.UserUpdateSessionId(name, Context.ConnectionId);
 			}
 			else
 			{
-				FiefdomAcions.CreateNewFiefdom(name, Context.ConnectionId);
+				FiefdomActions.CreateNewFiefdom(name, Context.ConnectionId);
 			}
 			await Clients.All.SendAsync("ServerMessage", name + " joined the session");
 		}
+
+		public async Task BuyResource(string type, int quantity)
+		{
+			FiefdomActions.BuyResource(Context.ConnectionId, type, quantity);
+		}
+
+
 	}
 }

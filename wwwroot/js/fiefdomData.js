@@ -26,6 +26,12 @@ function UpdateFiefdom() {
   });
 }
 
+function BuyResource(type, quantity) {
+	connection.invoke("BuyResource", type, quantity).catch(function (err) {
+    return console.error(err.toString());
+  });
+}
+
 connection.on("RecieveFiefdomData", function (plots, resources) {
 	if (plots == null) {
 		window.location.href = "/";
