@@ -10,7 +10,7 @@ function createBackgrounds() {
 	this.bg3 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg3').setOrigin(0, 0).setScrollFactor(0);
 	this.bg4 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg4').setOrigin(0, 0).setScrollFactor(0);
 	this.bg5 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg5').setOrigin(0, 0).setScrollFactor(0);
-
+	
 	this.bg1.setDisplaySize(game.config.width, game.config.height);
 	this.bg1.setScale(ratio);
 	this.bg2.setDisplaySize(game.config.width, game.config.height);
@@ -21,9 +21,33 @@ function createBackgrounds() {
 	this.bg4.setScale(ratio);
 	this.bg5.setDisplaySize(game.config.width, game.config.height);
 	this.bg5.setScale(ratio);
-
-
+	
 	this.marketBackground = this.add.tileSprite(0, 0, 821, 507, 'marketBorder').setOrigin(0, 0).setScrollFactor(0);
+	this.buttonRight = this.add.image(400,400,'arrow').setOrigin(0,0).setScrollFactor(0);
+	this.buttonRight.setInteractive().on('pointerdown', buy);
+	this.buttonLeft = this.add.image(350,400,'arrow').setOrigin(0,0).setScrollFactor(0);
+	this.buttonLeft.setInteractive().on('pointerdown', sell);
+
+
+
+	//build menu group
+	this.foodIcon = this.add.image(0,0, 'bg').setVisible(false);
+	this.woodIcon = this.add.image(0,0, 'bg').setVisible(false);
+	this.ironIcon = this.add.image(0,0, 'bg').setVisible(false);
+	this.buildMenu = [this.foodIcon, this.woodIcon, this.ironIcon];
+	//this.buildMenu = this.add.group([this.foodIcon, this.woodIcon, this.ironIcon]);
+	
+
+	this.gold = this.add.text(40, 40, "Fiefdom", {
+		//alagard.ttf
+		font: "40px Alagard",
+		fill: "#ff0044",
+		align: "center"
+	});
+	this.gold.setScrollFactor(0);
+
+
+	this.marketMenu = this.add.group([this.marketBackground, this.gold, this.buttonLeft, this.buttonRight]);
 };
 
 function createPlayer() {
@@ -74,6 +98,14 @@ function buildPlots(){
 		this.plots[i] = plotGroup.create(x, y, imgKey);
 		this.plots[i].Id = i;
 	}
+}
+
+function buy(){
+	console.log("buy");
+}
+
+function sell(){
+	console.log("sell");
 }
 
 
@@ -132,6 +164,7 @@ function updateUi() {
 //keydown objects/events
 function initKeys(){
 	this.downKey = this.input.keyboard.addKey('DOWN');
+	this.mKey = this.input.keyboard.addKey("M");
 }
 
 function downIsDown(){
@@ -143,10 +176,32 @@ function downIsDown(){
 
 function plotMenuDisplay(player, plot){
 	console.log(plot);
+	this.foodIcon.x = plot.x;
+	this.foodIcon.y = plot.y - 150;
+
+	this.woodIcon.x = plot.x + 20;
+	this.woodIcon.y = plot.y - 150;
+
+	this.ironIcon.x = plot.x + 40;
+	this.ironIcon.y = plot.y - 150;
+
+	setVisible(this.buildMenu, true);
+	// this.buildMenu.setVisible(true);
+}
+
+function toggleMarket(){
+	console.log("m down");
+	// this.marketBackground.setVisible(false);
+	this.marketMenu.toggleVisible();
 }
 
 
-
+function setVisible(array, value)
+{
+	array.forEach( function (item) {
+		item.setVisible(value);
+	});
+}
 
 
 
@@ -154,6 +209,12 @@ class Fiefdom extends Phaser.Scene {
 
 preload() {
 	//Background Images
+	// this.load.image('buildMenuBG', 'assets/blank.png');
+	// this.load.image('woodIcon', 'assets/blank.png');
+	// this.load.image('stoneIcon', 'assets/blank.png');
+	// this.load.image('foodIcon', 'assets/blank.png');
+	
+	this.load.image('arrow', 'assets/tempArrow.png');
 	this.load.image('mill', 'assets/mill.png');
 	this.load.image('log', 'assets/logPile.png');
 	this.load.image('bg', 'assets/BG.png');
@@ -172,9 +233,14 @@ preload() {
 
 //Create
 create() {
+
+
 	createBackgrounds.call(this);
  	buildPlots.call(this);
 	initKeys.call(this);
+
+	//keypresses
+	// this.mKey.addListener(, toggleMarket);
 
 
 	var platforms = this.physics.add.staticGroup();
@@ -190,6 +256,7 @@ create() {
 
 	this.physics.add.collider(this.player, platforms);
 	this.physics.add.overlap(this.player, this.plotGroup, plotMenuDisplay, downIsDown, this);
+	
 
 
 	this.physics.world.bounds.width = 4000;
@@ -212,22 +279,20 @@ create() {
 		}
 	}, this);
 
-
-	this.gold = this.add.text(40, 40, "Fiefdom", {
-		//alagard.ttf
-		font: "40px Alagard",
-		fill: "#ff0044",
-		align: "center"
-	});
-	this.gold.setScrollFactor(0);
-	//this.gold.anchor.setTo(0.5, 0.5);
-
 };
 
 update(time, theta) {
 	updateBackground.call(this);
 	updatePlayerUi.call(this);
 	updateUi.call(this);
+	if(Phaser.Input.Keyboard.JustDown(this.mKey)){
+		toggleMarket.call(this);
+	}
+
+	if (this.player.x > this.foodIcon.x + 100 || this.player.x < this.foodIcon.x - 100)
+	{	
+		setVisible(this.buildMenu, false);	
+	}
 };
 
 };
