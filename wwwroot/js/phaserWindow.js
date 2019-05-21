@@ -2,50 +2,6 @@ var sprite;
 
 let ratio = 720 / 216;
 
-var config = {
-	type: Phaser.AUTO,
-	scale: {
-		mode: Phaser.Scale.FIT,
-		parent: 'fiefdom-body',
-		autoCenter: Phaser.Scale.CENTER_BOTH,
-		width: 1280,
-		height: 720
-	},
-	pixelArt: true,
-	antialias: false,
-	physics: {
-		default: 'arcade',
-		arcade: {
-			gravity: { y: 500 },
-			debug: true
-		}
-	},
-	scene: {
-		preload: preload,
-		create: create,
-		update: update
-	}
-};
-
-var game = new Phaser.Game(config);
-
-
-
-function preload() {
-	//Background Images
-	this.load.image('bg', 'assets/BG.png');
-	this.load.image('bg1', 'assets/plx-1.png');
-	this.load.image('bg2', 'assets/plx-2.png');
-	this.load.image('bg3', 'assets/plx-3.png');
-	this.load.image('bg4', 'assets/plx-4.png');
-	this.load.image('bg5', 'assets/plx-5.png');
-	this.load.image('marketBorder', 'assets/marketWindow.png');
-
-	//Sprite Sheets
-	this.load.spritesheet('character', 'assets/adventurer-Sheet.png', { frameWidth: 50, frameHeight: 37 });
-};
-
-
 
 function createBackgrounds() {
 	//Add backgrounds
@@ -79,7 +35,7 @@ function createPlayer() {
 	this.player.setScale(3);
 	//this.player.body.setSize(14, 7, 31, 35);
 	this.player.body.setSize(25, 32, false);
-	this.player.body.setOffset(14, 4);	
+	this.player.body.setOffset(14, 4);
 }
 
 function createPlayerAnimation() {
@@ -107,9 +63,114 @@ function createPlayerAnimation() {
 
 
 
+
+function updateBackground() {
+	this.bg1.tilePositionX = this.cameras.main.scrollX * .2 / ratio;
+	this.bg2.tilePositionX = this.cameras.main.scrollX * .4 / ratio;
+	this.bg3.tilePositionX = this.cameras.main.scrollX * .6 / ratio;
+	this.bg4.tilePositionX = this.cameras.main.scrollX * .8 / ratio;
+	this.bg5.tilePositionX = this.cameras.main.scrollX * 1 / ratio;
+}
+
+
+function updatePlayerUi() {
+	var cursors = this.cursors;
+	var player = this.player;
+
+	let onGround = (player.body.touching.down || player.body.blocked.down);
+	let moving = false;
+	if (cursors.up.isDown && onGround) {
+		player.setVelocityY(-330);
+		UpdateFiefdom();
+		console.log(fief.plots);
+		console.log(fief.resources);
+	}
+
+	if (cursors.left.isDown) {
+		player.setVelocityX(-200); // move left
+		moving = true;
+		player.flipX = true;
+	}
+	else if (cursors.right.isDown) {
+		player.setVelocityX(200);
+		moving = true;
+		player.flipX = false;
+	} else {
+		player.setVelocityX(0);
+	}
+
+	if (!onGround) {
+		player.anims.play('jump', true);
+	} else if (moving) {
+		player.anims.play('walk', true);
+	} else {
+		player.anims.play('idle', true);
+	}
+}
+
+//build plots
+// var plots = this.physics.add.staticGroup();
+// this.plot1 = plots.create(500,710,'log');
+// this.plot1.Id = "test";
+// this.plot2 = plots.create(900, 700, 'log');
+// this.plot2.Id = "test2";
+
+function buildPlots(){
+	console.log("buildplots");
+	var plots = this.physics.add.staticGroup();
+	var x = 0;
+	var y = 710;
+	var imgKey = "log";
+	console.log(fief.plots);
+	fief.plots.forEach(function(plot){
+		x += 500;
+		this['Plot' + plot.Id] = plots.create(x, y, imgKey);
+		this['Plot' + plot.Id].Id = plot.Id;
+
+	})
+	this.plots = plots;
+}
+
+function updateUi() {
+	this.gold.setText("Gold " + fief.resources.Gold);
+
+}
+
+
+// function init() {
+// 	updateBackground.call(this);
+// 	updatePlayerUi.call(this);
+// 	updateUi.call(this);
+// 	buildPlots.call(this);
+// };
+
+
+
+class Fiefdom extends Phaser.Scene {
+
+preload() {
+	//Background Images
+	this.load.image('mill', 'assets/mill.png');
+	this.load.image('log', 'assets/logPile.png');
+	this.load.image('bg', 'assets/BG.png');
+	this.load.image('bg1', 'assets/plx-1.png');
+	this.load.image('bg2', 'assets/plx-2.png');
+	this.load.image('bg3', 'assets/plx-3.png');
+	this.load.image('bg4', 'assets/plx-4.png');
+	this.load.image('bg5', 'assets/plx-5.png');
+	this.load.image('marketBorder', 'assets/marketWindow.png');
+
+	//Sprite Sheets
+
+
+	this.load.spritesheet('character', 'assets/adventurer-Sheet.png', { frameWidth: 50, frameHeight: 37 });
+};
+
 //Create
-function create() {
+create() {
 	createBackgrounds.call(this);
+ 	buildPlots.call(this);
+
 
 
 
@@ -158,60 +219,34 @@ function create() {
 
 };
 
-
-function updateBackground() {
-	this.bg1.tilePositionX = this.cameras.main.scrollX * .2 / ratio;
-	this.bg2.tilePositionX = this.cameras.main.scrollX * .4 / ratio;
-	this.bg3.tilePositionX = this.cameras.main.scrollX * .6 / ratio;
-	this.bg4.tilePositionX = this.cameras.main.scrollX * .8 / ratio;
-	this.bg5.tilePositionX = this.cameras.main.scrollX * 1 / ratio;
-}
-
-
-function updatePlayerUi() {
-	var cursors = this.cursors;
-	var player = this.player;
-
-	let onGround = (player.body.touching.down || player.body.blocked.down);
-	let moving = false;
-	if (cursors.up.isDown && onGround) {
-		player.setVelocityY(-330);
-		UpdateFiefdom();
-		console.log(fief.plots);
-		console.log(fief.resources);
-	}
-
-	if (cursors.left.isDown) {
-		player.setVelocityX(-200); // move left
-		moving = true;
-		player.flipX = true;
-	}
-	else if (cursors.right.isDown) {
-		player.setVelocityX(200);
-		moving = true;
-		player.flipX = false;
-	} else {
-		player.setVelocityX(0);
-	}
-
-	if (!onGround) {
-		player.anims.play('jump', true);
-	} else if (moving) {
-		player.anims.play('walk', true);
-	} else {
-		player.anims.play('idle', true);
-	}
-}
-
-
-
-function updateUi() {
-	this.gold.setText("Gold " + fief.resources.Gold);
-
-}
-
-function update(time, theta) {
+update(time, theta) {
 	updateBackground.call(this);
 	updatePlayerUi.call(this);
 	updateUi.call(this);
 };
+
+};
+
+
+var config = {
+	type: Phaser.AUTO,
+	scale: {
+		mode: Phaser.Scale.FIT,
+		parent: 'fiefdom-body',
+		autoCenter: Phaser.Scale.CENTER_BOTH,
+		width: 1280,
+		height: 720
+	},
+	pixelArt: true,
+	antialias: false,
+	physics: {
+		default: 'arcade',
+		arcade: {
+			gravity: { y: 500 },
+			debug: true
+		}
+	}
+};
+
+var game = new Phaser.Game(config);
+var newScene = game.scene.add('scene', Fiefdom, false);

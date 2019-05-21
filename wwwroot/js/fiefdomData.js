@@ -10,11 +10,12 @@ $(function () {
 	connection.start().then(function () {
 		UserLogin();
 		console.log("Connected");
+		game.scene.run('scene');
 		UpdateFiefdom();
 	});
 });
 
-function UserLogin() {	
+function UserLogin() {
 	connection.invoke("UserLogin", userName).catch(function (err) {
 		return console.error(err.toString());
 	});
