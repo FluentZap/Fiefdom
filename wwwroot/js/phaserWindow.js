@@ -32,10 +32,25 @@ function createBackgrounds() {
 
 	//build menu group
 	this.foodIcon = this.add.image(0,0, 'bg').setVisible(false);
+	this.foodIcon.Id = "Food";
 	this.woodIcon = this.add.image(0,0, 'bg').setVisible(false);
+	this.woodIcon.Id = "Wood";
 	this.ironIcon = this.add.image(0,0, 'bg').setVisible(false);
+	this.ironIcon.Id = "Stone";
 	this.buildMenu = [this.foodIcon, this.woodIcon, this.ironIcon];
+
+	this.buildMenu.forEach(function(item){
+		item.setInteractive().on('pointerdown', function(id){
+			console.log(item);
+		});
+	})
+
+	// this.foodIcon.setInteractive().on('pointerdown', build);
+	// this.woodIcon.setInteractive().on('pointerdown', build);
+	// this.ironIcon.setInteractive().on('pointerdown', build);
 	//this.buildMenu = this.add.group([this.foodIcon, this.woodIcon, this.ironIcon]);
+
+
 	
 
 	this.gold = this.add.text(40, 40, "Fiefdom", {
@@ -49,6 +64,10 @@ function createBackgrounds() {
 
 	this.marketMenu = this.add.group([this.marketBackground, this.gold, this.buttonLeft, this.buttonRight]);
 };
+
+function build(id){
+	console.log(id);
+}
 
 function createPlayer() {
 
@@ -203,8 +222,7 @@ function setVisible(array, value)
 	});
 }
 
-
-
+   
 class Fiefdom extends Phaser.Scene {
 
 preload() {
