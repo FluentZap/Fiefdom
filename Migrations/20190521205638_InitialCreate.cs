@@ -13,7 +13,8 @@ namespace Fiefdom.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
                     Name = table.Column<string>(nullable: true),
-                    SessionId = table.Column<string>(nullable: true)
+                    SessionId = table.Column<string>(nullable: true),
+                    Title = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {

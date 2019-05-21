@@ -97,6 +97,7 @@ function updatePlayerUi() {
 		UpdateFiefdom();
 		console.log(fief.plots);
 		console.log(fief.resources);
+		console.log("Title is " + fief.title);
 	}
 
 	if (cursors.left.isDown) {
