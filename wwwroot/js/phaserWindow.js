@@ -59,13 +59,29 @@ function createBackgrounds() {
 	this.confirmCost = this.add.text(0,0, ' Cost').setVisible(false);
 	this.confirmGroup = [this.confirmIcon, this.confirmName, this.confirmCost];
 
+	//voteing window
+	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false);
+	this.voteText = this.add.text(400, 120, "edict text goes here").setScrollFactor(0).setVisible(false);
+	this.voteYes = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	this.voteYes.id = "Vote Fore";
+	this.voteNo = this.add.image(900, 270, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	this.voteNo.id = "Vote Nay";
+	this.voteGroup = this.add.group([this.voteBG, this.voteText, this.voteYes, this.voteNo]);
+	this.voteYes.setInteractive().on('pointerdown', (item) => {
+		handleClick.call(this.item.id);
+	})
+
+	this.voteNo.setInteractive().on('pointerdown', (item) => {
+		handleClick.call(this.item.id);
+	})
+
+
 	this.buildMenu.forEach((item) =>{
 		item.setInteractive().on('pointerdown', (id) => {
 			handleClick.call(this, item.Id)
 		});
 	})
 
-	//setVisible(this.confirmGroup, true).call(this);
 	this.confirmIcon.setInteractive().on('pointerdown',(item) =>{
 		handleClick.call(this, "Build")
 
@@ -130,6 +146,11 @@ function handleClick(id)
 		setVisible(this.buildMenu, false);
 	}
 
+	if(type[0] == "Vote")
+	{
+		//submitVote(string, type[1])
+	}
+
 
 			// BuildPlot(this.selectedPlot, id);
 		// setVisible(this.confirmGroup, false);
@@ -143,6 +164,11 @@ function handleClick(id)
 
 function build(id){
 	console.log(id);
+}
+
+function toggleVote(){
+	this.voteGroup.toggleVisible();
+	// setVisible(this.voteGroup, true);
 }
 
 function createPlayer() {
@@ -278,6 +304,7 @@ function updateUi() {
 function initKeys(){
 	this.downKey = this.input.keyboard.addKey('DOWN');
 	this.mKey = this.input.keyboard.addKey("M");
+	this.vKey = this.input.keyboard.addKey("V");
 }
 
 function downIsDown(){
@@ -326,16 +353,9 @@ function buildConfirmMenu(plot, confirmGroup){
 
 	confirmGroup[0].x= plot.x + 180;
 	confirmGroup[0].y= plot.y -400;
-
-}
-
-function displayConfirmMenu(player, plot) {
-	
-	
 }
 
 function toggleMarket(){
-	console.log("m down");
 	// this.marketBackground.setVisible(false);
 	this.marketMenu.toggleVisible();
 }
@@ -368,7 +388,7 @@ function updatePlots(){
 }
 
 function homeOverTest(player, body){
-	console.log("overlap house");
+	// console.log("overlap house");
 }
 
 class Fiefdom extends Phaser.Scene {
@@ -390,11 +410,14 @@ preload() {
 	this.load.image('upgradeIcon', 'assets/icons/upgradeIcon.png');
 	this.load.image('voteIcon', 'assets/icons/voteIcon.png');
 	this.load.image('barracksIcon', 'assets/icons/barracksIcon.png');
+	this.load.image('thumbsUp', 'assets/thumbsup.png');
+	this.load.image('thumbsDown', 'assets/thumbsdown.png');
 
 	
 	//menu backgrounds
 	// this.load.image('buildMenuBG', 'assets/blank.png');
 	this.load.image('marketBorder', 'assets/marketWindow.png');
+	this.load.image('voteBG', 'assets/scroll2.png');
 
 	//Background Images
 	
@@ -507,23 +530,26 @@ create() {
 
 	};
 
-	update(time, theta) {
-		updateBackground.call(this);
-		updatePlayerUi.call(this);
-		updateUi.call(this);
-		if(Phaser.Input.Keyboard.JustDown(this.mKey)){
-			toggleMarket.call(this);
-		}
-		updatePlots.call(this);
 
-		if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
-		{	
-			setVisible(this.buildMenu, false);	
-		}
-		updatePlots.call(this);
+update(time, theta) {
+	updateBackground.call(this);
+	updatePlayerUi.call(this);
+	updateUi.call(this);
+	if(Phaser.Input.Keyboard.JustDown(this.mKey)){
+		toggleMarket.call(this);
+	}
+	if(Phaser.Input.Keyboard.JustDown(this.vKey)){
+		toggleVote.call(this);
+	}
+
+	if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
+	{	
+		setVisible(this.buildMenu, false);	
+	}
+	updatePlots.call(this);
 };
 
-}
+};
 
 var config = {
 	type: Phaser.AUTO,
