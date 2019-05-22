@@ -15,8 +15,8 @@ namespace Fiefdom.Context
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseMySQL("server=localhost;database=fiefdom;user=root;password=root;port=3306;");
-		}		
+			optionsBuilder.UseMySQL("server=localhost;database=fiefdom;user=root;password=root;port=8889;");
+		}
 	}
 
 	public class GameState
@@ -40,7 +40,7 @@ namespace Fiefdom.Context
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public string SessionId { get; set; }
-		public int Title { get; set; } 
+		public int Title { get; set; }
 		public List<FiefdomResources> FiefdomResources { get; set; } = new List<FiefdomResources>();
 		public List<FiefdomPlot> FiefdomPlot { get; set; } = new List<FiefdomPlot>();
 	}

@@ -10,7 +10,7 @@ function createBackgrounds() {
 	this.bg3 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg3').setOrigin(0, 0).setScrollFactor(0);
 	this.bg4 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg4').setOrigin(0, 0).setScrollFactor(0);
 	this.bg5 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg5').setOrigin(0, 0).setScrollFactor(0);
-	
+
 	this.bg1.setDisplaySize(game.config.width, game.config.height);
 	this.bg1.setScale(ratio);
 	this.bg2.setDisplaySize(game.config.width, game.config.height);
@@ -21,7 +21,7 @@ function createBackgrounds() {
 	this.bg4.setScale(ratio);
 	this.bg5.setDisplaySize(game.config.width, game.config.height);
 	this.bg5.setScale(ratio);
-	
+
 	this.castle = this.add.tileSprite(2000, 164, 560, 556, 'castle').setOrigin(0, 0);
 
 	this.marketBackground = this.add.tileSprite(0, 0, 821, 507, 'marketBorder').setOrigin(0, 0).setScrollFactor(0);
@@ -43,9 +43,9 @@ function createBackgrounds() {
 
 	this.buildMenu.forEach((item) =>{
 		item.setInteractive().on('pointerdown', (id) => {
-			console.log("in the function");		
+			console.log("in the function");
 			BuildPlot(this.selectedPlot, item.Id)
-			console.log("Done");		
+			console.log("Done");
 			//BuyResource(item.Id, 1);
 			setVisible(this.buildMenu, false);
 			UpdateFiefdom();
@@ -58,9 +58,9 @@ function createBackgrounds() {
 	//this.buildMenu = this.add.group([this.farmIcon, this.woodIcon, this.stoneIcon]);
 
 
-	
 
-	this.gold = this.add.text(40, 40, "Fiefdom", {		
+
+	this.gold = this.add.text(40, 40, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
@@ -79,11 +79,11 @@ function createBackgrounds() {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
-	}).setScrollFactor(0);	
+	}).setScrollFactor(0);
 
 	this.date = this.add.text(40, 0, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0);
 
-	
+
 	this.marketMenu = this.add.group([this.marketBackground, this.gold, this.buttonLeft, this.buttonRight]);
 };
 
@@ -213,7 +213,7 @@ function initKeys(){
 }
 
 function downIsDown(){
-		if(Phaser.Input.Keyboard.JustDown(this.downKey)){
+	if(Phaser.Input.Keyboard.JustDown(this.downKey)){
 		return true;
 	}
 	return false;
@@ -252,111 +252,127 @@ function setVisible(array, value)
 }
 
 function updatePlots(){
-	
-// console.log(this.plots);
+
+	// console.log(this.plots);
 	for(i=0; i<fief.plots.length; i++)
 	{
 		switch(fief.plots[i]){
 			case "Empty": this.plots[i].setTexture('log').refreshBody();
-				break;
+			break;
 			case "Farm": this.plots[i].setTexture('mill').refreshBody();
-				break;
+			break;
 			case "Locked": this.plots[i].setTexture('log').refreshBody();
-				break;
+			break;
 		}
 	}
 }
-   
+
 class Fiefdom extends Phaser.Scene {
 
-preload() {
-	//Background Images
-	// this.load.image('buildMenuBG', 'assets/blank.png');
-	// this.load.image('woodIcon', 'assets/blank.png');
-	// this.load.image('stoneIcon', 'assets/blank.png');
-	// this.load.image('farmIcon', 'assets/blank.png');
-	
-	this.load.image('arrow', 'assets/tempArrow.png');
-	this.load.image('mill', 'assets/mill.png');
-	this.load.image('log', 'assets/logPile.png');
-	this.load.image('bg', 'assets/BG.png');
-	this.load.image('bg1', 'assets/plx-1.png');
-	this.load.image('bg2', 'assets/plx-2.png');
-	this.load.image('bg3', 'assets/plx-3.png');
-	this.load.image('bg4', 'assets/plx-4.png');
-	this.load.image('bg5', 'assets/plx-5.png');
-	this.load.image('marketBorder', 'assets/marketWindow.png');
-	this.load.image('castle', 'assets/castle.png');
-	//Sprite Sheets
+	preload() {
+		//Background Images
+		// this.load.image('buildMenuBG', 'assets/blank.png');
+		// this.load.image('woodIcon', 'assets/blank.png');
+		// this.load.image('stoneIcon', 'assets/blank.png');
+		// this.load.image('farmIcon', 'assets/blank.png');
+
+		this.load.image('arrow', 'assets/tempArrow.png');
+		this.load.image('mill', 'assets/mill.png');
+		this.load.image('log', 'assets/logPile.png');
+		this.load.image('bg', 'assets/BG.png');
+		this.load.image('bg1', 'assets/plx-1.png');
+		this.load.image('bg2', 'assets/plx-2.png');
+		this.load.image('bg3', 'assets/plx-3.png');
+		this.load.image('bg4', 'assets/plx-4.png');
+		this.load.image('bg5', 'assets/plx-5.png');
+		this.load.image('marketBorder', 'assets/marketWindow.png');
+		this.load.image('castle', 'assets/castle.png');
+		//Sprite Sheets
+
+		this.load.spritesheet('character', 'assets/adventurer-Sheet.png', { frameWidth: 50, frameHeight: 37 });
+
+		// Music
+		// this.load.audio('chip', 'assets/audio/8bit.mp3');
+		// this.load.audio('court', 'assets/audio/court.mp3');
+		this.load.audio('synth', 'assets/audio/synth.mp3');
+
+		this.load.audio('anvil', 'assets/audio/anvil.mp3');
+		this.load.audio('boo', 'assets/audio/boo.mp3');
+		this.load.audio('build', 'assets/audio/build.mp3');
+		this.load.audio('chaching', 'assets/audio/chaching.mp3');
+		this.load.audio('cheers', 'assets/audio/cheers.mp3');
+		this.load.audio('coins', 'assets/audio/coins.mp3');
+		this.load.audio('frog', 'assets/audio/frog.mp3');
+		this.load.audio('frog2', 'assets/audio/frog2.mp3');
+		this.load.audio('step', 'assets/audio/step.mp3');
+		this.load.audio('synth', 'assets/audio/synth.mp3');
+		// judge 'Order'
+		// crowd sounds
+	};
+
+	//Create
+	create() {
 
 
-	this.load.spritesheet('character', 'assets/adventurer-Sheet.png', { frameWidth: 50, frameHeight: 37 });
-};
+		createBackgrounds.call(this);
+		buildPlots.call(this);
+		initKeys.call(this);
 
-//Create
-create() {
+		//keypresses
+		// this.mKey.addListener(, toggleMarket);
 
+		var platforms = this.physics.add.staticGroup();
+		platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
+		//groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
 
-	createBackgrounds.call(this);
- 	buildPlots.call(this);
-	initKeys.call(this);
+		//this.bg.setScrollFactor(0);
 
-	//keypresses
-	// this.mKey.addListener(, toggleMarket);
+		var music = this.sound.add('synth');
+		music.loop = true;
+		music.play();
 
+		createPlayer.call(this);
+		createPlayerAnimation.call(this);
 
-	var platforms = this.physics.add.staticGroup();
-	platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
-	//groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
+		this.physics.add.collider(this.player, platforms);
+		this.physics.add.overlap(this.player, this.plotGroup, plotMenuDisplay, downIsDown, this);
 
-	//this.bg.setScrollFactor(0);
+		this.physics.world.bounds.width = 4000;
+		//this.physics.world.bounds.height = 800;
+		this.cameras.main.setBounds(0, 0, 4000, 720);
+		this.cameras.main.startFollow(this.player);
 
+		this.cursors = this.input.keyboard.createCursorKeys();
+		var FKey = this.input.keyboard.addKey('F');
 
-	createPlayer.call(this);
-	createPlayerAnimation.call(this);
+		FKey.on('down', function () {
 
+			if (this.scale.isFullscreen) {
+				//button.setFrame(0);
+				this.scale.stopFullscreen();
+			}
+			else {
+				//button.setFrame(1);
+				this.scale.startFullscreen();
+			}
+		}, this);
 
-	this.physics.add.collider(this.player, platforms);
-	this.physics.add.overlap(this.player, this.plotGroup, plotMenuDisplay, downIsDown, this);
-	
+	};
 
-
-	this.physics.world.bounds.width = 4000;
-	//this.physics.world.bounds.height = 800;
-	this.cameras.main.setBounds(0, 0, 4000, 720);
-	this.cameras.main.startFollow(this.player);
-
-	this.cursors = this.input.keyboard.createCursorKeys();
-	var FKey = this.input.keyboard.addKey('F');
-
-	FKey.on('down', function () {
-
-		if (this.scale.isFullscreen) {
-			//button.setFrame(0);
-			this.scale.stopFullscreen();
+	update(time, theta) {
+		updateBackground.call(this);
+		updatePlayerUi.call(this);
+		updateUi.call(this);
+		if(Phaser.Input.Keyboard.JustDown(this.mKey)){
+			toggleMarket.call(this);
 		}
-		else {
-			//button.setFrame(1);
-			this.scale.startFullscreen();
+
+		if (this.player.x > this.farmIcon.x + 100 || this.player.x < this.farmIcon.x - 100)
+		{
+			setVisible(this.buildMenu, false);
 		}
-	}, this);
-
-};
-
-update(time, theta) {
-	updateBackground.call(this);
-	updatePlayerUi.call(this);
-	updateUi.call(this);
-	if(Phaser.Input.Keyboard.JustDown(this.mKey)){
-		toggleMarket.call(this);
-	}
-
-	if (this.player.x > this.farmIcon.x + 100 || this.player.x < this.farmIcon.x - 100)
-	{	
-		setVisible(this.buildMenu, false);	
-	}
-	updatePlots.call(this);
-};
+		updatePlots.call(this);
+	};
 
 };
 
