@@ -36,7 +36,7 @@ function createBackgrounds() {
 	// this.ground.body.immovable = true;
 	
 	//buildings
-	this.home = this.physics.add.staticImage(1500, 620, 'home').setDisplaySize(350, 250).refreshBody();
+	this.home = this.physics.add.staticImage(1925, 620, 'home').setDisplaySize(350, 250).refreshBody();
 
 
 	//build menu group
@@ -86,7 +86,7 @@ function build(id){
 function createPlayer() {
 
 	//Add Character
-	this.player = this.physics.add.sprite(1500, game.config.height, 'character');
+	this.player = this.physics.add.sprite(1925, game.config.height, 'character');
 	this.player.setBounce(0.2);
 	this.player.setCollideWorldBounds(true);
 	this.player.setScale(3);
@@ -128,6 +128,9 @@ function buildPlots(){
 
 	for (var i = 0; i < fief.plots.length; i++) {
 		x += 350;
+		if(x == 1750){
+			x = 2450;
+		}
 			this.plots[i] = plotGroup.create(x, y, imgKey);
 			this.plots[i].Id = i;
 	}
@@ -250,8 +253,8 @@ function updatePlots(){
 				break;
 			case "Locked": this.plots[i].setTexture('log').refreshBody();
 				break;
-			case "Home": this.plots[i].setTexture('home').setDisplaySize(350,250).refreshBody();
-				break;
+			// case "Home": this.plots[i].setTexture('home').setDisplaySize(350,250).refreshBody();
+			// 	break;
 		}
 	}
 }
@@ -299,8 +302,8 @@ create() {
 	// this.mKey.addListener(, toggleMarket);
 
 
-	var platforms = this.physics.add.staticGroup();
-	platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
+	// var platforms = this.physics.add.staticGroup();
+	// platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
 	// groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
 	//this.bg.setScrollFactor(0);
 	
@@ -309,7 +312,7 @@ create() {
 	createPlayerAnimation.call(this);
 
 
-	this.physics.add.collider(this.player, platforms);
+	// this.physics.add.collider(this.player, platforms);
 	// this.physics.add.collider(this.player, this.ground);
 	this.physics.add.overlap(this.player, this.plotGroup, plotMenuDisplay, downIsDown, this);
 	this.physics.add.overlap(this.player, this.home, homeOverTest);
