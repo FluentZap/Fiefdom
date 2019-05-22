@@ -22,12 +22,21 @@ function createBackgrounds() {
 	this.bg5.setDisplaySize(game.config.width, game.config.height);
 	this.bg5.setScale(ratio);
 	
+	//market view
 	this.marketBackground = this.add.tileSprite(0, 0, 821, 507, 'marketBorder').setOrigin(0, 0).setScrollFactor(0);
 	this.buttonRight = this.add.image(400,400,'arrow').setOrigin(0,0).setScrollFactor(0);
 	this.buttonRight.setInteractive().on('pointerdown', buy);
 	this.buttonLeft = this.add.image(350,400,'arrow').setOrigin(0,0).setScrollFactor(0);
 	this.buttonLeft.setInteractive().on('pointerdown', sell);
 
+	
+	//ground
+	this.ground = this.add.tileSprite(0, game.config.height -20, game.config.width, 20,  'bg').setOrigin(0,0);
+	this.ground.setScale(ratio);
+	// this.ground.body.immovable = true;
+	
+	//buildings
+	this.home = this.physics.add.staticImage(1500, 620, 'home').setDisplaySize(350, 250).refreshBody();
 
 
 	//build menu group
@@ -77,7 +86,7 @@ function build(id){
 function createPlayer() {
 
 	//Add Character
-	this.player = this.physics.add.sprite(0, 0, 'character');
+	this.player = this.physics.add.sprite(1500, game.config.height, 'character');
 	this.player.setBounce(0.2);
 	this.player.setCollideWorldBounds(true);
 	this.player.setScale(3);
@@ -113,14 +122,14 @@ function buildPlots(){
 	var plotGroup = this.physics.add.staticGroup();
 	this.plotGroup = plotGroup;
 	var x = 0;
-	var y = 710;
+	var y = 690;
 	var imgKey = "log";
 	this.plots = [];
 
 	for (var i = 0; i < fief.plots.length; i++) {
-		x += 300;
-		this.plots[i] = plotGroup.create(x, y, imgKey);
-		this.plots[i].Id = i;
+		x += 350;
+			this.plots[i] = plotGroup.create(x, y, imgKey);
+			this.plots[i].Id = i;
 	}
 }
 
@@ -231,7 +240,6 @@ function setVisible(array, value)
 }
 
 function updatePlots(){
-	
 // console.log(this.plots);
 	for(i=0; i<fief.plots.length; i++)
 	{
@@ -242,10 +250,16 @@ function updatePlots(){
 				break;
 			case "Locked": this.plots[i].setTexture('log').refreshBody();
 				break;
+			case "Home": this.plots[i].setTexture('home').setDisplaySize(350,250).refreshBody();
+				break;
 		}
 	}
 }
-   
+
+function homeOverTest(player, body){
+	console.log("overlap house");
+}
+
 class Fiefdom extends Phaser.Scene {
 
 preload() {
@@ -265,6 +279,7 @@ preload() {
 	this.load.image('bg4', 'assets/plx-4.png');
 	this.load.image('bg5', 'assets/plx-5.png');
 	this.load.image('marketBorder', 'assets/marketWindow.png');
+	this.load.image('home', 'assets/house.png');
 
 	//Sprite Sheets
 
@@ -286,17 +301,18 @@ create() {
 
 	var platforms = this.physics.add.staticGroup();
 	platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
-	//groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
-
+	// groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
 	//this.bg.setScrollFactor(0);
-
+	
 
 	createPlayer.call(this);
 	createPlayerAnimation.call(this);
 
 
 	this.physics.add.collider(this.player, platforms);
+	// this.physics.add.collider(this.player, this.ground);
 	this.physics.add.overlap(this.player, this.plotGroup, plotMenuDisplay, downIsDown, this);
+	this.physics.add.overlap(this.player, this.home, homeOverTest);
 	
 
 
