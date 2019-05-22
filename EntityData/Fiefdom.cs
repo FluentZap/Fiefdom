@@ -246,13 +246,13 @@ namespace Fiefdom
             using (var db = new FiefContext())
             {   
                 Random rnd = new Random();
-                var fiefdom = db.Fiefdom.ToList();
+                var fiefdom = db.Fiefdom.Include("FiefdomPlot").Include("FiefdomResources").ToList();
                 int ballot1 = 0;
                 int ballot2 = 0;
                 int ballot3 = 0;
                 foreach(var fief in fiefdom)
                 {
-                    int influence = GetInfluence(fief);
+                    int influence = FiefdomActions.GetInfluence(fief);
                    
                     if (fief.Ballot1 == "Fore")
                     {
@@ -315,9 +315,8 @@ namespace Fiefdom
         public static int GetInfluence(Fief fief)
         {
             int influence = 1;
-            // influence += fief.Title * 100;
-            // influence += fief.FiefdomResources
-
+            influence += fief.FiefdomResources.Where(r => r.Type == "Gold").FirstOrDefault().Quantity / 1000;
+            influence += fief.Title * 10;
 
             return influence;
         }

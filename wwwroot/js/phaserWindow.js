@@ -61,7 +61,7 @@ function createBackgrounds() {
 
 	//voteing window
 	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false);
-	this.voteText = this.add.text(440, 120, "",{ font: "28px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setVisible(false);
+	this.voteText = this.add.text(440, 100, "",{ font: "28px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setVisible(false);
 	this.voteYes1 = this.add.image(400, 120, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 	this.voteNo1 = this.add.image(900, 120, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 	this.voteYes2 = this.add.image(400, 185, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
@@ -331,7 +331,9 @@ function updateUi() {
 	this.wood.setText("Wood " + fief.resources.Wood);
 	this.stone.setText("Stone " + fief.resources.Stone);
 	this.date.setText("Day " + fief.gameState.day + "  Season " + fief.gameState.season + "  Year " + fief.gameState.year);
-	this.voteText.setText(fief.ballots[0] + "\n" + fief.ballots[1] + "\n" + fief.ballots[2]);
+	var influence = parseInt(fief.resources.Gold / 1000 + (1+fief.title) *  10);
+
+	this.voteText.setText("Influence: " + influence + "\n" + fief.ballots[0] + "\n" + fief.ballots[1] + "\n" + fief.ballots[2]);	
 	//parse Text
 	this.ballots.setText(fief.ballots[0] + fief.ballots[1] + fief.ballots[2]);
 	if (fief.edicts.length === 3)
