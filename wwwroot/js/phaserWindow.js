@@ -30,35 +30,46 @@ function createBackgrounds() {
 	this.buttonLeft = this.add.image(350,400,'arrow').setOrigin(0,0).setScrollFactor(0);
 	this.buttonLeft.setInteractive().on('pointerdown', sell);
 
-
+	//ground
+	this.ground = this.add.tileSprite(0, game.config.height -20, game.config.width, 20,  'bg').setOrigin(0,0);
+	this.ground.setScale(ratio);
+	// this.ground.body.immovable = true;
+	
+	//buildings
+	this.home = this.physics.add.staticImage(1925, 620, 'home').setDisplaySize(350, 250).refreshBody();
 
 	//build menu group
-	this.farmIcon = this.add.image(0,0, 'bg').setVisible(false);
-	this.farmIcon.Id = "Farm";
-	this.woodIcon = this.add.image(0,0, 'bg').setVisible(false);
-	this.woodIcon.Id = "WoodCutter";
-	this.stoneIcon = this.add.image(0,0, 'bg').setVisible(false);
-	this.stoneIcon.Id = "Quarry";
-	this.buildMenu = [this.farmIcon, this.woodIcon, this.stoneIcon];
+	this.foodIcon = this.add.image(0,0, 'foodIcon').setDisplaySize(100,100).setVisible(false);
+	this.foodIcon.Id = "BuildSelect Farm";
+	this.woodIcon = this.add.image(0,0, 'woodIcon').setDisplaySize(100,100).setVisible(false);
+	this.woodIcon.Id = "BuildSelect WoodCutter";
+	this.stoneIcon = this.add.image(0,0, 'stoneIcon').setDisplaySize(100,100).setVisible(false);
+	this.stoneIcon.Id = "BuildSelect Quarry";
+	this.barracksIcon = this.add.image(0,0, 'barracksIcon').setDisplaySize(100,100).setVisible(false);
+	this.barracksIcon.Id = "BuildSelect Barracks";
+	this.innIcon = this.add.image(0,0, 'innIcon').setDisplaySize(100,100).setVisible(false);
+	this.innIcon.Id = "BuildSelect Inn";
+	this.goldIcon = this.add.image(0,0, 'goldIcon').setDisplaySize(100,100).setVisible(false);
+	this.goldIcon.Id = "BuildSelect Gold";	
+	this.buildMenu = [this.foodIcon, this.woodIcon, this.stoneIcon, this.barracksIcon, this.innIcon, this.goldIcon];
+
+	//confirm menu group
+	this.confirmIcon = this.add.image(0,0, 'upgradeIcon').setDisplaySize(100,100).setVisible(false);
+	this.confirmName = this.add.text(0, 0, 'Building Name:').setVisible(false);
+	this.confirmCost = this.add.text(0,0, ' Cost').setVisible(false);
+	this.confirmGroup = [this.confirmIcon, this.confirmName, this.confirmCost];
 
 	this.buildMenu.forEach((item) =>{
 		item.setInteractive().on('pointerdown', (id) => {
-			console.log("in the function");		
-			BuildPlot(this.selectedPlot, item.Id)
-			console.log("Done");		
-			//BuyResource(item.Id, 1);
-			setVisible(this.buildMenu, false);
-			UpdateFiefdom();
+			handleClick.call(this, item.Id)
 		});
 	})
 
-	// this.foodIcon.setInteractive().on('pointerdown', build);
-	// this.woodIcon.setInteractive().on('pointerdown', build);
-	// this.stoneIcon.setInteractive().on('pointerdown', build);
-	//this.buildMenu = this.add.group([this.farmIcon, this.woodIcon, this.stoneIcon]);
+	//setVisible(this.confirmGroup, true).call(this);
+	this.confirmIcon.setInteractive().on('pointerdown',(item) =>{
+		handleClick.call(this, "Build")
 
-
-	
+	});
 
 	this.gold = this.add.text(40, 60, "Fiefdom", {		
 		font: "40px Alagard",
@@ -97,6 +108,39 @@ function createBackgrounds() {
 	this.marketMenu = this.add.group([this.marketBackground, this.gold, this.buttonLeft, this.buttonRight]);
 };
 
+
+
+function handleClick(id)
+{
+	var type = id.split(' ');
+
+	if (type[0] == "BuildSelect")
+	{
+		setVisible(this.confirmGroup, true);
+		this.buildItem = type[1];
+		this.confirmName.setText(type[1]);
+		this.confirmCost.setText(100);
+	}
+
+	if (type[0] == "Build")
+	{
+		console.log(this.selectedPlot, this.buildItem);
+		BuildPlot(this.selectedPlot, this.buildItem);
+		setVisible(this.confirmGroup, false);
+		setVisible(this.buildMenu, false);
+	}
+
+
+			// BuildPlot(this.selectedPlot, id);
+		// setVisible(this.confirmGroup, false);
+
+			// displayConfirmMenu(this.selectedPlot, item.id);
+			// // BuildPlot(this.selectedPlot, item.Id)
+			// console.log("Done");		
+			// // setVisible(this.buildMenu, false);
+			// UpdateFiefdom();
+}
+
 function build(id){
 	console.log(id);
 }
@@ -104,7 +148,7 @@ function build(id){
 function createPlayer() {
 
 	//Add Character
-	this.player = this.physics.add.sprite(0, 0, 'character');
+	this.player = this.physics.add.sprite(1925, game.config.height, 'character');
 	this.player.setBounce(0.2);
 	this.player.setCollideWorldBounds(true);
 	this.player.setScale(3);
@@ -140,14 +184,17 @@ function buildPlots(){
 	var plotGroup = this.physics.add.staticGroup();
 	this.plotGroup = plotGroup;
 	var x = 0;
-	var y = 710;
+	var y = 690;
 	var imgKey = "log";
 	this.plots = [];
 
 	for (var i = 0; i < fief.plots.length; i++) {
-		x += 300;
-		this.plots[i] = plotGroup.create(x, y, imgKey);
-		this.plots[i].Id = i;
+		x += 350;
+		if(x == 1750){
+			x = 2450;
+		}
+			this.plots[i] = plotGroup.create(x, y, imgKey);
+			this.plots[i].Id = i;
 	}
 }
 
@@ -233,14 +280,25 @@ function downIsDown(){
 }
 
 function plotMenuDisplay(player, plot){
-	this.farmIcon.x = plot.x;
-	this.farmIcon.y = plot.y - 150;
+	this.foodIcon.x = plot.x - 120;
+	this.foodIcon.y = plot.y - 150;
 
-	this.woodIcon.x = plot.x + 20;
+	this.woodIcon.x = plot.x;
 	this.woodIcon.y = plot.y - 150;
 
-	this.stoneIcon.x = plot.x + 40;
+	this.stoneIcon.x = plot.x + 120;
 	this.stoneIcon.y = plot.y - 150;
+
+	this.barracksIcon.x = plot.x - 120;
+	this.barracksIcon.y = plot.y - 270;
+
+	this.innIcon.x = plot.x;
+	this.innIcon.y = plot.y - 270;
+
+	this.goldIcon.x = plot.x + 120;
+	this.goldIcon.y = plot.y - 270;
+
+	buildConfirmMenu(plot, this.confirmGroup);
 
 	this.selectedPlot = plot.Id;
 
@@ -248,6 +306,24 @@ function plotMenuDisplay(player, plot){
 	if(fief.plots[plot.Id] != "Locked"){
 		setVisible(this.buildMenu, true);
 	}
+}
+
+function buildConfirmMenu(plot, confirmGroup){
+
+	confirmGroup[1].x = plot.x -120;
+	confirmGroup[1].y = plot.y -400;
+
+	confirmGroup[2].x = plot.x;
+	confirmGroup[2].y= plot.y -400;
+
+	confirmGroup[0].x= plot.x + 180;
+	confirmGroup[0].y= plot.y -400;
+
+}
+
+function displayConfirmMenu(player, plot) {
+	
+	
 }
 
 function toggleMarket(){
@@ -265,7 +341,6 @@ function setVisible(array, value)
 }
 
 function updatePlots(){
-	
 // console.log(this.plots);
 	for(i=0; i<fief.plots.length; i++)
 	{
@@ -276,18 +351,42 @@ function updatePlots(){
 				break;
 			case "Locked": this.plots[i].setTexture('log').refreshBody();
 				break;
+			// case "Home": this.plots[i].setTexture('home').setDisplaySize(350,250).refreshBody();
+			// 	break;
 		}
 	}
 }
-   
+
+function homeOverTest(player, body){
+	console.log("overlap house");
+}
+
 class Fiefdom extends Phaser.Scene {
 
 preload() {
-	//Background Images
+	//icons
+	this.load.image('woodIcon', 'assets/icons/woodIcon.png');
+	this.load.image('stoneIcon', 'assets/icons/stoneIcon.png');
+	this.load.image('foodIcon', 'assets/icons/foodIcon.png');
+	this.load.image('coinIcon', 'assets/icons/coinIcon.png');
+	this.load.image('anvilIcon', 'assets/icons/anvilIcon.png');
+	this.load.image('goldIcon', 'assets/icons/goldIcon.png');
+	this.load.image('influenceIcon', 'assets/icons/influenceIcon.png');
+	this.load.image('innIcon', 'assets/icons/innIcon.png');
+	this.load.image('ironIcon', 'assets/icons/ironIcon.png');
+	this.load.image('lockIcon', 'assets/icons/lockIcon.png');
+	this.load.image('marketIcon', 'assets/icons/marketIcon.png');
+	this.load.image('titleIcon', 'assets/icons/titleIcon.png');
+	this.load.image('upgradeIcon', 'assets/icons/upgradeIcon.png');
+	this.load.image('voteIcon', 'assets/icons/voteIcon.png');
+	this.load.image('barracksIcon', 'assets/icons/barracksIcon.png');
+
+	
+	//menu backgrounds
 	// this.load.image('buildMenuBG', 'assets/blank.png');
-	// this.load.image('woodIcon', 'assets/blank.png');
-	// this.load.image('stoneIcon', 'assets/blank.png');
-	// this.load.image('farmIcon', 'assets/blank.png');
+	this.load.image('marketBorder', 'assets/marketWindow.png');
+
+	//Background Images
 	
 	this.load.image('arrow', 'assets/tempArrow.png');
 	this.load.image('mill', 'assets/mill.png');
@@ -298,8 +397,9 @@ preload() {
 	this.load.image('bg3', 'assets/plx-3.png');
 	this.load.image('bg4', 'assets/plx-4.png');
 	this.load.image('bg5', 'assets/plx-5.png');
-	this.load.image('marketBorder', 'assets/marketWindow.png');
 	this.load.image('castle', 'assets/castle.png');
+	this.load.image('home', 'assets/house.png');
+
 	//Sprite Sheets
 
 
@@ -318,25 +418,26 @@ create() {
 	// this.mKey.addListener(, toggleMarket);
 
 
-	var platforms = this.physics.add.staticGroup();
-	platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
-	//groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
-
+	// var platforms = this.physics.add.staticGroup();
+	// platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
+	// groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
 	//this.bg.setScrollFactor(0);
-
+	
 
 	createPlayer.call(this);
 	createPlayerAnimation.call(this);
 
 
-	this.physics.add.collider(this.player, platforms);
+	// this.physics.add.collider(this.player, platforms);
+	// this.physics.add.collider(this.player, this.ground);
 	this.physics.add.overlap(this.player, this.plotGroup, plotMenuDisplay, downIsDown, this);
+	this.physics.add.overlap(this.player, this.home, homeOverTest);
 	
 
 
-	this.physics.world.bounds.width = 4000;
-	//this.physics.world.bounds.height = 800;
-	this.cameras.main.setBounds(0, 0, 4000, 720);
+	this.physics.world.bounds.width = 6000;
+	this.physics.world.bounds.height = 710;
+	this.cameras.main.setBounds(0, 0, 6000, 720);
 	this.cameras.main.startFollow(this.player);
 
 	this.cursors = this.input.keyboard.createCursorKeys();
@@ -364,7 +465,7 @@ update(time, theta) {
 		toggleMarket.call(this);
 	}
 
-	if (this.player.x > this.farmIcon.x + 100 || this.player.x < this.farmIcon.x - 100)
+	if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
 	{	
 		setVisible(this.buildMenu, false);	
 	}
