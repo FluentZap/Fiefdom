@@ -52,25 +52,22 @@ function createBackgrounds() {
 	this.goldIcon.Id = "Gold";	
 	this.buildMenu = [this.foodIcon, this.woodIcon, this.stoneIcon, this.barracksIcon, this.innIcon, this.goldIcon];
 
+	//confirm menu group
+	this.confirmIcon= this.add.image(0,0, 'upgradeIcon').setDisplaySize(100,100).setVisible(false);
+	this.confirmName = this.add.text(0, 0, 'Building Name:').setVisible(false);
+	this.confirmCost = this.add.text(0,0, ' Cost').setVisible(false);
+	this.confirmGroup = [this.confirmIcon, this.confirmName, this.confirmCost];
 
 	this.buildMenu.forEach((item) =>{
 		item.setInteractive().on('pointerdown', (id) => {
-			console.log("in the function");		
-			BuildPlot(this.selectedPlot, item.Id)
+			console.log("in the function");
+			displayConfirmMenu(this.selectedPlot, item.id);
+			// BuildPlot(this.selectedPlot, item.Id)
 			console.log("Done");		
-			//BuyResource(item.Id, 1);
-			setVisible(this.buildMenu, false);
+			// setVisible(this.buildMenu, false);
 			UpdateFiefdom();
 		});
 	})
-
-	// this.foodIcon.setInteractive().on('pointerdown', build);
-	// this.woodIcon.setInteractive().on('pointerdown', build);
-	// this.stoneIcon.setInteractive().on('pointerdown', build);
-	//this.buildMenu = this.add.group([this.foodIcon, this.woodIcon, this.stoneIcon]);
-
-
-	
 
 	this.gold = this.add.text(40, 40, "Fiefdom", {
 		//alagard.ttf
@@ -234,13 +231,36 @@ function plotMenuDisplay(player, plot){
 	this.goldIcon.x = plot.x + 120;
 	this.goldIcon.y = plot.y - 270;
 
+	buildConfirmMenu(plot, this.confirmGroup);
+
 	this.selectedPlot = plot.Id;
 
 	console.log(fief.plots[plot.Id]);
-	console.log(fief.plots[i]);
 	if(fief.plots[plot.Id] != "Locked"){
 		setVisible(this.buildMenu, true);
 	}
+}
+
+function buildConfirmMenu(plot, confirmGroup){
+
+	confirmGroup[1].x = plot.x -120;
+	confirmGroup[1].y = plot.y -350;
+
+	confirmGroup[2].x = plot.x;
+	confirmGroup[2].y= plot.y -350;
+
+	confirmGroup[0].x= plot.x + 120;
+	confirmGroup[0].y= plot.y -350;
+
+}
+
+function displayConfirmMenu(player, plot) {
+	setVisible(this.confirmGroup, true).call(this);
+	this.confirmIcon.setInteractive.on('pointerdown',(id) =>{
+		BuildPlot(this.selectedPlot, id);
+		setVisible(this.confirmGroup, false);
+	});
+	
 }
 
 function toggleMarket(){
