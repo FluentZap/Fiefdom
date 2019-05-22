@@ -34,7 +34,7 @@ function createBackgrounds() {
 	this.ground = this.add.tileSprite(0, game.config.height -20, game.config.width, 20,  'bg').setOrigin(0,0);
 	this.ground.setScale(ratio);
 	// this.ground.body.immovable = true;
-	
+
 	//buildings
 	this.home = this.physics.add.staticImage(1925, 620, 'home').setDisplaySize(350, 250).refreshBody();
 
@@ -50,7 +50,7 @@ function createBackgrounds() {
 	this.innIcon = this.add.image(0,0, 'innIcon').setDisplaySize(100,100).setVisible(false);
 	this.innIcon.Id = "BuildSelect Inn";
 	this.goldIcon = this.add.image(0,0, 'goldIcon').setDisplaySize(100,100).setVisible(false);
-	this.goldIcon.Id = "BuildSelect Gold";	
+	this.goldIcon.Id = "BuildSelect Gold";
 	this.buildMenu = [this.foodIcon, this.woodIcon, this.stoneIcon, this.barracksIcon, this.innIcon, this.goldIcon];
 
 	//confirm menu group
@@ -87,7 +87,7 @@ function createBackgrounds() {
 
 	});
 
-	this.gold = this.add.text(40, 60, "Fiefdom", {		
+	this.gold = this.add.text(40, 60, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
@@ -116,7 +116,7 @@ function createBackgrounds() {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
-	}).setScrollFactor(0);		
+	}).setScrollFactor(0);
 
 	this.date = this.add.text(40, 20, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0);
 
@@ -144,22 +144,24 @@ function handleClick(id)
 		BuildPlot(this.selectedPlot, this.buildItem);
 		setVisible(this.confirmGroup, false);
 		setVisible(this.buildMenu, false);
+		this.hammer.play();
 	}
 
 	if(type[0] == "Vote")
 	{
 		//submitVote(string, type[1])
+		this.order.play();
 	}
 
 
-			// BuildPlot(this.selectedPlot, id);
-		// setVisible(this.confirmGroup, false);
+	// BuildPlot(this.selectedPlot, id);
+	// setVisible(this.confirmGroup, false);
 
-			// displayConfirmMenu(this.selectedPlot, item.id);
-			// // BuildPlot(this.selectedPlot, item.Id)
-			// console.log("Done");		
-			// // setVisible(this.buildMenu, false);
-			// UpdateFiefdom();
+	// displayConfirmMenu(this.selectedPlot, item.id);
+	// // BuildPlot(this.selectedPlot, item.Id)
+	// console.log("Done");
+	// // setVisible(this.buildMenu, false);
+	// UpdateFiefdom();
 }
 
 function build(id){
@@ -168,6 +170,7 @@ function build(id){
 
 function toggleVote(){
 	this.voteGroup.toggleVisible();
+	this.rabble.play();
 	// setVisible(this.voteGroup, true);
 }
 
@@ -220,8 +223,8 @@ function buildPlots(){
 		if(x == 1750){
 			x = 2450;
 		}
-			this.plots[i] = plotGroup.create(x, y, imgKey);
-			this.plots[i].Id = i;
+		this.plots[i] = plotGroup.create(x, y, imgKey);
+		this.plots[i].Id = i;
 	}
 }
 
@@ -369,15 +372,13 @@ function setVisible(array, value)
 }
 
 function updatePlots(){
-// console.log(this.plots);
+	// console.log(this.plots);
 	for(i=0; i<fief.plots.length; i++)
 	{
 		switch(fief.plots[i]){
 			case "Empty": this.plots[i].setTexture('log').refreshBody();
-			// this.hammer.play();
 			break;
 			case "Farm": this.plots[i].setTexture('mill').refreshBody();
-			this.hammer.play();
 			break;
 			case "Locked": this.plots[i].setTexture('log').refreshBody();
 			break;
@@ -393,110 +394,111 @@ function homeOverTest(player, body){
 
 class Fiefdom extends Phaser.Scene {
 
-preload() {
-	//icons
-	this.load.image('woodIcon', 'assets/icons/woodIcon.png');
-	this.load.image('stoneIcon', 'assets/icons/stoneIcon.png');
-	this.load.image('foodIcon', 'assets/icons/foodIcon.png');
-	this.load.image('coinIcon', 'assets/icons/coinIcon.png');
-	this.load.image('anvilIcon', 'assets/icons/anvilIcon.png');
-	this.load.image('goldIcon', 'assets/icons/goldIcon.png');
-	this.load.image('influenceIcon', 'assets/icons/influenceIcon.png');
-	this.load.image('innIcon', 'assets/icons/innIcon.png');
-	this.load.image('ironIcon', 'assets/icons/ironIcon.png');
-	this.load.image('lockIcon', 'assets/icons/lockIcon.png');
-	this.load.image('marketIcon', 'assets/icons/marketIcon.png');
-	this.load.image('titleIcon', 'assets/icons/titleIcon.png');
-	this.load.image('upgradeIcon', 'assets/icons/upgradeIcon.png');
-	this.load.image('voteIcon', 'assets/icons/voteIcon.png');
-	this.load.image('barracksIcon', 'assets/icons/barracksIcon.png');
-	this.load.image('thumbsUp', 'assets/thumbsup.png');
-	this.load.image('thumbsDown', 'assets/thumbsdown.png');
-
-	
-	//menu backgrounds
-	// this.load.image('buildMenuBG', 'assets/blank.png');
-	this.load.image('marketBorder', 'assets/marketWindow.png');
-	this.load.image('voteBG', 'assets/scroll2.png');
-
-	//Background Images
-	
-	this.load.image('arrow', 'assets/tempArrow.png');
-	this.load.image('mill', 'assets/mill.png');
-	this.load.image('log', 'assets/logPile.png');
-	this.load.image('bg', 'assets/BG.png');
-	this.load.image('bg1', 'assets/plx-1.png');
-	this.load.image('bg2', 'assets/plx-2.png');
-	this.load.image('bg3', 'assets/plx-3.png');
-	this.load.image('bg4', 'assets/plx-4.png');
-	this.load.image('bg5', 'assets/plx-5.png');
-	this.load.image('castle', 'assets/castle.png');
-	this.load.image('home', 'assets/house.png');
-
-	//Sprite Sheets
+	preload() {
+		//icons
+		this.load.image('woodIcon', 'assets/icons/woodIcon.png');
+		this.load.image('stoneIcon', 'assets/icons/stoneIcon.png');
+		this.load.image('foodIcon', 'assets/icons/foodIcon.png');
+		this.load.image('coinIcon', 'assets/icons/coinIcon.png');
+		this.load.image('anvilIcon', 'assets/icons/anvilIcon.png');
+		this.load.image('goldIcon', 'assets/icons/goldIcon.png');
+		this.load.image('influenceIcon', 'assets/icons/influenceIcon.png');
+		this.load.image('innIcon', 'assets/icons/innIcon.png');
+		this.load.image('ironIcon', 'assets/icons/ironIcon.png');
+		this.load.image('lockIcon', 'assets/icons/lockIcon.png');
+		this.load.image('marketIcon', 'assets/icons/marketIcon.png');
+		this.load.image('titleIcon', 'assets/icons/titleIcon.png');
+		this.load.image('upgradeIcon', 'assets/icons/upgradeIcon.png');
+		this.load.image('voteIcon', 'assets/icons/voteIcon.png');
+		this.load.image('barracksIcon', 'assets/icons/barracksIcon.png');
+		this.load.image('thumbsUp', 'assets/thumbsup.png');
+		this.load.image('thumbsDown', 'assets/thumbsdown.png');
 
 
-	this.load.spritesheet('character', 'assets/adventurer-Sheet.png', { frameWidth: 50, frameHeight: 37 });
+		//menu backgrounds
+		// this.load.image('buildMenuBG', 'assets/blank.png');
+		this.load.image('marketBorder', 'assets/marketWindow.png');
+		this.load.image('voteBG', 'assets/scroll2.png');
+
+		//Background Images
+
+		this.load.image('arrow', 'assets/tempArrow.png');
+		this.load.image('mill', 'assets/mill.png');
+		this.load.image('log', 'assets/logPile.png');
+		this.load.image('bg', 'assets/BG.png');
+		this.load.image('bg1', 'assets/plx-1.png');
+		this.load.image('bg2', 'assets/plx-2.png');
+		this.load.image('bg3', 'assets/plx-3.png');
+		this.load.image('bg4', 'assets/plx-4.png');
+		this.load.image('bg5', 'assets/plx-5.png');
+		this.load.image('castle', 'assets/castle.png');
+		this.load.image('home', 'assets/house.png');
+
+		//Sprite Sheets
 
 
-	// Music
-	this.load.audio('synth', 'assets/audio/synth.mp3');
-	//
-	// // Sounds
-	this.load.audio('anvil', 'assets/audio/anvil.mp3');
-	this.load.audio('boo', 'assets/audio/boo.mp3');
-	this.load.audio('hammer', 'assets/audio/build.mp3');
-	this.load.audio('chaching', 'assets/audio/chaching.mp3');
-	this.load.audio('cheers', 'assets/audio/cheers.mp3');
-	this.load.audio('coins', 'assets/audio/coins.mp3');
-	this.load.audio('frog', 'assets/audio/frog.mp3');
-	this.load.audio('frog2', 'assets/audio/frog2.mp3');
-	this.load.audio('grunt', 'assets/audio/grunt.mp3');
-	this.load.audio('step', 'assets/audio/step.mp3');
-	this.load.audio('synth', 'assets/audio/synth.mp3');
-	this.load.audio('rabble', 'assets/audio/rabble.mp3');
-	this.load.audio('order', 'assets/audio/order.mp3');
-};
+		this.load.spritesheet('character', 'assets/adventurer-Sheet.png', { frameWidth: 50, frameHeight: 37 });
 
 
-//Create
-create() {
+		// Music
+		this.load.audio('synth', 'assets/audio/synth.mp3');
+		//
+		// // Sounds
+		this.load.audio('anvil', 'assets/audio/anvil.mp3');
+		this.load.audio('boo', 'assets/audio/boo.mp3');
+		this.load.audio('hammer', 'assets/audio/build.mp3');
+		this.load.audio('chaching', 'assets/audio/chaching.mp3');
+		this.load.audio('cheers', 'assets/audio/cheers.mp3');
+		this.load.audio('coins', 'assets/audio/coins.mp3');
+		this.load.audio('frog', 'assets/audio/frog.mp3');
+		this.load.audio('frog2', 'assets/audio/frog2.mp3');
+		this.load.audio('grunt', 'assets/audio/grunt.mp3');
+		this.load.audio('step', 'assets/audio/step.mp3');
+		this.load.audio('synth', 'assets/audio/synth.mp3');
+		this.load.audio('rabble', 'assets/audio/rabble.mp3');
+		this.load.audio('order', 'assets/audio/order.mp3');
+		this.load.audio('toot', 'assets/audio/toot.mp3');
+	};
 
 
-	createBackgrounds.call(this);
- 	buildPlots.call(this);
-	initKeys.call(this);
-
-	//keypresses
-	// this.mKey.addListener(, toggleMarket);
+	//Create
+	create() {
 
 
-	// var platforms = this.physics.add.staticGroup();
-	// platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
-	// groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
-	//this.bg.setScrollFactor(0);
-	
+		createBackgrounds.call(this);
+		buildPlots.call(this);
+		initKeys.call(this);
 
-	createPlayer.call(this);
-	createPlayerAnimation.call(this);
+		//keypresses
+		// this.mKey.addListener(, toggleMarket);
 
 
-	// this.physics.add.collider(this.player, platforms);
-	// this.physics.add.collider(this.player, this.ground);
-	this.physics.add.overlap(this.player, this.plotGroup, plotMenuDisplay, downIsDown, this);
-	this.physics.add.overlap(this.player, this.home, homeOverTest);
-	
+		// var platforms = this.physics.add.staticGroup();
+		// platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
+		// groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
+		//this.bg.setScrollFactor(0);
 
 
-	this.physics.world.bounds.width = 6000;
-	this.physics.world.bounds.height = 710;
-	this.cameras.main.setBounds(0, 0, 6000, 720);
-	this.cameras.main.startFollow(this.player);
-
-	this.cursors = this.input.keyboard.createCursorKeys();
+		createPlayer.call(this);
+		createPlayerAnimation.call(this);
 
 
-	this.music = this.sound.add('synth');
+		// this.physics.add.collider(this.player, platforms);
+		// this.physics.add.collider(this.player, this.ground);
+		this.physics.add.overlap(this.player, this.plotGroup, plotMenuDisplay, downIsDown, this);
+		this.physics.add.overlap(this.player, this.home, homeOverTest);
+
+
+
+		this.physics.world.bounds.width = 6000;
+		this.physics.world.bounds.height = 710;
+		this.cameras.main.setBounds(0, 0, 6000, 720);
+		this.cameras.main.startFollow(this.player);
+
+		this.cursors = this.input.keyboard.createCursorKeys();
+
+
+		this.music = this.sound.add('synth');
 		this.anvil = this.sound.add('anvil');
 		this.boo = this.sound.add('boo');
 		this.hammer = this.sound.add('hammer');
@@ -508,12 +510,13 @@ create() {
 		this.step = this.sound.add('step');
 		this.rabble = this.sound.add('rabble');
 		this.order = this.sound.add('order');
+		this.toot = this.sound.add('toot');
 
 		this.music.loop = true;
 		this.music.play();
 
 
-		
+
 		var FKey = this.input.keyboard.addKey('F');
 
 		FKey.on('down', function () {
@@ -531,23 +534,23 @@ create() {
 	};
 
 
-update(time, theta) {
-	updateBackground.call(this);
-	updatePlayerUi.call(this);
-	updateUi.call(this);
-	if(Phaser.Input.Keyboard.JustDown(this.mKey)){
-		toggleMarket.call(this);
-	}
-	if(Phaser.Input.Keyboard.JustDown(this.vKey)){
-		toggleVote.call(this);
-	}
+	update(time, theta) {
+		updateBackground.call(this);
+		updatePlayerUi.call(this);
+		updateUi.call(this);
+		if(Phaser.Input.Keyboard.JustDown(this.mKey)){
+			toggleMarket.call(this);
+		}
+		if(Phaser.Input.Keyboard.JustDown(this.vKey)){
+			toggleVote.call(this);
+		}
 
-	if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
-	{	
-		setVisible(this.buildMenu, false);	
-	}
-	updatePlots.call(this);
-};
+		if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
+		{
+			setVisible(this.buildMenu, false);
+		}
+		updatePlots.call(this);
+	};
 
 };
 
