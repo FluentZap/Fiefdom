@@ -39,35 +39,36 @@ function createBackgrounds() {
 
 	//build menu group
 	this.foodIcon = this.add.image(0,0, 'foodIcon').setDisplaySize(100,100).setVisible(false);
-	this.foodIcon.Id = "Farm";
+	this.foodIcon.Id = "BuildSelect Farm";
 	this.woodIcon = this.add.image(0,0, 'woodIcon').setDisplaySize(100,100).setVisible(false);
-	this.woodIcon.Id = "WoodCutter";
+	this.woodIcon.Id = "BuildSelect WoodCutter";
 	this.stoneIcon = this.add.image(0,0, 'stoneIcon').setDisplaySize(100,100).setVisible(false);
-	this.stoneIcon.Id = "Quarry";
+	this.stoneIcon.Id = "BuildSelect Quarry";
 	this.barracksIcon = this.add.image(0,0, 'barracksIcon').setDisplaySize(100,100).setVisible(false);
-	this.barracksIcon.Id = "Barracks";
+	this.barracksIcon.Id = "BuildSelect Barracks";
 	this.innIcon = this.add.image(0,0, 'innIcon').setDisplaySize(100,100).setVisible(false);
-	this.innIcon.Id = "Inn";
+	this.innIcon.Id = "BuildSelect Inn";
 	this.goldIcon = this.add.image(0,0, 'goldIcon').setDisplaySize(100,100).setVisible(false);
-	this.goldIcon.Id = "Gold";	
+	this.goldIcon.Id = "BuildSelect Gold";	
 	this.buildMenu = [this.foodIcon, this.woodIcon, this.stoneIcon, this.barracksIcon, this.innIcon, this.goldIcon];
 
 	//confirm menu group
-	this.confirmIcon= this.add.image(0,0, 'upgradeIcon').setDisplaySize(100,100).setVisible(false);
+	this.confirmIcon = this.add.image(0,0, 'upgradeIcon').setDisplaySize(100,100).setVisible(false);
 	this.confirmName = this.add.text(0, 0, 'Building Name:').setVisible(false);
 	this.confirmCost = this.add.text(0,0, ' Cost').setVisible(false);
 	this.confirmGroup = [this.confirmIcon, this.confirmName, this.confirmCost];
 
 	this.buildMenu.forEach((item) =>{
 		item.setInteractive().on('pointerdown', (id) => {
-			console.log("in the function");
-			displayConfirmMenu(this.selectedPlot, item.id);
-			// BuildPlot(this.selectedPlot, item.Id)
-			console.log("Done");		
-			// setVisible(this.buildMenu, false);
-			UpdateFiefdom();
+			handleClick.call(this, item.Id)
 		});
 	})
+
+	//setVisible(this.confirmGroup, true).call(this);
+	this.confirmIcon.setInteractive().on('pointerdown',(item) =>{
+		handleClick.call(this, "Build")
+
+	});
 
 	this.gold = this.add.text(40, 40, "Fiefdom", {
 		//alagard.ttf
@@ -80,6 +81,39 @@ function createBackgrounds() {
 
 	this.marketMenu = this.add.group([this.marketBackground, this.gold, this.buttonLeft, this.buttonRight]);
 };
+
+
+
+function handleClick(id)
+{
+	var type = id.split(' ');
+
+	if (type[0] == "BuildSelect")
+	{
+		setVisible(this.confirmGroup, true);
+		this.buildItem = type[1];
+		this.confirmName.setText(type[1]);
+		this.confirmCost.setText(100);
+	}
+
+	if (type[0] == "Build")
+	{
+		console.log(this.selectedPlot, this.buildItem);
+		BuildPlot(this.selectedPlot, this.buildItem);
+		setVisible(this.confirmGroup, false);
+		setVisible(this.buildMenu, false);
+	}
+
+
+			// BuildPlot(this.selectedPlot, id);
+		// setVisible(this.confirmGroup, false);
+
+			// displayConfirmMenu(this.selectedPlot, item.id);
+			// // BuildPlot(this.selectedPlot, item.Id)
+			// console.log("Done");		
+			// // setVisible(this.buildMenu, false);
+			// UpdateFiefdom();
+}
 
 function build(id){
 	console.log(id);
@@ -244,22 +278,18 @@ function plotMenuDisplay(player, plot){
 function buildConfirmMenu(plot, confirmGroup){
 
 	confirmGroup[1].x = plot.x -120;
-	confirmGroup[1].y = plot.y -350;
+	confirmGroup[1].y = plot.y -400;
 
 	confirmGroup[2].x = plot.x;
-	confirmGroup[2].y= plot.y -350;
+	confirmGroup[2].y= plot.y -400;
 
-	confirmGroup[0].x= plot.x + 120;
-	confirmGroup[0].y= plot.y -350;
+	confirmGroup[0].x= plot.x + 180;
+	confirmGroup[0].y= plot.y -400;
 
 }
 
 function displayConfirmMenu(player, plot) {
-	setVisible(this.confirmGroup, true).call(this);
-	this.confirmIcon.setInteractive.on('pointerdown',(id) =>{
-		BuildPlot(this.selectedPlot, id);
-		setVisible(this.confirmGroup, false);
-	});
+	
 	
 }
 
