@@ -10,6 +10,7 @@ namespace Fiefdom
     public static class FiefdomActions
     {
 
+
         public static void UnlockPlot(Fief fief)
         {
             int theta = 0;
@@ -35,13 +36,7 @@ namespace Fiefdom
                 fief.FiefdomResources.Add(new FiefdomResources { Type = "Gold", Quantity = 200 });
                 fief.FiefdomResources.Add(new FiefdomResources { Type = "Wood", Quantity = 10 });
                 fief.FiefdomResources.Add(new FiefdomResources { Type = "Stone", Quantity = 10 });
-                fief.FiefdomResources.Add(new FiefdomResources { Type = "Food", Quantity = 10 });
-                if (db.Market.ToList().Count == 0)
-                {
-                    db.Market.Add(new Market { Type = "Wood", Price = 10 });
-                    db.Market.Add(new Market { Type = "Food", Price = 10 });
-                    db.Market.Add(new Market { Type = "Stone", Price = 10 });
-                }
+                fief.FiefdomResources.Add(new FiefdomResources { Type = "Food", Quantity = 10 });                
                 for (int i = 0; i < 10; i++)
                 {
                     fief.FiefdomPlot.Add(new FiefdomPlot { Type = "Locked" });

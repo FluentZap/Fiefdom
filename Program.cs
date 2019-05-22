@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Fiefdom;
+using Fiefdom.Context;
 
 namespace Fiefdom
 {
@@ -15,10 +16,10 @@ namespace Fiefdom
 	{
 		public static void Main(string[] args)
 		{
-			var host = CreateWebHostBuilder(args).Build();
-			ServerUpdate update = new ServerUpdate();
+			var host = CreateWebHostBuilder(args).Build();			
+			NewGameInstance();
 			host.Run();
-		}		
+		}
 
 		public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
 			WebHost.CreateDefaultBuilder(args)
@@ -28,5 +29,25 @@ namespace Fiefdom
 			})
 			.UseUrls("http://0.0.0.0:5000")
 			.UseStartup<Startup>();
+
+
+		public static void NewGameInstance()
+		{
+			using (var db = new FiefContext())
+			{
+				if (db.GameState.FirstOrDefault() == null)
+				{
+					db.GameState.Add(new GameState { Day = 1, Season = 1, Year = 1 });
+				}
+
+				if (db.Market.ToList().Count == 0)
+				{
+					db.Market.Add(new Market { Type = "Wood", Price = 10 });
+					db.Market.Add(new Market { Type = "Food", Price = 10 });
+					db.Market.Add(new Market { Type = "Stone", Price = 10 });
+				}
+				db.SaveChanges();
+			}
+		}
 	}
 }

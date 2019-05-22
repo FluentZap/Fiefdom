@@ -22,6 +22,8 @@ function createBackgrounds() {
 	this.bg5.setDisplaySize(game.config.width, game.config.height);
 	this.bg5.setScale(ratio);
 	
+	this.castle = this.add.tileSprite(2000, 164, 560, 556, 'castle').setOrigin(0, 0);
+
 	this.marketBackground = this.add.tileSprite(0, 0, 821, 507, 'marketBorder').setOrigin(0, 0).setScrollFactor(0);
 	this.buttonRight = this.add.image(400,400,'arrow').setOrigin(0,0).setScrollFactor(0);
 	this.buttonRight.setInteractive().on('pointerdown', buy);
@@ -58,15 +60,30 @@ function createBackgrounds() {
 
 	
 
-	this.gold = this.add.text(40, 40, "Fiefdom", {
-		//alagard.ttf
+	this.gold = this.add.text(40, 40, "Fiefdom", {		
 		font: "40px Alagard",
-		fill: "#ff0044",
+		fill: "#000000",
 		align: "center"
-	});
-	this.gold.setScrollFactor(0);
+	}).setScrollFactor(0);
+	this.food = this.add.text(40, 70, "Fiefdom", {
+		font: "40px Alagard",
+		fill: "#000000",
+		align: "center"
+	}).setScrollFactor(0);
+	this.wood = this.add.text(40, 100, "Fiefdom", {
+		font: "40px Alagard",
+		fill: "#000000",
+		align: "center"
+	}).setScrollFactor(0);
+	this.stone = this.add.text(40, 130, "Fiefdom", {
+		font: "40px Alagard",
+		fill: "#000000",
+		align: "center"
+	}).setScrollFactor(0);	
 
+	this.date = this.add.text(40, 0, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0);
 
+	
 	this.marketMenu = this.add.group([this.marketBackground, this.gold, this.buttonLeft, this.buttonRight]);
 };
 
@@ -150,20 +167,20 @@ function updatePlayerUi() {
 	let moving = false;
 	if (cursors.up.isDown && onGround) {
 		player.setVelocityY(-330);
-		BuildPlot(6,'Farm')
-		UpdateFiefdom();
-		console.log(fief.plots);
-		console.log(fief.resources);
-		console.log("Title is " + fief.title);
+		//BuildPlot(6,'Farm')
+		//UpdateFiefdom();
+		//console.log(fief.plots);
+		//console.log(fief.resources);
+		//console.log("Title is " + fief.title);
 	}
 
 	if (cursors.left.isDown) {
-		player.setVelocityX(-200); // move left
+		player.setVelocityX(-400); // move left
 		moving = true;
 		player.flipX = true;
 	}
 	else if (cursors.right.isDown) {
-		player.setVelocityX(200);
+		player.setVelocityX(400);
 		moving = true;
 		player.flipX = false;
 	} else {
@@ -181,6 +198,10 @@ function updatePlayerUi() {
 
 function updateUi() {
 	this.gold.setText("Gold " + fief.resources.Gold);
+	this.food.setText("Food " + fief.resources.Food);
+	this.wood.setText("Wood " + fief.resources.Wood);
+	this.stone.setText("Stone " + fief.resources.Stone);
+	this.date.setText("Day " + fief.gameState.day + "  Season " + fief.gameState.season + "  Year " + fief.gameState.year);
 }
 
 
@@ -265,7 +286,7 @@ preload() {
 	this.load.image('bg4', 'assets/plx-4.png');
 	this.load.image('bg5', 'assets/plx-5.png');
 	this.load.image('marketBorder', 'assets/marketWindow.png');
-
+	this.load.image('castle', 'assets/castle.png');
 	//Sprite Sheets
 
 

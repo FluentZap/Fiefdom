@@ -41,6 +41,7 @@ namespace Fiefdom
             });
 
             services.AddSignalR();
+			services.AddHostedService<ServerUpdate>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
