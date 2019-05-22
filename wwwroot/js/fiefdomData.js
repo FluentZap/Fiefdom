@@ -25,6 +25,7 @@ $(function () {
 
 
 function SubmitVote(ballot, vote) {
+	console.log(ballot);
 	connection.invoke("SubmitVote", ballot, vote).catch(function (err) {
 		return console.error(err.toString());
 	});

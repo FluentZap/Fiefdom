@@ -41,7 +41,6 @@ namespace Fiefdom
 				if (gameState.Day >= 3)
 				{
 					ProcessVotes();
-					
 					gameState.Day = 1;
 					gameState.Season += 1;
 				}
@@ -78,6 +77,7 @@ namespace Fiefdom
 			}
 
 			FiefdomActions.Ballots.Clear();
+			FiefdomActions.ClearVote();
 			FiefdomActions.Ballots.Add(FiefdomActions.CreateVote());
 			FiefdomActions.Ballots.Add(FiefdomActions.CreateVote());
 			FiefdomActions.Ballots.Add(FiefdomActions.CreateVote());
