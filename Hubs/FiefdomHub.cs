@@ -15,15 +15,8 @@ namespace Fiefdom.Hubs
 
 		public static IHubCallerClients HubContext;
 		
-		public FiefdomHub ()
-		{
-			HubContext = Clients;
-		}
-
-
 		public override Task OnConnectedAsync()
         {
-			HubContext = Clients;
 			FiefdomUpdate.ConnectedUsers.Add(Context.ConnectionId);			
             return base.OnConnectedAsync();
         }
@@ -35,18 +28,6 @@ namespace Fiefdom.Hubs
 				FiefdomUpdate.ConnectedUsers.Remove(Context.ConnectionId);
 			}
 			await base.OnDisconnectedAsync(exception);
-		}
-
-		public async Task UpdateClients()
-		{					
-			foreach (string client in FiefdomUpdate.ConnectedUsers)
-			{
-				Fief fief = FiefdomActions.GetFiefdomBySessionId(client);
-				if (fief != null)
-				{
-					await Clients.Client(client).SendAsync("RecieveFiefdomData", fief.FiefdomPlot, fief.FiefdomResources, fief.Title);
-				}
-			}
 		}
 
 		public async Task RequestFiefdomData()
@@ -62,8 +43,9 @@ namespace Fiefdom.Hubs
 				fief = db.Fiefdom.Where(f => f.SessionId == Context.ConnectionId).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
 			}			
             if (fief != null)
-            {
-				await Clients.Caller.SendAsync("RecieveFiefdomData", fief, gameState, market);				
+            {				
+				await Clients.Caller.SendAsync("RecieveFiefdomData", fief, gameState, market, 
+						new GameValues { Ballots = FiefdomActions.Ballots, Edicts = FiefdomActions.Edicts, MarketTax = FiefdomActions.MarketTax });		
             }
             else
             {				
@@ -83,6 +65,11 @@ namespace Fiefdom.Hubs
                 FiefdomActions.CreateNewFiefdom(name, Context.ConnectionId);
             }
             await Clients.All.SendAsync("ServerMessage", name + " joined the session");
+        }
+
+		public async Task SubmitVote(int ballot, string vote)
+        {
+            FiefdomActions.SubmitVote(Context.ConnectionId, ballot, vote);
         }
 
         public async Task BuyResource(string type, int quantity)

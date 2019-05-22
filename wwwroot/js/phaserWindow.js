@@ -60,28 +60,38 @@ function createBackgrounds() {
 
 	
 
-	this.gold = this.add.text(40, 40, "Fiefdom", {		
+	this.gold = this.add.text(40, 60, "Fiefdom", {		
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.food = this.add.text(40, 70, "Fiefdom", {
+	this.food = this.add.text(40, 95, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.wood = this.add.text(40, 100, "Fiefdom", {
+	this.wood = this.add.text(40, 130, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.stone = this.add.text(40, 130, "Fiefdom", {
+	this.stone = this.add.text(40, 165, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
-	}).setScrollFactor(0);	
+	}).setScrollFactor(0);
+	this.ballots = this.add.text(40, 190, "Fiefdom", {
+		font: "40px Alagard",
+		fill: "#000000",
+		align: "center"
+	}).setScrollFactor(0);
+	this.edicts = this.add.text(40, 310, "Fiefdom", {
+		font: "40px Alagard",
+		fill: "#000000",
+		align: "center"
+	}).setScrollFactor(0);		
 
-	this.date = this.add.text(40, 0, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0);
+	this.date = this.add.text(40, 20, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0);
 
 	
 	this.marketMenu = this.add.group([this.marketBackground, this.gold, this.buttonLeft, this.buttonRight]);
@@ -202,6 +212,9 @@ function updateUi() {
 	this.wood.setText("Wood " + fief.resources.Wood);
 	this.stone.setText("Stone " + fief.resources.Stone);
 	this.date.setText("Day " + fief.gameState.day + "  Season " + fief.gameState.season + "  Year " + fief.gameState.year);
+	//parse Text
+	this.ballots.setText(fief.ballots[0] + fief.ballots[1] + fief.ballots[2]);
+	//this.edicts.setText(fief.edicts[0].type + fief.edicts[1].type + fief.edicts[2].type);
 }
 
 

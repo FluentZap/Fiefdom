@@ -38,8 +38,10 @@ namespace Fiefdom
 				var gameState = db.GameState.FirstOrDefault();
 
 				gameState.Day++;
-				if (gameState.Day >= 200)
+				if (gameState.Day >= 3)
 				{
+					ProcessVotes();
+					
 					gameState.Day = 1;
 					gameState.Season += 1;
 				}
@@ -51,6 +53,36 @@ namespace Fiefdom
 				db.SaveChanges();
 				UpdateClients();
 			}
+		}
+
+
+		public void ProcessVotes()
+		{			
+			FiefdomActions.Edicts.Clear();
+			// Random rnd = new Random();
+			List<bool> votes = FiefdomActions.CountVotes();
+			for(int i = 0; i < FiefdomActions.Ballots.Count; i++)
+			{	
+				string edict = FiefdomActions.Ballots[i];
+				if(votes[i])
+				{
+					String[] splitted = edict.Split();
+					if(splitted[0] == "Market" || splitted[0] == "Levy")
+					{
+						FiefdomActions.Edicts.Add(new Edict{Type = splitted[1], Amount = splitted[2]});
+					}
+					//immediate reduction
+					if(splitted[0] == "Tax")
+					{
+						FiefdomActions.MarketTax = int.Parse(splitted[1]);
+					}
+				}
+			}
+
+			FiefdomActions.Ballots.Clear();
+			FiefdomActions.Ballots.Add(FiefdomActions.CreateVote());
+			FiefdomActions.Ballots.Add(FiefdomActions.CreateVote());
+			FiefdomActions.Ballots.Add(FiefdomActions.CreateVote());
 		}
 
 
@@ -69,7 +101,8 @@ namespace Fiefdom
 					fief = db.Fiefdom.Where(f => f.SessionId == client).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
 					if (fief != null)
 					{
-						await _hubContext.Clients.Client(client).SendAsync("RecieveFiefdomData", fief, gameState, market);
+						await _hubContext.Clients.Client(client).SendAsync("RecieveFiefdomData", fief, gameState, market, 
+						new GameValues { Ballots = FiefdomActions.Ballots, Edicts = FiefdomActions.Edicts, MarketTax = FiefdomActions.MarketTax });
 					}
 				}
 			}
