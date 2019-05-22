@@ -24,7 +24,7 @@ namespace Fiefdom.Context
 		public int Id { get; set; }
 		public int Day { get; set; }
 		public int Season { get; set; }
-		public int Year { get; set; }
+		public int Year { get; set; }		
 	}
 
 	public class Market
@@ -40,7 +40,10 @@ namespace Fiefdom.Context
 		public int Id { get; set; }
 		public string Name { get; set; }
 		public string SessionId { get; set; }
-		public int Title { get; set; } 
+		public int Title { get; set; }
+		public string Ballot1 { get; set; }
+		public string Ballot2 { get; set; }
+		public string Ballot3 { get; set; }
 		public List<FiefdomResources> FiefdomResources { get; set; } = new List<FiefdomResources>();
 		public List<FiefdomPlot> FiefdomPlot { get; set; } = new List<FiefdomPlot>();
 	}

@@ -7,6 +7,9 @@ fief.plots = [];
 fief.resources = {};
 fief.gameState = {};
 fief.market = {};
+fief.ballots = [];
+fief.tax = 0;
+fief.edicts = [{type: "Empty", Amount: 0},{type: "Empty", Amount: 0},{type: "Empty", Amount: 0}];
 
 
 var initialStart = false;
@@ -19,6 +22,13 @@ $(function () {
 		UpdateFiefdom();
 	});
 });
+
+
+function SubmitVote(ballot, vote) {
+	connection.invoke("SubmitVote", ballot, vote).catch(function (err) {
+		return console.error(err.toString());
+	});
+};
 
 function UserLogin() {
 	connection.invoke("UserLogin", userName).catch(function (err) {
@@ -64,7 +74,7 @@ function SellResource(type, quantity) {
   });
 };
 
-connection.on("RecieveFiefdomData", function (plots, gameState, market) {
+connection.on("RecieveFiefdomData", function (plots, gameState, market, gameValues) {
 	
 	if (plots == null) {
 		window.location.href = "/";
@@ -87,9 +97,38 @@ connection.on("RecieveFiefdomData", function (plots, gameState, market) {
 		fief.resources[p.type] = p.quantity;
 	});
 
+	fief.ballots = [];
+	if(gameValues.ballots != null){
+		gameValues.ballots.forEach(function (p) {
+			var format = '';
+		psplit = p.split(' ');
+		if(psplit[0] == "Tax"){
+			format = "Market Tax of " + psplit[1] + "%\n";
+		}else if (psplit[0] == "Levy") {
+			format = psplit[0] + " " + psplit[2] + "%  of " + psplit[1] + "\n";
+		}else{
+			format = "Reduce value of " + psplit[1] + " by " + psplit[2] + " %\n";
+		}
+		fief.ballots.push(format);
+	});
+}else{
+	fief.ballots.push("Empty");
+	fief.ballots.push("Empty");
+	fief.ballots.push("Empty");
+}
+fief.tax = gameValues.markettax;
 
-
-
+fief.edicts = [];
+	if(gameValues.edicts != null){
+		gameValues.edicts.forEach(function (p) {		
+		fief.edicts.push(p);
+	});
+}else{
+	fief.edicts.push({type: "Empty", Amount: 0});
+	fief.edicts.push({type: "Empty", Amount: 0});
+	fief.edicts.push({type: "Empty", Amount: 0});
+}
+console.log(fief.edicts);
 	if (initialStart === false)
 	{
 		game.scene.run('scene');

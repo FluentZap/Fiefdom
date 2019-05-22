@@ -21,6 +21,12 @@ namespace Fiefdom.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Ballot1");
+
+                    b.Property<string>("Ballot2");
+
+                    b.Property<string>("Ballot3");
+
                     b.Property<string>("Name");
 
                     b.Property<string>("SessionId");
@@ -71,17 +77,11 @@ namespace Fiefdom.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("Day")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1);
+                    b.Property<int>("Day");
 
-                    b.Property<int>("Season")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(1);
+                    b.Property<int>("Season");
 
-                    b.Property<int>("Year")
-                        .ValueGeneratedOnAdd()
-                        .HasDefaultValue(800);
+                    b.Property<int>("Year");
 
                     b.HasKey("Id");
 
