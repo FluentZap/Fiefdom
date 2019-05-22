@@ -121,7 +121,7 @@ fief.tax = gameValues.markettax;
 fief.edicts = [];
 	if(gameValues.edicts != null){
 		gameValues.edicts.forEach(function (p) {
-			console.log(p);
+		console.log(p);
 		fief.edicts.push(p);
 	});
 }else{

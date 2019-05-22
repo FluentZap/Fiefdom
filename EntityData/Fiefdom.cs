@@ -96,6 +96,16 @@ namespace Fiefdom
             }
         }
 
+        // public static int GetMarketTaxRate(){
+        //     int tax = 0;
+        //     foreach(Edict edict in FiefdomActions.Edicts)
+        //     {
+        //         if(edict.Type == Market)
+        //     }
+
+        //     return tax;
+        // }
+
         public static void BuyTitle(string sessionId)
         {
             using (var db = new FiefContext())
