@@ -129,6 +129,7 @@ function createPlayerAnimation() {
 function buildPlots(){
 	var plotGroup = this.physics.add.staticGroup();
 	this.plotGroup = plotGroup;
+	this.plotGroup.sfx = {}
 	var x = 0;
 	var y = 710;
 	var imgKey = "log";
@@ -167,6 +168,7 @@ function updatePlayerUi() {
 	let moving = false;
 	if (cursors.up.isDown && onGround) {
 		player.setVelocityY(-330);
+		this.grunt.play();
 		//BuildPlot(6,'Farm')
 		//UpdateFiefdom();
 		//console.log(fief.plots);
@@ -179,11 +181,14 @@ function updatePlayerUi() {
 		moving = true;
 		player.flipX = true;
 	}
+
 	else if (cursors.right.isDown) {
 		player.setVelocityX(400);
 		moving = true;
 		player.flipX = false;
-	} else {
+	}
+
+	else {
 		player.setVelocityX(0);
 	}
 
@@ -258,8 +263,10 @@ function updatePlots(){
 	{
 		switch(fief.plots[i]){
 			case "Empty": this.plots[i].setTexture('log').refreshBody();
+			// this.hammer.play();
 			break;
 			case "Farm": this.plots[i].setTexture('mill').refreshBody();
+			this.hammer.play();
 			break;
 			case "Locked": this.plots[i].setTexture('log').refreshBody();
 			break;
@@ -292,28 +299,26 @@ class Fiefdom extends Phaser.Scene {
 		this.load.spritesheet('character', 'assets/adventurer-Sheet.png', { frameWidth: 50, frameHeight: 37 });
 
 		// Music
-		// this.load.audio('chip', 'assets/audio/8bit.mp3');
-		// this.load.audio('court', 'assets/audio/court.mp3');
 		this.load.audio('synth', 'assets/audio/synth.mp3');
-
+		//
+		// // Sounds
 		this.load.audio('anvil', 'assets/audio/anvil.mp3');
 		this.load.audio('boo', 'assets/audio/boo.mp3');
-		this.load.audio('build', 'assets/audio/build.mp3');
+		this.load.audio('hammer', 'assets/audio/build.mp3');
 		this.load.audio('chaching', 'assets/audio/chaching.mp3');
 		this.load.audio('cheers', 'assets/audio/cheers.mp3');
 		this.load.audio('coins', 'assets/audio/coins.mp3');
 		this.load.audio('frog', 'assets/audio/frog.mp3');
 		this.load.audio('frog2', 'assets/audio/frog2.mp3');
+		this.load.audio('grunt', 'assets/audio/grunt.mp3');
 		this.load.audio('step', 'assets/audio/step.mp3');
 		this.load.audio('synth', 'assets/audio/synth.mp3');
 		this.load.audio('rabble', 'assets/audio/rabble.mp3');
-		// judge 'Order'
-		// crowd sounds
+		this.load.audio('order', 'assets/audio/order.mp3');
 	};
 
 	//Create
 	create() {
-
 
 		createBackgrounds.call(this);
 		buildPlots.call(this);
@@ -328,12 +333,25 @@ class Fiefdom extends Phaser.Scene {
 
 		//this.bg.setScrollFactor(0);
 
-		var music = this.sound.add('synth');
-		music.loop = true;
-		music.play();
+		this.music = this.sound.add('synth');
+		this.anvil = this.sound.add('anvil');
+		this.boo = this.sound.add('boo');
+		this.hammer = this.sound.add('hammer');
+		this.chaching = this.sound.add('chaching');
+		this.coins = this.sound.add('coins');
+		this.frog = this.sound.add('frog');
+		this.frog2 = this.sound.add('frog2');
+		this.grunt = this.sound.add('grunt');
+		this.step = this.sound.add('step');
+		this.rabble = this.sound.add('rabble');
+		this.order = this.sound.add('order');
+
+		this.music.loop = true;
+		// this.music.play();
 
 		createPlayer.call(this);
 		createPlayerAnimation.call(this);
+
 
 		this.physics.add.collider(this.player, platforms);
 		this.physics.add.overlap(this.player, this.plotGroup, plotMenuDisplay, downIsDown, this);
@@ -342,6 +360,8 @@ class Fiefdom extends Phaser.Scene {
 		//this.physics.world.bounds.height = 800;
 		this.cameras.main.setBounds(0, 0, 4000, 720);
 		this.cameras.main.startFollow(this.player);
+
+		// this.footstep = false;
 
 		this.cursors = this.input.keyboard.createCursorKeys();
 		var FKey = this.input.keyboard.addKey('F');
@@ -367,12 +387,8 @@ class Fiefdom extends Phaser.Scene {
 		if(Phaser.Input.Keyboard.JustDown(this.mKey)){
 			toggleMarket.call(this);
 		}
-
-		if (this.player.x > this.farmIcon.x + 100 || this.player.x < this.farmIcon.x - 100)
-		{
-			setVisible(this.buildMenu, false);
-		}
 		updatePlots.call(this);
+
 	};
 
 };

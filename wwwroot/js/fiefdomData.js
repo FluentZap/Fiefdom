@@ -65,7 +65,7 @@ function SellResource(type, quantity) {
 };
 
 connection.on("RecieveFiefdomData", function (plots, gameState, market) {
-	
+
 	if (plots == null) {
 		window.location.href = "/";
 	}
