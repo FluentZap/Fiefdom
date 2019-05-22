@@ -10,7 +10,7 @@ function createBackgrounds() {
 	this.bg3 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg3').setOrigin(0, 0).setScrollFactor(0);
 	this.bg4 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg4').setOrigin(0, 0).setScrollFactor(0);
 	this.bg5 = this.add.tileSprite(0, 0, game.config.width, game.config.height, 'bg5').setOrigin(0, 0).setScrollFactor(0);
-	
+
 	this.bg1.setDisplaySize(game.config.width, game.config.height);
 	this.bg1.setScale(ratio);
 	this.bg2.setDisplaySize(game.config.width, game.config.height);
@@ -21,7 +21,7 @@ function createBackgrounds() {
 	this.bg4.setScale(ratio);
 	this.bg5.setDisplaySize(game.config.width, game.config.height);
 	this.bg5.setScale(ratio);
-	
+
 	this.castle = this.add.tileSprite(2000, 164, 560, 556, 'castle').setOrigin(0, 0);
 
 	this.marketBackground = this.add.tileSprite(0, 0, 821, 507, 'marketBorder').setOrigin(0, 0).setScrollFactor(0);
@@ -104,7 +104,7 @@ function createBackgrounds() {
 
 	this.date = this.add.text(40, 20, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0);
 
-	
+
 	this.marketMenu = this.add.group([this.marketBackground, this.gold, this.buttonLeft, this.buttonRight]);
 };
 
@@ -183,6 +183,7 @@ function createPlayerAnimation() {
 function buildPlots(){
 	var plotGroup = this.physics.add.staticGroup();
 	this.plotGroup = plotGroup;
+	this.plotGroup.sfx = {}
 	var x = 0;
 	var y = 690;
 	var imgKey = "log";
@@ -224,6 +225,7 @@ function updatePlayerUi() {
 	let moving = false;
 	if (cursors.up.isDown && onGround) {
 		player.setVelocityY(-330);
+		this.grunt.play();
 		//BuildPlot(6,'Farm')
 		//UpdateFiefdom();
 		//console.log(fief.plots);
@@ -236,11 +238,14 @@ function updatePlayerUi() {
 		moving = true;
 		player.flipX = true;
 	}
+
 	else if (cursors.right.isDown) {
 		player.setVelocityX(400);
 		moving = true;
 		player.flipX = false;
-	} else {
+	}
+
+	else {
 		player.setVelocityX(0);
 	}
 
@@ -276,7 +281,7 @@ function initKeys(){
 }
 
 function downIsDown(){
-		if(Phaser.Input.Keyboard.JustDown(this.downKey)){
+	if(Phaser.Input.Keyboard.JustDown(this.downKey)){
 		return true;
 	}
 	return false;
@@ -349,11 +354,13 @@ function updatePlots(){
 	{
 		switch(fief.plots[i]){
 			case "Empty": this.plots[i].setTexture('log').refreshBody();
-				break;
+			// this.hammer.play();
+			break;
 			case "Farm": this.plots[i].setTexture('mill').refreshBody();
-				break;
+			this.hammer.play();
+			break;
 			case "Locked": this.plots[i].setTexture('log').refreshBody();
-				break;
+			break;
 			// case "Home": this.plots[i].setTexture('home').setDisplaySize(350,250).refreshBody();
 			// 	break;
 		}
@@ -407,7 +414,27 @@ preload() {
 
 
 	this.load.spritesheet('character', 'assets/adventurer-Sheet.png', { frameWidth: 50, frameHeight: 37 });
+
+
+	// Music
+	this.load.audio('synth', 'assets/audio/synth.mp3');
+	//
+	// // Sounds
+	this.load.audio('anvil', 'assets/audio/anvil.mp3');
+	this.load.audio('boo', 'assets/audio/boo.mp3');
+	this.load.audio('hammer', 'assets/audio/build.mp3');
+	this.load.audio('chaching', 'assets/audio/chaching.mp3');
+	this.load.audio('cheers', 'assets/audio/cheers.mp3');
+	this.load.audio('coins', 'assets/audio/coins.mp3');
+	this.load.audio('frog', 'assets/audio/frog.mp3');
+	this.load.audio('frog2', 'assets/audio/frog2.mp3');
+	this.load.audio('grunt', 'assets/audio/grunt.mp3');
+	this.load.audio('step', 'assets/audio/step.mp3');
+	this.load.audio('synth', 'assets/audio/synth.mp3');
+	this.load.audio('rabble', 'assets/audio/rabble.mp3');
+	this.load.audio('order', 'assets/audio/order.mp3');
 };
+
 
 //Create
 create() {
@@ -444,38 +471,59 @@ create() {
 	this.cameras.main.startFollow(this.player);
 
 	this.cursors = this.input.keyboard.createCursorKeys();
-	var FKey = this.input.keyboard.addKey('F');
 
-	FKey.on('down', function () {
 
-		if (this.scale.isFullscreen) {
-			//button.setFrame(0);
-			this.scale.stopFullscreen();
+	this.music = this.sound.add('synth');
+		this.anvil = this.sound.add('anvil');
+		this.boo = this.sound.add('boo');
+		this.hammer = this.sound.add('hammer');
+		this.chaching = this.sound.add('chaching');
+		this.coins = this.sound.add('coins');
+		this.frog = this.sound.add('frog');
+		this.frog2 = this.sound.add('frog2');
+		this.grunt = this.sound.add('grunt');
+		this.step = this.sound.add('step');
+		this.rabble = this.sound.add('rabble');
+		this.order = this.sound.add('order');
+
+		this.music.loop = true;
+		this.music.play();
+
+
+		
+		var FKey = this.input.keyboard.addKey('F');
+
+		FKey.on('down', function () {
+
+			if (this.scale.isFullscreen) {
+				//button.setFrame(0);
+				this.scale.stopFullscreen();
+			}
+			else {
+				//button.setFrame(1);
+				this.scale.startFullscreen();
+			}
+		}, this);
+
+	};
+
+	update(time, theta) {
+		updateBackground.call(this);
+		updatePlayerUi.call(this);
+		updateUi.call(this);
+		if(Phaser.Input.Keyboard.JustDown(this.mKey)){
+			toggleMarket.call(this);
 		}
-		else {
-			//button.setFrame(1);
-			this.scale.startFullscreen();
+		updatePlots.call(this);
+
+		if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
+		{	
+			setVisible(this.buildMenu, false);	
 		}
-	}, this);
-
+		updatePlots.call(this);
 };
 
-update(time, theta) {
-	updateBackground.call(this);
-	updatePlayerUi.call(this);
-	updateUi.call(this);
-	if(Phaser.Input.Keyboard.JustDown(this.mKey)){
-		toggleMarket.call(this);
-	}
-
-	if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
-	{	
-		setVisible(this.buildMenu, false);	
-	}
-	updatePlots.call(this);
-};
-
-};
+}
 
 var config = {
 	type: Phaser.AUTO,
