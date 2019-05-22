@@ -70,14 +70,14 @@ function createBackgrounds() {
 	this.voteNo3 = this.add.image(900, 250, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 	// this.voteYes2 = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 	// this.voteNo2 = this.add.image(900, 270, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	
+
 	// this.voteYes3 = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 	// this.voteNo3 = this.add.image(900, 270, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	
+
 	this.voteGroup = this.add.group([this.voteBG, this.voteText, this.voteYes1, this.voteNo1,this.voteYes2, this.voteNo2,this.voteYes3, this.voteNo3]);
-	
+
 	this.voteYes1.setInteractive().on('pointerdown', (item) => {
-		
+
 		handleClick.call(this, "Vote Fore 0");
 	})
 
@@ -179,9 +179,11 @@ function handleClick(id)
 	{
 		if (type[1] == "Fore") {
 			SubmitVote(type[2],"Fore");
+			this.rabble.play();
 		}
 		if (type[1] == "Nay") {
 			SubmitVote(type[2],"Nay");
+			this.boo.play();
 		}
 		//submitVote(string, type[1])
 		this.order.play();
@@ -348,6 +350,7 @@ function initKeys(){
 	this.mKey = this.input.keyboard.addKey("M");
 	this.vKey = this.input.keyboard.addKey("V");
 	this.qKey = this.input.keyboard.addKey("Q");
+	this.pKey = this.input.keyboard.addKey("P");
 }
 
 function downIsDown(){
@@ -380,7 +383,7 @@ function plotMenuDisplay(player, plot){
 
 	this.selectedPlot = plot.Id;
 
-	this.frog2.play();
+	this.anvil.play();
 
 	console.log(fief.plots[plot.Id]);
 	if(fief.plots[plot.Id] != "Locked"){
@@ -554,6 +557,7 @@ class Fiefdom extends Phaser.Scene {
 		this.rabble = this.sound.add('rabble', {volume: 1.2});
 		this.order = this.sound.add('order');
 		this.toot = this.sound.add('toot');
+		this.cheers = this.sound.add('cheers');
 
 		this.music.loop = true;
 		this.music.play();
@@ -589,6 +593,9 @@ class Fiefdom extends Phaser.Scene {
 		}
 		if(Phaser.Input.Keyboard.JustDown(this.qKey)){
 			this.toot.play();
+		}
+		if(Phaser.Input.Keyboard.JustDown(this.pKey)){
+			this.frog2.play();
 		}
 
 		if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
