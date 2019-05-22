@@ -22,6 +22,8 @@ function createBackgrounds() {
 	this.bg5.setDisplaySize(game.config.width, game.config.height);
 	this.bg5.setScale(ratio);
 	
+	this.castle = this.add.tileSprite(2000, 164, 560, 556, 'castle').setOrigin(0, 0);
+
 	this.marketBackground = this.add.tileSprite(0, 0, 821, 507, 'marketBorder').setOrigin(0, 0).setScrollFactor(0);
 	this.buttonRight = this.add.image(400,400,'arrow').setOrigin(0,0).setScrollFactor(0);
 	this.buttonRight.setInteractive().on('pointerdown', buy);
@@ -284,7 +286,7 @@ preload() {
 	this.load.image('bg4', 'assets/plx-4.png');
 	this.load.image('bg5', 'assets/plx-5.png');
 	this.load.image('marketBorder', 'assets/marketWindow.png');
-
+	this.load.image('castle', 'assets/castle.png');
 	//Sprite Sheets
 
 
