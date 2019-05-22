@@ -30,7 +30,7 @@ function createBackgrounds() {
 	this.buttonLeft.setInteractive().on('pointerdown', sell);
 	
 	//ground
-	this.ground = this.add.tileSprite(0, game.config.height -20, game.config.width, 20,  'bg').setOrigin(0,0);
+	this.ground = this.add.tileSprite(0, game.config.height -20, 6000, 20, 'bg').setOrigin(0,0);
 	this.ground.setScale(ratio);
 	// this.ground.body.immovable = true;
 	
