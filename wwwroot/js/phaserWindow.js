@@ -22,14 +22,13 @@ function createBackgrounds() {
 	this.bg5.setDisplaySize(game.config.width, game.config.height);
 	this.bg5.setScale(ratio);
 
-	this.castle = this.add.tileSprite(2000, 164, 560, 556, 'castle').setOrigin(0, 0);
-
-	this.marketBackground = this.add.tileSprite(0, 0, 821, 507, 'marketBorder').setOrigin(0, 0).setScrollFactor(0);
+	//market
+	this.marketBackground = this.add.tileSprite(0, 60, 821, 507, 'marketBorder').setOrigin(0, 0).setScrollFactor(0);
 	this.buttonRight = this.add.image(400,400,'arrow').setOrigin(0,0).setScrollFactor(0);
 	this.buttonRight.setInteractive().on('pointerdown', buy);
 	this.buttonLeft = this.add.image(350,400,'arrow').setOrigin(0,0).setScrollFactor(0);
 	this.buttonLeft.setInteractive().on('pointerdown', sell);
-
+	
 	//ground
 	this.ground = this.add.tileSprite(0, game.config.height -20, game.config.width, 20,  'bg').setOrigin(0,0);
 	this.ground.setScale(ratio);
@@ -37,7 +36,8 @@ function createBackgrounds() {
 	
 	//buildings
 	this.home = this.physics.add.staticImage(1925, 620, 'home').setDisplaySize(350, 250).refreshBody();
-
+	this.castle = this.add.tileSprite(2000, 164, 560, 556, 'castle').setOrigin(0, 0);
+	
 	//build menu group
 	this.foodIcon = this.add.image(0,0, 'foodIcon').setDisplaySize(100,100).setVisible(false);
 	this.foodIcon.Id = "BuildSelect Farm";
@@ -59,7 +59,7 @@ function createBackgrounds() {
 	this.confirmCost = this.add.text(0,0, ' Cost').setVisible(false);
 	this.confirmGroup = [this.confirmIcon, this.confirmName, this.confirmCost];
 
-	//voteing window
+	//voting window
 	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false);
 	this.voteText = this.add.text(400, 120, "edict text goes here").setScrollFactor(0).setVisible(false);
 	this.voteYes = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
@@ -87,26 +87,37 @@ function createBackgrounds() {
 
 	});
 
-	this.gold = this.add.text(40, 60, "Fiefdom", {		
+	//resource group
+	this.rbGold = this.add.image(30, 40, 'goldIcon').setDisplaySize(50,50).setScrollFactor(0);
+	this.gold = this.add.text(65, 20, "Fiefdom", {		
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.food = this.add.text(40, 95, "Fiefdom", {
+	this.rbFood = this.add.image(200, 40, 'foodIcon').setDisplaySize(50,50).setScrollFactor(0);
+	this.food = this.add.text(235, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.wood = this.add.text(40, 130, "Fiefdom", {
+	this.rbWood = this.add.image(370, 40, 'woodIcon').setDisplaySize(50,50).setScrollFactor(0);
+	this.wood = this.add.text(405, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.stone = this.add.text(40, 165, "Fiefdom", {
+	this.rbStone = this.add.image(540, 40, 'stoneIcon').setDisplaySize(50,50).setScrollFactor(0);
+	this.stone = this.add.text(575, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
+
+	//game time group
+	this.date = this.add.text(800, 20, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0);
+
+
+
 	this.ballots = this.add.text(40, 190, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
@@ -118,10 +129,8 @@ function createBackgrounds() {
 		align: "center"
 	}).setScrollFactor(0);		
 
-	this.date = this.add.text(40, 20, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0);
-
-
-	this.marketMenu = this.add.group([this.marketBackground, this.gold, this.buttonLeft, this.buttonRight]);
+	//market menu
+	this.marketMenu = this.add.group([this.marketBackground, this.buttonLeft, this.buttonRight]);
 };
 
 
@@ -285,10 +294,10 @@ function updatePlayerUi() {
 }
 
 function updateUi() {
-	this.gold.setText("Gold " + fief.resources.Gold);
-	this.food.setText("Food " + fief.resources.Food);
-	this.wood.setText("Wood " + fief.resources.Wood);
-	this.stone.setText("Stone " + fief.resources.Stone);
+	this.gold.setText(fief.resources.Gold);
+	this.food.setText(fief.resources.Food);
+	this.wood.setText(fief.resources.Wood);
+	this.stone.setText(fief.resources.Stone);
 	this.date.setText("Day " + fief.gameState.day + "  Season " + fief.gameState.season + "  Year " + fief.gameState.year);
 	//parse Text
 	this.ballots.setText(fief.ballots[0] + fief.ballots[1] + fief.ballots[2]);
