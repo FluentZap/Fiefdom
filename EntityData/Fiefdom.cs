@@ -225,6 +225,21 @@ namespace Fiefdom
             }
         }
 
+        public static void ClearVote()
+        {
+            using (var db = new FiefContext())
+            {
+                foreach(Fief fief in db.Fiefdom.ToList())
+                {
+                    fief.Ballot1 = "vote"; 
+                    fief.Ballot2 = "vote"; 
+                    fief.Ballot3 = "vote";
+                }
+                              
+                db.SaveChanges();
+            }
+        }
+
         public static List<bool> CountVotes()
         {
             List<bool> votes = new List<bool>{};

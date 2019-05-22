@@ -61,19 +61,46 @@ function createBackgrounds() {
 
 	//voteing window
 	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false);
-	this.voteText = this.add.text(400, 120, "edict text goes here").setScrollFactor(0).setVisible(false);
-	this.voteYes = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteYes.id = "Vote Fore";
-	this.voteNo = this.add.image(900, 270, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteNo.id = "Vote Nay";
-	this.voteGroup = this.add.group([this.voteBG, this.voteText, this.voteYes, this.voteNo]);
-	this.voteYes.setInteractive().on('pointerdown', (item) => {
-		handleClick.call(this.item.id);
+	this.voteText = this.add.text(440, 120, "",{ font: "28px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setVisible(false);
+	this.voteYes1 = this.add.image(400, 120, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	this.voteNo1 = this.add.image(900, 120, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	this.voteYes2 = this.add.image(400, 185, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	this.voteNo2 = this.add.image(900, 185, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	this.voteYes3 = this.add.image(400, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	this.voteNo3 = this.add.image(900, 250, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	// this.voteYes2 = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	// this.voteNo2 = this.add.image(900, 270, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	
+	// this.voteYes3 = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	// this.voteNo3 = this.add.image(900, 270, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	
+	this.voteGroup = this.add.group([this.voteBG, this.voteText, this.voteYes1, this.voteNo1,this.voteYes2, this.voteNo2,this.voteYes3, this.voteNo3]);
+	
+	this.voteYes1.setInteractive().on('pointerdown', (item) => {
+		
+		handleClick.call(this, "Vote Fore 0");
 	})
 
-	this.voteNo.setInteractive().on('pointerdown', (item) => {
-		handleClick.call(this.item.id);
+	this.voteNo1.setInteractive().on('pointerdown', (item) => {
+		handleClick.call(this, "Vote Nay 0");
 	})
+
+	this.voteYes2.setInteractive().on('pointerdown', (item) => {
+		handleClick.call(this, "Vote Fore 1");
+	})
+
+	this.voteNo2.setInteractive().on('pointerdown', (item) => {
+		handleClick.call(this, "Vote Nay 1");
+	})
+
+	this.voteYes3.setInteractive().on('pointerdown', (item) => {
+		handleClick.call(this, "Vote Fore 2");
+	})
+
+	this.voteNo3.setInteractive().on('pointerdown', (item) => {
+		handleClick.call(this, "Vote Nay 2");
+	})
+
 
 
 	this.buildMenu.forEach((item) =>{
@@ -128,6 +155,7 @@ function createBackgrounds() {
 
 function handleClick(id)
 {
+	console.log("You did it" + id);
 	var type = id.split(' ');
 
 	if (type[0] == "BuildSelect")
@@ -148,9 +176,15 @@ function handleClick(id)
 
 	if(type[0] == "Vote")
 	{
+		if (type[1] == "Fore") {
+			SubmitVote(type[2],"Fore");
+		}
+		if (type[1] == "Nay") {
+			SubmitVote(type[2],"Nay");
+		}
 		//submitVote(string, type[1])
 	}
-
+	
 
 			// BuildPlot(this.selectedPlot, id);
 		// setVisible(this.confirmGroup, false);
@@ -290,6 +324,7 @@ function updateUi() {
 	this.wood.setText("Wood " + fief.resources.Wood);
 	this.stone.setText("Stone " + fief.resources.Stone);
 	this.date.setText("Day " + fief.gameState.day + "  Season " + fief.gameState.season + "  Year " + fief.gameState.year);
+	this.voteText.setText(fief.ballots[0] + "\n" + fief.ballots[1] + "\n" + fief.ballots[2]);
 	//parse Text
 	this.ballots.setText(fief.ballots[0] + fief.ballots[1] + fief.ballots[2]);
 	if (fief.edicts.length === 3)
