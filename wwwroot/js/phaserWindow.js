@@ -212,7 +212,7 @@ function buildPlots(){
 	this.plotGroup.sfx = {}
 	var x = 0;
 	var y = 690;
-	var imgKey = "log";
+	var imgKey = "lockIcon";
 	this.plots = [];
 
 	for (var i = 0; i < fief.plots.length; i++) {
@@ -379,10 +379,12 @@ function updatePlots(){
 			case "Farm": this.plots[i].setTexture('mill').refreshBody();
 			this.hammer.play();
 			break;
-			case "Locked": this.plots[i].setTexture('log').refreshBody();
+			case "Locked": {
+				this.plots[i].setTexture('lockIcon').refreshBody();
+				this.plots[i].y = 680;
+				this.plots[i].setDisplaySize(75,75);
+			} 
 			break;
-			// case "Home": this.plots[i].setTexture('home').setDisplaySize(350,250).refreshBody();
-			// 	break;
 		}
 	}
 }
@@ -529,7 +531,6 @@ create() {
 		}, this);
 
 	};
-
 
 update(time, theta) {
 	updateBackground.call(this);

@@ -128,7 +128,7 @@ fief.edicts = [];
 	fief.edicts.push({type: "Empty", Amount: 0});
 	fief.edicts.push({type: "Empty", Amount: 0});
 }
-console.log(fief.edicts);
+// console.log(fief.edicts);
 	if (initialStart === false)
 	{
 		game.scene.run('scene');
