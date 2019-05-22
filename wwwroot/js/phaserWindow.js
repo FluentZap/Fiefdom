@@ -73,6 +73,7 @@ function createBackgrounds() {
 
 	this.voteNo.setInteractive().on('pointerdown', (item) => {
 		handleClick.call(this.item.id);
+		// {volume: 0.5
 	})
 
 
@@ -153,6 +154,9 @@ function handleClick(id)
 		this.order.play();
 	}
 
+	// Selling sound effect
+	//	this.coins.play();
+	//	or this.chaching.play();
 
 	// BuildPlot(this.selectedPlot, id);
 	// setVisible(this.confirmGroup, false);
