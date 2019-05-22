@@ -2,7 +2,7 @@
 
 namespace Fiefdom.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialcreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,10 @@ namespace Fiefdom.Migrations
                         .Annotation("MySQL:AutoIncrement", true),
                     Name = table.Column<string>(nullable: true),
                     SessionId = table.Column<string>(nullable: true),
-                    Title = table.Column<int>(nullable: false)
+                    Title = table.Column<int>(nullable: false),
+                    Ballot1 = table.Column<string>(nullable: true),
+                    Ballot2 = table.Column<string>(nullable: true),
+                    Ballot3 = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -27,9 +30,9 @@ namespace Fiefdom.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("MySQL:AutoIncrement", true),
-                    Day = table.Column<int>(nullable: false, defaultValue: 1),
-                    Season = table.Column<int>(nullable: false, defaultValue: 1),
-                    Year = table.Column<int>(nullable: false, defaultValue: 800)
+                    Day = table.Column<int>(nullable: false),
+                    Season = table.Column<int>(nullable: false),
+                    Year = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
