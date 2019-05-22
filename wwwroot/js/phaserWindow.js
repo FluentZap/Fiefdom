@@ -361,6 +361,7 @@ function buildConfirmMenu(plot, confirmGroup){
 function toggleMarket(){
 	// this.marketBackground.setVisible(false);
 	this.marketMenu.toggleVisible();
+	this.chaching.play();
 }
 
 
@@ -498,7 +499,7 @@ class Fiefdom extends Phaser.Scene {
 		this.cursors = this.input.keyboard.createCursorKeys();
 
 
-		this.music = this.sound.add('synth');
+		this.music = this.sound.add('synth', {volume: 0.5});
 		this.anvil = this.sound.add('anvil');
 		this.boo = this.sound.add('boo');
 		this.hammer = this.sound.add('hammer');
