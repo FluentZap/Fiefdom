@@ -255,7 +255,7 @@ function buildConfirmMenu(plot, confirmGroup){
 }
 
 function displayConfirmMenu(player, plot) {
-	setVisible(this.confirmGroup, true).call(this);
+	setVisible(this.confirmGroup, true);
 	this.confirmIcon.setInteractive.on('pointerdown',(id) =>{
 		BuildPlot(this.selectedPlot, id);
 		setVisible(this.confirmGroup, false);
