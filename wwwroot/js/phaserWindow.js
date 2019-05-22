@@ -261,7 +261,10 @@ function updateUi() {
 	this.date.setText("Day " + fief.gameState.day + "  Season " + fief.gameState.season + "  Year " + fief.gameState.year);
 	//parse Text
 	this.ballots.setText(fief.ballots[0] + fief.ballots[1] + fief.ballots[2]);
-	//this.edicts.setText(fief.edicts[0].type + fief.edicts[1].type + fief.edicts[2].type);
+	if (fief.edicts.length === 3)
+	{
+		this.edicts.setText(fief.edicts[0].type + fief.edicts[1].type + fief.edicts[2].type);
+	}
 }
 
 

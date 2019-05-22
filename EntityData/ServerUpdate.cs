@@ -67,13 +67,13 @@ namespace Fiefdom
 					String[] splitted = edict.Split();
 					if(splitted[0] == "Market" || splitted[0] == "Levy")
 					{
-						FiefdomActions.Edicts.Add(new Edict{Type = splitted[1], Amount = splitted[2], Passed = votes[i]});
+						FiefdomActions.Edicts.Add(new Edict{ Type = splitted[0], Target = splitted[1], Amount = splitted[2], Passed = votes[i]});
 					}
 					//immediate reduction
 					if(splitted[0] == "Tax")
 					{
 						FiefdomActions.MarketTax = int.Parse(splitted[1]);
-						FiefdomActions.Edicts.Add(new Edict{Type = "Market", Amount = splitted[1], Passed = votes[i]});
+						FiefdomActions.Edicts.Add(new Edict{Type = "Tax", Amount = splitted[1], Passed = votes[i]});
 					}
 			}
 

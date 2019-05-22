@@ -120,8 +120,7 @@ fief.tax = gameValues.markettax;
 
 fief.edicts = [];
 	if(gameValues.edicts != null){
-		gameValues.edicts.forEach(function (p) {
-		console.log(p);
+		gameValues.edicts.forEach(function (p) {		
 		fief.edicts.push(p);
 	});
 }else{
@@ -129,7 +128,7 @@ fief.edicts = [];
 	fief.edicts.push({type: "Empty", Amount: 0});
 	fief.edicts.push({type: "Empty", Amount: 0});
 }
-
+console.log(fief.edicts);
 	if (initialStart === false)
 	{
 		game.scene.run('scene');

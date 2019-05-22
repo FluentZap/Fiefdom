@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fiefdom.Migrations
 {
     [DbContext(typeof(FiefContext))]
-    [Migration("20190522174416_initialcreate")]
-    partial class initialcreate
+    [Migration("20190522213454_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
