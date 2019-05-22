@@ -306,6 +306,7 @@ class Fiefdom extends Phaser.Scene {
 		this.load.audio('frog2', 'assets/audio/frog2.mp3');
 		this.load.audio('step', 'assets/audio/step.mp3');
 		this.load.audio('synth', 'assets/audio/synth.mp3');
+		this.load.audio('rabble', 'assets/audio/rabble.mp3');
 		// judge 'Order'
 		// crowd sounds
 	};
