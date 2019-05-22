@@ -21,31 +21,33 @@ function UserLogin() {
 	connection.invoke("UserLogin", userName).catch(function (err) {
 		return console.error(err.toString());
 	});
-}
+};
 
 function UpdateFiefdom() {
+	console.log("here");
 	connection.invoke("RequestFiefdomData").catch(function (err) {
     return console.error(err.toString());
   });
-}
+};
 
 function BuyResource(type, quantity) {
+	console.log("bought");
 	connection.invoke("BuyResource", type, quantity).catch(function (err) {
     return console.error(err.toString());
   });
-}
+};
 
 function GetMarketPrice() {
 	connection.invoke("GetMarketPrice").catch(function (err) {
     return console.error(err.toString());
   });
-}
+};
 
 function BuildPlot(id, type) {
 	connection.invoke("BuildPlot", id, type).catch(function (err) {
 		return console.error(err.toString());
 	});
-}
+};
 
 connection.on("ReceiveMarketPrices", function (prices) {
 	prices.forEach(function(x){
@@ -57,7 +59,7 @@ function SellResource(type, quantity) {
 	connection.invoke("SellResource", type, quantity).catch(function (err) {
     return console.error(err.toString());
   });
-}
+};
 
 connection.on("RecieveFiefdomData", function (plots, resources, title) {
 	if (plots == null) {

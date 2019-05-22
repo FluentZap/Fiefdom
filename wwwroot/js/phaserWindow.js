@@ -31,24 +31,29 @@ function createBackgrounds() {
 
 
 	//build menu group
-	this.foodIcon = this.add.image(0,0, 'bg').setVisible(false);
-	this.foodIcon.Id = "Food";
+	this.farmIcon = this.add.image(0,0, 'bg').setVisible(false);
+	this.farmIcon.Id = "Farm";
 	this.woodIcon = this.add.image(0,0, 'bg').setVisible(false);
-	this.woodIcon.Id = "Wood";
-	this.ironIcon = this.add.image(0,0, 'bg').setVisible(false);
-	this.ironIcon.Id = "Stone";
-	this.buildMenu = [this.foodIcon, this.woodIcon, this.ironIcon];
+	this.woodIcon.Id = "WoodCutter";
+	this.stoneIcon = this.add.image(0,0, 'bg').setVisible(false);
+	this.stoneIcon.Id = "Quarry";
+	this.buildMenu = [this.farmIcon, this.woodIcon, this.stoneIcon];
 
-	this.buildMenu.forEach(function(item){
-		item.setInteractive().on('pointerdown', function(id){
-			console.log(item);
+	this.buildMenu.forEach((item) =>{
+		item.setInteractive().on('pointerdown', (id) => {
+			console.log("in the function");		
+			BuildPlot(this.selectedPlot, item.Id)
+			console.log("Done");		
+			//BuyResource(item.Id, 1);
+			setVisible(this.buildMenu, false);
+			UpdateFiefdom();
 		});
 	})
 
 	// this.foodIcon.setInteractive().on('pointerdown', build);
 	// this.woodIcon.setInteractive().on('pointerdown', build);
-	// this.ironIcon.setInteractive().on('pointerdown', build);
-	//this.buildMenu = this.add.group([this.foodIcon, this.woodIcon, this.ironIcon]);
+	// this.stoneIcon.setInteractive().on('pointerdown', build);
+	//this.buildMenu = this.add.group([this.farmIcon, this.woodIcon, this.stoneIcon]);
 
 
 	
@@ -194,18 +199,21 @@ function downIsDown(){
 }
 
 function plotMenuDisplay(player, plot){
-	console.log(plot);
-	this.foodIcon.x = plot.x;
-	this.foodIcon.y = plot.y - 150;
+	this.farmIcon.x = plot.x;
+	this.farmIcon.y = plot.y - 150;
 
 	this.woodIcon.x = plot.x + 20;
 	this.woodIcon.y = plot.y - 150;
 
-	this.ironIcon.x = plot.x + 40;
-	this.ironIcon.y = plot.y - 150;
+	this.stoneIcon.x = plot.x + 40;
+	this.stoneIcon.y = plot.y - 150;
 
-	setVisible(this.buildMenu, true);
-	// this.buildMenu.setVisible(true);
+	this.selectedPlot = plot.Id;
+
+	console.log(fief.plots[plot.Id]);
+	if(fief.plots[plot.Id] != "Locked"){
+		setVisible(this.buildMenu, true);
+	}
 }
 
 function toggleMarket(){
@@ -222,6 +230,21 @@ function setVisible(array, value)
 	});
 }
 
+function updatePlots(){
+	
+// console.log(this.plots);
+	for(i=0; i<fief.plots.length; i++)
+	{
+		switch(fief.plots[i]){
+			case "Empty": this.plots[i].setTexture('log').refreshBody();
+				break;
+			case "Farm": this.plots[i].setTexture('mill').refreshBody();
+				break;
+			case "Locked": this.plots[i].setTexture('log').refreshBody();
+				break;
+		}
+	}
+}
    
 class Fiefdom extends Phaser.Scene {
 
@@ -230,7 +253,7 @@ preload() {
 	// this.load.image('buildMenuBG', 'assets/blank.png');
 	// this.load.image('woodIcon', 'assets/blank.png');
 	// this.load.image('stoneIcon', 'assets/blank.png');
-	// this.load.image('foodIcon', 'assets/blank.png');
+	// this.load.image('farmIcon', 'assets/blank.png');
 	
 	this.load.image('arrow', 'assets/tempArrow.png');
 	this.load.image('mill', 'assets/mill.png');
@@ -307,10 +330,11 @@ update(time, theta) {
 		toggleMarket.call(this);
 	}
 
-	if (this.player.x > this.foodIcon.x + 100 || this.player.x < this.foodIcon.x - 100)
+	if (this.player.x > this.farmIcon.x + 100 || this.player.x < this.farmIcon.x - 100)
 	{	
 		setVisible(this.buildMenu, false);	
 	}
+	updatePlots.call(this);
 };
 
 };
