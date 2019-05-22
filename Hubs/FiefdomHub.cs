@@ -4,28 +4,69 @@ using System;
 using Fiefdom.Context;
 using Fiefdom;
 using System.Linq;
+using System.Timers;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace Fiefdom.Hubs
 {
     public class FiefdomHub : Hub
     {
 
-        public override Task OnConnectedAsync()
+		public static IHubCallerClients HubContext;
+		
+		public FiefdomHub ()
+		{
+			HubContext = Clients;
+		}
+
+
+		public override Task OnConnectedAsync()
         {
-            Console.WriteLine(Context.User.Identity.Name);
+			HubContext = Clients;
+			FiefdomUpdate.ConnectedUsers.Add(Context.ConnectionId);			
             return base.OnConnectedAsync();
         }
 
-        public async Task RequestFiefdomData()
+		public override async Task OnDisconnectedAsync(Exception exception)
+		{			
+			if (FiefdomUpdate.ConnectedUsers.Contains(Context.ConnectionId))
+			{
+				FiefdomUpdate.ConnectedUsers.Remove(Context.ConnectionId);
+			}
+			await base.OnDisconnectedAsync(exception);
+		}
+
+		public async Task UpdateClients()
+		{					
+			foreach (string client in FiefdomUpdate.ConnectedUsers)
+			{
+				Fief fief = FiefdomActions.GetFiefdomBySessionId(client);
+				if (fief != null)
+				{
+					await Clients.Client(client).SendAsync("RecieveFiefdomData", fief.FiefdomPlot, fief.FiefdomResources, fief.Title);
+				}
+			}
+		}
+
+		public async Task RequestFiefdomData()
         {
-            //int test = new FiefContext().FiefdomResources.Where(f => f.Id == 2).FirstOrDefault().Quantity;
-            Fief fief = FiefdomActions.GetFiefdomBySessionId(Context.ConnectionId);
+			//int test = new FiefContext().FiefdomResources.Where(f => f.Id == 2).FirstOrDefault().Quantity;
+			GameState gameState;
+			List<Market> market;
+			Fief fief;
+			using (var db = new FiefContext())
+			{
+				gameState = db.GameState.FirstOrDefault();
+				market = db.Market.ToList();
+				fief = db.Fiefdom.Where(f => f.SessionId == Context.ConnectionId).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
+			}			
             if (fief != null)
             {
-                await Clients.Caller.SendAsync("RecieveFiefdomData", fief.FiefdomPlot, fief.FiefdomResources, fief.Title);
+				await Clients.Caller.SendAsync("RecieveFiefdomData", fief, gameState, market);				
             }
             else
-            {
+            {				
                 await Clients.Caller.SendAsync("RecieveFiefdomData", null);
             }
         }

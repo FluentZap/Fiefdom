@@ -71,7 +71,17 @@ namespace Fiefdom.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CurrentDay");
+                    b.Property<int>("Day")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
+                    b.Property<int>("Season")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
+                    b.Property<int>("Year")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(800);
 
                     b.HasKey("Id");
 

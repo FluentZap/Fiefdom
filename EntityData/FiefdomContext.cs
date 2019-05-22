@@ -15,14 +15,16 @@ namespace Fiefdom.Context
 
 		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 		{
-			optionsBuilder.UseMySQL("server=localhost;database=fiefdom;user=root;password=root;port=8889;");
-		}
+			optionsBuilder.UseMySQL("server=localhost;database=fiefdom;user=root;password=root;port=3306;");
+		}		
 	}
 
 	public class GameState
 	{
 		public int Id { get; set; }
-		public int CurrentDay { get; set; }
+		public int Day { get; set; }
+		public int Season { get; set; }
+		public int Year { get; set; }
 	}
 
 	public class Market

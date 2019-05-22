@@ -8,6 +8,10 @@ namespace Fiefdom
 {
 	public static class FiefdomUpdate
 	{
+
+		public static HashSet<string> ConnectedUsers = new HashSet<string>();
+
+
 		public static void UpdateResources(Fief fief)
 		{
 			foreach (FiefdomPlot plot in fief.FiefdomPlot)

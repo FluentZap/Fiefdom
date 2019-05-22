@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Fiefdom.Migrations
 {
     [DbContext(typeof(FiefContext))]
-    [Migration("20190521224845_initialcreate")]
-    partial class initialcreate
+    [Migration("20190522032915_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -73,7 +73,17 @@ namespace Fiefdom.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CurrentDay");
+                    b.Property<int>("Day")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
+                    b.Property<int>("Season")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(1);
+
+                    b.Property<int>("Year")
+                        .ValueGeneratedOnAdd()
+                        .HasDefaultValue(800);
 
                     b.HasKey("Id");
 
