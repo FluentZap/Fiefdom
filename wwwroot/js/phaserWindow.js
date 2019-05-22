@@ -340,6 +340,10 @@ function updateUi() {
 	{
 		this.edicts.setText(fief.edicts[0].type + fief.edicts[1].type + fief.edicts[2].type);
 	}
+	if (this.seasonSound == fief.gameState.season ){
+		this.frog.play();
+		this.seasonSound = fief.gameState.season
+	}
 }
 
 
@@ -523,7 +527,7 @@ class Fiefdom extends Phaser.Scene {
 		// platforms.create(16 * 2, game.config.height - 16 * 2, 'bg').setScale(4).refreshBody();
 		// groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
 		//this.bg.setScrollFactor(0);
-
+		this.seasonSound = fief.gameState.season;
 
 		createPlayer.call(this);
 		createPlayerAnimation.call(this);
@@ -544,7 +548,7 @@ class Fiefdom extends Phaser.Scene {
 		this.cursors = this.input.keyboard.createCursorKeys();
 
 
-		this.music = this.sound.add('synth', {volume: 0.4});
+		this.music = this.sound.add('synth', {volume: 0.25});
 		this.anvil = this.sound.add('anvil');
 		this.boo = this.sound.add('boo');
 		this.hammer = this.sound.add('hammer');
