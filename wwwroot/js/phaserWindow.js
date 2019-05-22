@@ -175,6 +175,7 @@ function build(id){
 function toggleVote(){
 	this.voteGroup.toggleVisible();
 	this.rabble.play();
+	setTimeout(function(){ this.order.play(); }, 5000);
 	// setVisible(this.voteGroup, true);
 }
 
@@ -312,6 +313,7 @@ function initKeys(){
 	this.downKey = this.input.keyboard.addKey('DOWN');
 	this.mKey = this.input.keyboard.addKey("M");
 	this.vKey = this.input.keyboard.addKey("V");
+	this.qKey = this.input.keyboard.addKey("Q");
 }
 
 function downIsDown(){
@@ -343,6 +345,8 @@ function plotMenuDisplay(player, plot){
 	buildConfirmMenu(plot, this.confirmGroup);
 
 	this.selectedPlot = plot.Id;
+
+	this.frog2.play();
 
 	console.log(fief.plots[plot.Id]);
 	if(fief.plots[plot.Id] != "Locked"){
@@ -503,7 +507,7 @@ class Fiefdom extends Phaser.Scene {
 		this.cursors = this.input.keyboard.createCursorKeys();
 
 
-		this.music = this.sound.add('synth', {volume: 0.5});
+		this.music = this.sound.add('synth', {volume: 0.4});
 		this.anvil = this.sound.add('anvil');
 		this.boo = this.sound.add('boo');
 		this.hammer = this.sound.add('hammer');
@@ -513,7 +517,7 @@ class Fiefdom extends Phaser.Scene {
 		this.frog2 = this.sound.add('frog2');
 		this.grunt = this.sound.add('grunt');
 		this.step = this.sound.add('step');
-		this.rabble = this.sound.add('rabble');
+		this.rabble = this.sound.add('rabble', {volume: 1.2});
 		this.order = this.sound.add('order');
 		this.toot = this.sound.add('toot');
 
@@ -548,6 +552,9 @@ class Fiefdom extends Phaser.Scene {
 		}
 		if(Phaser.Input.Keyboard.JustDown(this.vKey)){
 			toggleVote.call(this);
+		}
+		if(Phaser.Input.Keyboard.JustDown(this.qKey)){
+			this.toot.play();
 		}
 
 		if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
