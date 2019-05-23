@@ -70,7 +70,6 @@ namespace Fiefdom
 					res.Price += (int)((100 - res.Price) * 0.1);
 
 					res.Price += item.Value / 10;
-					res.Price++;
 					if (res.Price < 10) res.Price = 10;
 					if (res.Price > 1000) res.Price = 1000;
 					db.SaveChanges();

@@ -15,7 +15,28 @@ namespace Fiefdom
 			{
 				switch (plot.Type)
 				{
-					case "Woodcutter":
+					case "Inn":
+						fief.FiefdomResources.Where(r => r.Type == "Gold").FirstOrDefault().Quantity += 50;
+						break;
+
+					case "Gold":
+						fief.FiefdomResources.Where(r => r.Type == "Wood").FirstOrDefault().Quantity += 3;
+						fief.FiefdomResources.Where(r => r.Type == "Food").FirstOrDefault().Quantity += 3;
+						fief.FiefdomResources.Where(r => r.Type == "Stone").FirstOrDefault().Quantity += 3;
+						break;
+
+						case "Barracks":
+						var stone = fief.FiefdomResources.Where(r => r.Type == "Stone").FirstOrDefault();
+						var wood = fief.FiefdomResources.Where(r => r.Type == "Wood").FirstOrDefault();
+						if (stone.Quantity >= 5 && wood.Quantity >= 5)
+						{
+							fief.FiefdomResources.Where(r => r.Type == "Gold").FirstOrDefault().Quantity += 1000;
+							stone.Quantity -= 5;
+							wood.Quantity -= 5;
+						}
+						break;
+
+					case "WoodCutter":
 						fief.FiefdomResources.Where(r => r.Type == "Wood").FirstOrDefault().Quantity += 10;
 						break;
 					case "Farm":

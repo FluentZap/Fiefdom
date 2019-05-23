@@ -1,5 +1,6 @@
 var sprite;
 var marketVisable = false;
+var voteVisable = false;
 let ratio = 720 / 216;
 var vote = [];
 vote.push("None");
@@ -36,7 +37,7 @@ function createBackgrounds() {
 	//buildings 10s
 
 	//market
-	this.marketBackground = this.add.tileSprite(game.config.width / 2, game.config.height / 2, 821, 507, 'marketBorder').setScrollFactor(0).setDepth(10).setVisible(false);
+	this.marketBackground = this.add.tileSprite(game.config.width / 2, game.config.height / 2, 821, 507, 'marketBorder').setScrollFactor(0).setDepth(550).setVisible(false);
 	var Id = 0
 	this.marketMenu = [];
 
@@ -44,49 +45,49 @@ function createBackgrounds() {
 
 	for (y = 300; y <= 450; y += 75) {
 		//320 370 910 960
-		let marketBuyLarge = this.add.image(910, y, 'rightArrow').setScrollFactor(0).setDepth(15).setVisible(false);
+		let marketBuyLarge = this.add.image(910, y, 'rightArrow').setScrollFactor(0).setDepth(600).setVisible(false);
 		marketBuyLarge.Id = "Market Buy 10 " + marketItems[Id];
 		marketBuyLarge.setInteractive().on('pointerdown', (item) => { handleClick.call(this, marketBuyLarge.Id) });
 		this.marketMenu.push(marketBuyLarge);
 
-		let marketBuySmall = this.add.image(960, y, 'rightArrow').setScrollFactor(0).setDepth(15).setVisible(false);
+		let marketBuySmall = this.add.image(960, y, 'rightArrow').setScrollFactor(0).setDepth(600).setVisible(false);
 		marketBuySmall.Id = "Market Buy 1 " + marketItems[Id];
 		marketBuySmall.setInteractive().on('pointerdown', (item) => { handleClick.call(this, marketBuySmall.Id) });
 		this.marketMenu.push(marketBuySmall);
 
-		let marketSellLarge = this.add.image(370, y, 'leftArrow').setScrollFactor(0).setDepth(15).setVisible(false);
+		let marketSellLarge = this.add.image(370, y, 'leftArrow').setScrollFactor(0).setDepth(600).setVisible(false);
 		marketSellLarge.Id = "Market Sell 10 " + marketItems[Id];
 		marketSellLarge.setInteractive().on('pointerdown', (item) => { handleClick.call(this, marketSellLarge.Id) });
 		this.marketMenu.push(marketSellLarge);
 
-		let marketSellSmall = this.add.image(320, y, 'leftArrow').setScrollFactor(0).setDepth(15).setVisible(false);
+		let marketSellSmall = this.add.image(320, y, 'leftArrow').setScrollFactor(0).setDepth(600).setVisible(false);
 		marketSellSmall.Id = "Market Sell 1 " + marketItems[Id];
 		marketSellSmall.setInteractive().on('pointerdown', (item) => { handleClick.call(this, marketSellSmall.Id) });
 		this.marketMenu.push(marketSellSmall);
 
 		Id++;
 	}
-	this.marketMenu.push(this.add.image(600, 300, 'foodIcon').setDisplaySize(64, 64).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketMenu.push(this.add.image(600, 375, 'woodIcon').setDisplaySize(64, 64).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketMenu.push(this.add.image(600, 450, 'stoneIcon').setDisplaySize(64, 64).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketMenu.push(this.add.image(600, 300, 'foodIcon').setDisplaySize(64, 64).setScrollFactor(0).setDepth(600).setVisible(false));
+	this.marketMenu.push(this.add.image(600, 375, 'woodIcon').setDisplaySize(64, 64).setScrollFactor(0).setDepth(600).setVisible(false));
+	this.marketMenu.push(this.add.image(600, 450, 'stoneIcon').setDisplaySize(64, 64).setScrollFactor(0).setDepth(600).setVisible(false));
 
-	this.marketMenu.push(this.add.text(320, 200, "Sell \n1   10", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketMenu.push(this.add.text(910, 200, "Buy \n10   1", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketMenu.push(this.add.text(320, 200, "Sell \n1   10", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
+	this.marketMenu.push(this.add.text(910, 200, "Buy \n10   1", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
 
 
 	this.marketCost = [];
 	//food
-	this.marketCost.push(this.add.text(640, 290, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketCost.push(this.add.text(520, 290, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketCost.push(this.add.text(740, 290, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(640, 290, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
+	this.marketCost.push(this.add.text(520, 290, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
+	this.marketCost.push(this.add.text(740, 290, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
 
-	this.marketCost.push(this.add.text(640, 440, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketCost.push(this.add.text(520, 440, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketCost.push(this.add.text(740, 440, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(640, 440, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
+	this.marketCost.push(this.add.text(520, 440, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
+	this.marketCost.push(this.add.text(740, 440, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
 
-	this.marketCost.push(this.add.text(640, 365, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketCost.push(this.add.text(520, 365, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketCost.push(this.add.text(740, 365, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(640, 365, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
+	this.marketCost.push(this.add.text(520, 365, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
+	this.marketCost.push(this.add.text(740, 365, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
 
 	//ground
 	this.ground = this.add.tileSprite(0, game.config.height - 20, 6000, 20, 'bg').setOrigin(0, 0);
@@ -137,7 +138,7 @@ function createBackgrounds() {
 	this.voteYes3 = this.add.image(400, 250, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(407);
 	this.voteNo3 = this.add.image(900, 250, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(408);
 
-	this.voteGroup = this.add.group([this.voteBG, this.voteText, this.voteYes1, this.voteNo1,this.voteYes2, this.voteNo2,this.voteYes3, this.voteNo3]);
+	this.voteGroup = [this.voteBG, this.voteText, this.voteYes1, this.voteNo1,this.voteYes2, this.voteNo2,this.voteYes3, this.voteNo3];
 
 	this.voteYes1.setInteractive().on('pointerdown', (item) => {
 		handleClick.call(this, "Vote Fore 0");
@@ -311,12 +312,22 @@ function build(id) {
 }
 
 function toggleVote() {
-	this.voteGroup.toggleVisible();
-	if (!this.rabble.isPlaying) this.rabble.play();
+	voteVisable = !voteVisable;
+	setVisible(this.voteGroup, voteVisable);
 
+	if (!this.rabble.isPlaying) this.rabble.play();
 	if (!this.order.isPlaying) this.order.play();
+	
+	if (voteVisable)
+	{
+		marketVisable = false;
+		setVisible(this.marketMenu, false);
+		setVisible(this.marketCost, false);
+		this.marketBackground.setVisible(false);
+	}
+	
 	//setTimeout(function () { this.order.play(); }, 5000);
-	// setVisible(this.voteGroup, true);
+	// setVisible(this.voteGroup, true);	
 }
 
 function createPlayer() {
@@ -548,8 +559,15 @@ function buildConfirmMenu(plot, confirmGroup) {
 function toggleMarket() {
 	marketVisable = !marketVisable;
 	setVisible(this.marketMenu, marketVisable);
-	setVisible(this.marketCost, marketVisable);
+	setVisible(this.marketCost, marketVisable);	
 	this.marketBackground.setVisible(marketVisable);
+
+	if (marketVisable)
+	{
+		voteVisable = false;
+		setVisible(this.voteGroup, false);
+		setVisible(this.voteGroup, false);
+	}
 	if (!this.chaching.isPlaying) this.chaching.play();
 }
 
@@ -828,7 +846,7 @@ var config = {
 		default: 'arcade',
 		arcade: {
 			gravity: { y: 500 },
-			debug: true
+			debug: false
 		}
 	}
 };
