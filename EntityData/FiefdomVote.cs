@@ -33,8 +33,8 @@ namespace Fiefdom
             using (var db = new FiefContext())
             {
                 Random rnd = new Random();
-                List<string> keywordList = new List<string> {"Tax", "Market", "Levy"};
-                string keyword = keywordList[rnd.Next(0,(keywordList.Count-1))];
+                List<string> keywordList = new List<string> {"Tax", "Market"};
+                string keyword = keywordList[rnd.Next(0, keywordList.Count)];
                 List<string> resourceList = new List<string>{"Wood", "Stone", "Food"};
                 if (keyword == "Market" || keyword == "Levy")
                 {
