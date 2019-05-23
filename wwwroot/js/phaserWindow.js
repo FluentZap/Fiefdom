@@ -786,7 +786,7 @@ class Fiefdom extends Phaser.Scene {
 		this.coins = this.sound.add('coins');
 		this.frog = this.sound.add('frog');
 		this.frog2 = this.sound.add('frog2');
-		this.grunt = this.sound.add('grunt');
+		this.grunt = this.sound.add('grunt', {volume: 0.75});
 		this.step = this.sound.add('step');
 		this.rabble = this.sound.add('rabble', { volume: 1.2 });
 		this.order = this.sound.add('order');
