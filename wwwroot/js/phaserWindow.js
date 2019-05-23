@@ -515,6 +515,9 @@ function updateUi() {
 		case 3:
 		this.marketTitleText.setText("Lord")
 		break;
+		case 4:
+		this.marketTitleText.setText("Duke")
+		break;
 	}
 
 }
