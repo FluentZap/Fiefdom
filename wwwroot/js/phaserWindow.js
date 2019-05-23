@@ -89,6 +89,12 @@ function createBackgrounds() {
 	this.marketCost.push(this.add.text(520, 365, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
 	this.marketCost.push(this.add.text(740, 365, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
 
+	this.titleButton = this.add.image(960, 550, 'titleIcon').setScrollFactor(0).setDepth(600).setVisible(false).setDisplaySize(50,50);
+	// this.titleButton = fief.sessionId;
+	// this.titleButton.setInteractive().on('pointerdown', (item) => { handleClick.call(this  );
+	this.marketCost.push(this.add.text(700, 530, "Buy New Title", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
+	this.marketMenu.push(this.titleButton);
+
 	//ground
 	this.ground = this.add.tileSprite(0, game.config.height - 20, 6000, 20, 'bg').setOrigin(0, 0);
 	this.ground.setScale(ratio);
@@ -262,6 +268,7 @@ function handleClick(id) {
 		BuildPlot(this.selectedPlot, this.buildItem);
 		setVisible(this.confirmGroup, false);
 		setVisible(this.buildMenu, false);
+		UpdateFiefdom.call(this);
 		if (!this.hammer.isPlaying) this.hammer.play();
 	}
 
@@ -586,6 +593,7 @@ function updatePlots() {
 			this.plots[i].setVisible(false);
 			this.buildingGroup[i].setVisible(true);
 		}
+		
 		// switch(fief.plots[i]){
 		// 	case "Empty": this.plots[i].setTexture('log').refreshBody();
 		// 	break;
