@@ -354,9 +354,10 @@ function initKeys(){
 	this.mKey = this.input.keyboard.addKey("M");
 	this.vKey = this.input.keyboard.addKey("V");
 	this.qKey = this.input.keyboard.addKey("Q");
+	this.yKey = this.input.keyboard.addKey("Y");
 	// Pause music
 	this.pKey = this.input.keyboard.addKey("P");
-	this.yKey = this.input.keyboard.addKey("Y");
+	this.oKey = this.input.keyboard.addKey("O");
 }
 
 function downIsDown(){
@@ -560,7 +561,7 @@ class Fiefdom extends Phaser.Scene {
 		this.frog2 = this.sound.add('frog2');
 		this.grunt = this.sound.add('grunt');
 		this.step = this.sound.add('step');
-		this.rabble = this.sound.add('rabble', {volume: 1.2});
+		this.rabble = this.sound.add('rabble', {volume: 1.5});
 		this.order = this.sound.add('order');
 		this.toot = this.sound.add('toot', {volume: 1.5});
 		this.cheers = this.sound.add('cheers');
@@ -603,10 +604,31 @@ class Fiefdom extends Phaser.Scene {
 		if(Phaser.Input.Keyboard.JustDown(this.yKey)){
 			this.frog2.play();
 		}
+
 		if(Phaser.Input.Keyboard.JustDown(this.pKey)){
 			// Mute music - this.music.stop() ? music.mute = true? toggle
-			this.music.play();
+			this.music.pause();
+			// this.music.setMute(mute);
+			// this.music.mute = !this.music.mute;
+			console.log(this.music);
+			console.log(!this.music.mute);
 		}
+
+		if(Phaser.Input.Keyboard.JustDown(this.oKey)){
+			this.music.resume();
+		}
+
+		// if(Phaser.Input.Keyboard.JustDown(this.pKey)){
+		// 	// Mute music - this.music.stop() ? music.mute = true? toggle
+		// 	if(this.music.pause() === true){
+		// 		this.music.resume();
+		// 	} else if (this.music.pause() === false){
+		// 		this.music.play();
+		// 	}
+		// 	// this.music.mute = !this.music.mute;
+		// 	// console.log(this.music);
+		// 	// console.log(this.music.mute);
+		// }
 
 		if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
 		{
