@@ -354,7 +354,9 @@ function initKeys(){
 	this.mKey = this.input.keyboard.addKey("M");
 	this.vKey = this.input.keyboard.addKey("V");
 	this.qKey = this.input.keyboard.addKey("Q");
+	// Pause music
 	this.pKey = this.input.keyboard.addKey("P");
+	this.yKey = this.input.keyboard.addKey("Y");
 }
 
 function downIsDown(){
@@ -598,8 +600,12 @@ class Fiefdom extends Phaser.Scene {
 		if(Phaser.Input.Keyboard.JustDown(this.qKey)){
 			this.toot.play();
 		}
-		if(Phaser.Input.Keyboard.JustDown(this.pKey)){
+		if(Phaser.Input.Keyboard.JustDown(this.yKey)){
 			this.frog2.play();
+		}
+		if(Phaser.Input.Keyboard.JustDown(this.pKey)){
+			// Mute music - this.music.stop() ? music.mute = true? toggle
+			this.music.play();
 		}
 
 		if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
