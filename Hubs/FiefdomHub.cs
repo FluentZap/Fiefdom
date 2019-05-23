@@ -31,22 +31,46 @@ namespace Fiefdom.Hubs
 		}
 
 		public async Task RequestFiefdomData()
-        {
-			//int test = new FiefContext().FiefdomResources.Where(f => f.Id == 2).FirstOrDefault().Quantity;
+        {			
 			GameState gameState;
-			List<Market> market;
+			List<Market> baseMarket;
+			List<Market> buyPrice = new List<Market>();
+			List<Market> sellPrice = new List<Market>();
 			Fief fief;
 			using (var db = new FiefContext())
 			{
 				gameState = db.GameState.FirstOrDefault();
-				market = db.Market.ToList();
+				baseMarket = db.Market.ToList();								
 				fief = db.Fiefdom.Where(f => f.SessionId == Context.ConnectionId).Include("FiefdomPlot").Include("FiefdomResources").FirstOrDefault();
-			}			
-            if (fief != null)
-            {				
-				await Clients.Caller.SendAsync("RecieveFiefdomData", fief, gameState, market, 
-						new GameValues { Ballots = FiefdomActions.Ballots, Edicts = FiefdomActions.Edicts, MarketTax = FiefdomActions.MarketTax });		
-            }
+			}
+
+			for (int i = 0; i < baseMarket.Count; i++)
+			{
+				buyPrice.Add(new Market
+				{
+					Type = baseMarket[i].Type,
+					Price = FiefdomActions.GetMarketBuyPrice(baseMarket[i].Type, baseMarket[i].Price)
+				});
+				sellPrice.Add(new Market
+				{
+					Type = baseMarket[i].Type,
+					Price = FiefdomActions.GetMarketSellPrice(baseMarket[i].Type, baseMarket[i].Price)
+				});
+			}
+
+			if (fief != null)
+            {
+				await Clients.Caller.SendAsync("RecieveFiefdomData", fief, gameState,
+						new GameValues
+						{
+							Ballots = FiefdomActions.Ballots,
+							Edicts = FiefdomActions.Edicts,
+							MarketTax = FiefdomActions.MarketTax,
+							baseMarket = baseMarket,
+							buyMarket = buyPrice,
+							sellMarket = sellPrice
+						});
+			}
             else
             {				
                 await Clients.Caller.SendAsync("RecieveFiefdomData", null);
@@ -71,15 +95,15 @@ namespace Fiefdom.Hubs
         {
             FiefdomActions.SubmitVote(Context.ConnectionId, ballot, vote);
         }
-
-        public async Task BuyResource(string type, int quantity)
-        {
+		
+		public async Task BuyResource(string type, int quantity)
+        {			
             FiefdomActions.BuyResource(Context.ConnectionId, type, quantity);
         }
 
         public async Task SellResource(string type, int quantity)
-        {
-            FiefdomActions.SellResource(Context.ConnectionId, type, quantity);
+        {			
+			FiefdomActions.SellResource(Context.ConnectionId, type, quantity);
         }
 
 		public async Task GetMarketPrice()

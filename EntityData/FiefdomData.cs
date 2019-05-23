@@ -9,9 +9,14 @@ namespace Fiefdom
 
 	public class GameValues
 	{
+		public static bool clientUpdate;
 		public List<string> Ballots = new List<string> { };
 		public List<Edict> Edicts = new List<Edict> { };
 		public int MarketTax { get; set; }
+
+		public List<Market> baseMarket = new List<Market>();
+		public List<Market> buyMarket = new List<Market>();
+		public List<Market> sellMarket = new List<Market>();
 	}	
 
 
@@ -33,9 +38,9 @@ namespace Fiefdom
             {
                 Fief fief = new Fief { Name = name, SessionId = sessionId, Title = 0 };
                 fief.FiefdomResources.Add(new FiefdomResources { Type = "Gold", Quantity = 1000 });
-                fief.FiefdomResources.Add(new FiefdomResources { Type = "Wood", Quantity = 15 });
-                fief.FiefdomResources.Add(new FiefdomResources { Type = "Stone", Quantity = 15 });
-                fief.FiefdomResources.Add(new FiefdomResources { Type = "Food", Quantity = 15 });                
+                fief.FiefdomResources.Add(new FiefdomResources { Type = "Wood", Quantity = 10 });
+                fief.FiefdomResources.Add(new FiefdomResources { Type = "Stone", Quantity = 10 });
+                fief.FiefdomResources.Add(new FiefdomResources { Type = "Food", Quantity = 10 });                
                 for (int i = 0; i < 10; i++)
                 {
                     fief.FiefdomPlot.Add(new FiefdomPlot { Type = "Locked" });

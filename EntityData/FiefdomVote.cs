@@ -12,7 +12,7 @@ namespace Fiefdom
 		public bool Passed { get; set; }
 		public string Type { get; set; }
 		public string Target { get; set; }
-		public string Amount { get; set; }
+		public int Amount { get; set; }
 	}
 
 	public static partial class FiefdomActions
