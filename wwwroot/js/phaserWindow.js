@@ -176,7 +176,7 @@ function createBackgrounds() {
 
 	//resource group
 	this.rbGold = this.add.image(30, 40, 'goldIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(600);
-	this.gold = this.add.text(65, 20, "Fiefdom", {		
+	this.gold = this.add.text(65, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
@@ -274,7 +274,7 @@ function handleClick(id) {
 			SubmitVote(type[2], type[1]);
 		}
 
-		
+
 		if (!this.rabble.isPlaying) this.rabble.play();
 
 		//this.order.play();
@@ -492,6 +492,8 @@ function initKeys() {
 	this.mKey = this.input.keyboard.addKey("M");
 	this.vKey = this.input.keyboard.addKey("V");
 	this.qKey = this.input.keyboard.addKey("Q");
+	this.yKey = this.input.keyboard.addKey("Y");
+	// Pause music
 	this.pKey = this.input.keyboard.addKey("P");
 }
 
@@ -767,7 +769,7 @@ class Fiefdom extends Phaser.Scene {
 		this.cheers = this.sound.add('cheers');
 
 		this.music.loop = true;
-		// this.music.play();
+		this.music.play();
 
 
 		//fullscreen keypress
@@ -801,8 +803,18 @@ class Fiefdom extends Phaser.Scene {
 		if (Phaser.Input.Keyboard.JustDown(this.qKey)) {
 			if (!this.toot.isPlaying) this.toot.play();
 		}
-		if (Phaser.Input.Keyboard.JustDown(this.pKey)) {
-			if (!this.frog2.isPlaying) this.frog2.play();
+		if(Phaser.Input.Keyboard.JustDown(this.yKey)){
+			this.frog2.play();
+		}
+
+		// Mute music
+		if(Phaser.Input.Keyboard.JustDown(this.pKey)){
+			// this.music.isPaused = !this.music.isPaused;
+			if (this.music.isPaused === false){
+				this.music.pause();
+			} else {
+				this.music.resume();
+			}
 		}
 
 		if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150) {
