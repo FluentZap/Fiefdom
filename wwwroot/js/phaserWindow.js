@@ -606,7 +606,7 @@ class Fiefdom extends Phaser.Scene {
 
 		// Mute music
 		if(Phaser.Input.Keyboard.JustDown(this.pKey)){
-			// this.music.mute = !this.music.mute;
+			// this.music.isPaused = !this.music.isPaused;
 			if (this.music.isPaused === false){
 				this.music.pause();
 			} else {
