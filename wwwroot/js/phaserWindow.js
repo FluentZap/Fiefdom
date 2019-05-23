@@ -721,7 +721,7 @@ class Fiefdom extends Phaser.Scene {
 		var loadingText = this.make.text({
 			x: width / 2,
 			y: height / 2 - 50,
-			text: 'Loading...',
+			text: 'Loading FIEFDOM...',
 			style: {
 				font: '20px monospace',
 				fill: '#ffffff'
