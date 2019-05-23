@@ -1,5 +1,5 @@
 var sprite;
-
+var marketVisable = false;
 let ratio = 720 / 216;
 
 //create canvas objects
@@ -22,59 +22,108 @@ function createBackgrounds() {
 	this.bg5.setDisplaySize(game.config.width, game.config.height);
 	this.bg5.setScale(ratio);
 
+	//Depth guide
+	//Menu Backgrounds	10
+	//Menu Items				15
+
 	//market
-	this.marketBackground = this.add.tileSprite(0, 60, 821, 507, 'marketBorder').setOrigin(0, 0).setScrollFactor(0);
-	this.buttonRight = this.add.image(400,400,'arrow').setOrigin(0,0).setScrollFactor(0);
-	this.buttonRight.setInteractive().on('pointerdown', buy);
-	this.buttonLeft = this.add.image(350,400,'arrow').setOrigin(0,0).setScrollFactor(0);
-	this.buttonLeft.setInteractive().on('pointerdown', sell);
-	
+	this.marketBackground = this.add.tileSprite(game.config.width / 2, game.config.height / 2, 821, 507, 'marketBorder').setScrollFactor(0).setDepth(10).setVisible(false);
+	var Id = 0
+	this.marketMenu = [];
+
+	var marketItems = ["Food", "Wood", "Stone"];
+
+	for (y = 300; y <= 450; y += 75) {
+		//320 370 910 960
+		let marketBuyLarge = this.add.image(910, y, 'rightArrow').setScrollFactor(0).setDepth(15).setVisible(false);
+		marketBuyLarge.Id = "Market Buy 10 " + marketItems[Id];
+		marketBuyLarge.setInteractive().on('pointerdown', (item) => { handleClick.call(this, marketBuyLarge.Id) });
+		this.marketMenu.push(marketBuyLarge);
+
+		let marketBuySmall = this.add.image(960, y, 'rightArrow').setScrollFactor(0).setDepth(15).setVisible(false);
+		marketBuySmall.Id = "Market Buy 1 " + marketItems[Id];
+		marketBuySmall.setInteractive().on('pointerdown', (item) => { handleClick.call(this, marketBuySmall.Id) });
+		this.marketMenu.push(marketBuySmall);
+
+		let marketSellLarge = this.add.image(370, y, 'leftArrow').setScrollFactor(0).setDepth(15).setVisible(false);
+		marketSellLarge.Id = "Market Sell 10 " + marketItems[Id];
+		marketSellLarge.setInteractive().on('pointerdown', (item) => { handleClick.call(this, marketSellLarge.Id) });
+		this.marketMenu.push(marketSellLarge);
+
+		let marketSellSmall = this.add.image(320, y, 'leftArrow').setScrollFactor(0).setDepth(15).setVisible(false);
+		marketSellSmall.Id = "Market Sell 1 " + marketItems[Id];
+		marketSellSmall.setInteractive().on('pointerdown', (item) => { handleClick.call(this, marketSellSmall.Id) });
+		this.marketMenu.push(marketSellSmall);
+
+		Id++;
+	}
+	this.marketMenu.push(this.add.image(600, 300, 'foodIcon').setDisplaySize(64, 64).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketMenu.push(this.add.image(600, 375, 'woodIcon').setDisplaySize(64, 64).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketMenu.push(this.add.image(600, 450, 'stoneIcon').setDisplaySize(64, 64).setScrollFactor(0).setDepth(15).setVisible(false));
+
+	this.marketMenu.push(this.add.text(320, 200, "Sell \n1   10", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketMenu.push(this.add.text(910, 200, "Buy \n10   1", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+
+
+	this.marketCost = [];
+	this.marketCost.push(this.add.text(640, 365, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(520, 365, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(740, 365, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+
+	this.marketCost.push(this.add.text(640, 440, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(520, 440, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(740, 440, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+
+	this.marketCost.push(this.add.text(640, 290, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(520, 290, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(740, 290, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+
 	//ground
-	this.ground = this.add.tileSprite(0, game.config.height -20, 6000, 20, 'bg').setOrigin(0,0);
+	this.ground = this.add.tileSprite(0, game.config.height - 20, 6000, 20, 'bg').setOrigin(0, 0);
 	this.ground.setScale(ratio);
 	// this.ground.body.immovable = true;
 
 	//buildings
 	this.home = this.physics.add.staticImage(1925, 620, 'home').setDisplaySize(350, 250).refreshBody();
 	this.castle = this.add.tileSprite(2000, 164, 560, 556, 'castle').setOrigin(0, 0);
-	
+
 	//build menu group
-	this.foodIcon = this.add.image(0,0, 'foodIcon').setDisplaySize(100,100).setVisible(false);
+	this.foodIcon = this.add.image(0, 0, 'foodIcon').setDisplaySize(100, 100).setVisible(false);
 	this.foodIcon.Id = "BuildSelect Farm";
-	this.woodIcon = this.add.image(0,0, 'woodIcon').setDisplaySize(100,100).setVisible(false);
+	this.woodIcon = this.add.image(0, 0, 'woodIcon').setDisplaySize(100, 100).setVisible(false);
 	this.woodIcon.Id = "BuildSelect WoodCutter";
-	this.stoneIcon = this.add.image(0,0, 'stoneIcon').setDisplaySize(100,100).setVisible(false);
+	this.stoneIcon = this.add.image(0, 0, 'stoneIcon').setDisplaySize(100, 100).setVisible(false);
 	this.stoneIcon.Id = "BuildSelect Quarry";
-	this.barracksIcon = this.add.image(0,0, 'barracksIcon').setDisplaySize(100,100).setVisible(false);
+	this.barracksIcon = this.add.image(0, 0, 'barracksIcon').setDisplaySize(100, 100).setVisible(false);
 	this.barracksIcon.Id = "BuildSelect Barracks";
-	this.innIcon = this.add.image(0,0, 'innIcon').setDisplaySize(100,100).setVisible(false);
+	this.innIcon = this.add.image(0, 0, 'innIcon').setDisplaySize(100, 100).setVisible(false);
 	this.innIcon.Id = "BuildSelect Inn";
-	this.goldIcon = this.add.image(0,0, 'goldIcon').setDisplaySize(100,100).setVisible(false);
+	this.goldIcon = this.add.image(0, 0, 'goldIcon').setDisplaySize(100, 100).setVisible(false);
 	this.goldIcon.Id = "BuildSelect Gold";
 	this.buildMenu = [this.foodIcon, this.woodIcon, this.stoneIcon, this.barracksIcon, this.innIcon, this.goldIcon];
 
 	//confirm menu group
-	this.confirmIcon = this.add.image(0,0, 'upgradeIcon').setDisplaySize(100,100).setVisible(false);
+	this.confirmIcon = this.add.image(0, 0, 'upgradeIcon').setDisplaySize(100, 100).setVisible(false);
 	this.confirmName = this.add.text(0, 0, 'Building Name:').setVisible(false);
-	this.confirmCost = this.add.text(0,0, ' Cost').setVisible(false);
+	this.confirmCost = this.add.text(0, 0, ' Cost').setVisible(false);
 	this.confirmGroup = [this.confirmIcon, this.confirmName, this.confirmCost];
 
 	//voting window
-	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false);
-	this.voteText = this.add.text(440, 100, "",{ font: "28px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setVisible(false);
-	this.voteYes1 = this.add.image(400, 120, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteNo1 = this.add.image(900, 120, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteYes2 = this.add.image(400, 185, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteNo2 = this.add.image(900, 185, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteYes3 = this.add.image(400, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteNo3 = this.add.image(900, 250, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteText = this.add.text(440, 100, "", { font: "28px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteYes1 = this.add.image(400, 120, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteNo1 = this.add.image(900, 120, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteYes2 = this.add.image(400, 185, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteNo2 = this.add.image(900, 185, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteYes3 = this.add.image(400, 250, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteNo3 = this.add.image(900, 250, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
 	// this.voteYes2 = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 	// this.voteNo2 = this.add.image(900, 270, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 
 	// this.voteYes3 = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 	// this.voteNo3 = this.add.image(900, 270, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 
-	this.voteGroup = this.add.group([this.voteBG, this.voteText, this.voteYes1, this.voteNo1,this.voteYes2, this.voteNo2,this.voteYes3, this.voteNo3]);
+	this.voteGroup = this.add.group([this.voteBG, this.voteText, this.voteYes1, this.voteNo1, this.voteYes2, this.voteNo2, this.voteYes3, this.voteNo3]);
 
 	this.voteYes1.setInteractive().on('pointerdown', (item) => {
 
@@ -103,37 +152,37 @@ function createBackgrounds() {
 
 
 
-	this.buildMenu.forEach((item) =>{
+	this.buildMenu.forEach((item) => {
 		item.setInteractive().on('pointerdown', (id) => {
 			handleClick.call(this, item.Id)
 		});
 	})
 
-	this.confirmIcon.setInteractive().on('pointerdown',(item) =>{
+	this.confirmIcon.setInteractive().on('pointerdown', (item) => {
 		handleClick.call(this, "Build")
 
 	});
 
 	//resource group
-	this.rbGold = this.add.image(30, 40, 'goldIcon').setDisplaySize(50,50).setScrollFactor(0);
-	this.gold = this.add.text(65, 20, "Fiefdom", {		
+	this.rbGold = this.add.image(30, 40, 'goldIcon').setDisplaySize(50, 50).setScrollFactor(0);
+	this.gold = this.add.text(65, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.rbFood = this.add.image(200, 40, 'foodIcon').setDisplaySize(50,50).setScrollFactor(0);
+	this.rbFood = this.add.image(200, 40, 'foodIcon').setDisplaySize(50, 50).setScrollFactor(0);
 	this.food = this.add.text(235, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.rbWood = this.add.image(370, 40, 'woodIcon').setDisplaySize(50,50).setScrollFactor(0);
+	this.rbWood = this.add.image(370, 40, 'woodIcon').setDisplaySize(50, 50).setScrollFactor(0);
 	this.wood = this.add.text(405, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.rbStone = this.add.image(540, 40, 'stoneIcon').setDisplaySize(50,50).setScrollFactor(0);
+	this.rbStone = this.add.image(540, 40, 'stoneIcon').setDisplaySize(50, 50).setScrollFactor(0);
 	this.stone = this.add.text(575, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
@@ -155,48 +204,52 @@ function createBackgrounds() {
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-
-	//market menu
-	this.marketMenu = this.add.group([this.marketBackground, this.buttonLeft, this.buttonRight]);
 };
 
 
 
-function handleClick(id)
-{
-	console.log("You did it" + id);
+function handleClick(id) {
 	var type = id.split(' ');
 
-	if (type[0] == "BuildSelect")
-	{
+	if (type[0] == "BuildSelect") {
 		setVisible(this.confirmGroup, true);
 		this.buildItem = type[1];
 		this.confirmName.setText(type[1]);
 		this.confirmCost.setText(100);
 	}
 
-	if (type[0] == "Build")
-	{
-		console.log(this.selectedPlot, this.buildItem);
+	if (type[0] == "Build") {
+		//console.log(this.selectedPlot, this.buildItem);
 		BuildPlot(this.selectedPlot, this.buildItem);
 		setVisible(this.confirmGroup, false);
 		setVisible(this.buildMenu, false);
 		this.hammer.play();
 	}
 
-	if(type[0] == "Vote")
-	{
+	if (type[0] == "Vote") {
 		if (type[1] == "Fore") {
-			SubmitVote(type[2],"Fore");
+			SubmitVote(type[2], "Fore");
 			this.rabble.play();
 		}
 		if (type[1] == "Nay") {
-			SubmitVote(type[2],"Nay");
+			SubmitVote(type[2], "Nay");
 			this.boo.play();
 		}
 		//submitVote(string, type[1])
 		this.order.play();
 	}
+
+	if (type[0] == "Market") {
+		if (type[1] == "Buy") {
+			BuyResource(type[3], type[2]);
+		}
+
+		if (type[1] == "Sell") {
+			SellResource(type[3], type[2]);
+		}
+		UpdateFiefdom();
+	}
+
 
 	// Selling sound effect
 	//	this.coins.play();
@@ -212,14 +265,14 @@ function handleClick(id)
 	// UpdateFiefdom();
 }
 
-function build(id){
-	console.log(id);
+function build(id) {
+	//console.log(id);
 }
 
-function toggleVote(){
+function toggleVote() {
 	this.voteGroup.toggleVisible();
 	this.rabble.play();
-	setTimeout(function(){ this.order.play(); }, 5000);
+	setTimeout(function () { this.order.play(); }, 5000);
 	// setVisible(this.voteGroup, true);
 }
 
@@ -258,7 +311,7 @@ function createPlayerAnimation() {
 	});
 };
 
-function buildPlots(){
+function buildPlots() {
 	var plotGroup = this.physics.add.staticGroup();
 	this.plotGroup = plotGroup;
 	this.plotGroup.sfx = {}
@@ -269,22 +322,13 @@ function buildPlots(){
 
 	for (var i = 0; i < fief.plots.length; i++) {
 		x += 350;
-		if(x == 1750){
+		if (x == 1750) {
 			x = 2450;
 		}
 		this.plots[i] = plotGroup.create(x, y, imgKey);
 		this.plots[i].Id = i;
 	}
 }
-
-function buy(){
-	console.log("buy");
-}
-
-function sell(){
-	console.log("sell");
-}
-
 
 // update functions
 function updateBackground() {
@@ -342,25 +386,32 @@ function updateUi() {
 	this.wood.setText(fief.resources.Wood);
 	this.stone.setText(fief.resources.Stone);
 	this.date.setText("Day " + fief.gameState.day + "  Season " + fief.gameState.season + "  Year " + fief.gameState.year);
-	var influence = parseInt(fief.resources.Gold / 1000 + (1+fief.title) *  10);
+	var influence = parseInt(fief.resources.Gold / 1000 + (1 + fief.title) * 10);
 
-	this.voteText.setText("Influence: " + influence + "\n" + fief.ballots[0] + "\n" + fief.ballots[1] + "\n" + fief.ballots[2]);	
+	this.voteText.setText("Influence: " + influence + "\n" + fief.ballots[0] + "\n" + fief.ballots[1] + "\n" + fief.ballots[2]);
 	//parse Text
 	this.ballots.setText(fief.ballots[0] + fief.ballots[1] + fief.ballots[2]);
-	if (fief.edicts.length === 3)
-	{
+	if (fief.edicts.length === 3) {
 		this.edicts.setText(fief.edicts[0].type + fief.edicts[1].type + fief.edicts[2].type);
 	}
-	if (this.seasonSound == fief.gameState.season ){
+	if (this.seasonSound != fief.gameState.season) {
 		this.frog.play();
 		this.seasonSound = fief.gameState.season
 	}
+	//console.log(fief);
+	for (i = 0; i < fief.baseMarket.length; i++) {
+		this.marketCost[i * 3 + 1].setText(fief.sellMarket[i].price + "\n" + fief.sellMarket[i].price * 10);
+		this.marketCost[i * 3 + 2].setText(fief.buyMarket[i].price + "\n" + fief.buyMarket[i].price * 10);		
+		this.marketCost[i * 3].setText(fief.baseMarket[i].price + "\n" + fief.baseMarket[i].price * 10);
+	}
+
+
 }
 
 
 
 //keydown objects/events
-function initKeys(){
+function initKeys() {
 	this.downKey = this.input.keyboard.addKey('DOWN');
 	this.mKey = this.input.keyboard.addKey("M");
 	this.vKey = this.input.keyboard.addKey("V");
@@ -368,14 +419,14 @@ function initKeys(){
 	this.pKey = this.input.keyboard.addKey("P");
 }
 
-function downIsDown(){
-	if(Phaser.Input.Keyboard.JustDown(this.downKey)){
+function downIsDown() {
+	if (Phaser.Input.Keyboard.JustDown(this.downKey)) {
 		return true;
 	}
 	return false;
 }
 
-function plotMenuDisplay(player, plot){
+function plotMenuDisplay(player, plot) {
 	this.foodIcon.x = plot.x - 120;
 	this.foodIcon.y = plot.y - 150;
 
@@ -400,58 +451,58 @@ function plotMenuDisplay(player, plot){
 
 	this.anvil.play();
 
-	console.log(fief.plots[plot.Id]);
-	if(fief.plots[plot.Id] != "Locked"){
+	//console.log(fief.plots[plot.Id]);
+	if (fief.plots[plot.Id] != "Locked") {
 		setVisible(this.buildMenu, true);
 	}
 }
 
-function buildConfirmMenu(plot, confirmGroup){
+function buildConfirmMenu(plot, confirmGroup) {
 
-	confirmGroup[1].x = plot.x -120;
-	confirmGroup[1].y = plot.y -400;
+	confirmGroup[1].x = plot.x - 120;
+	confirmGroup[1].y = plot.y - 400;
 
 	confirmGroup[2].x = plot.x;
-	confirmGroup[2].y= plot.y -400;
+	confirmGroup[2].y = plot.y - 400;
 
-	confirmGroup[0].x= plot.x + 180;
-	confirmGroup[0].y= plot.y -400;
+	confirmGroup[0].x = plot.x + 180;
+	confirmGroup[0].y = plot.y - 400;
 }
 
-function toggleMarket(){
-	// this.marketBackground.setVisible(false);
-	this.marketMenu.toggleVisible();
+function toggleMarket() {	
+	marketVisable = !marketVisable;
+	setVisible(this.marketMenu, marketVisable);
+	setVisible(this.marketCost, marketVisable);
+	this.marketBackground.setVisible(marketVisable);
 	this.chaching.play();
 }
 
 
-function setVisible(array, value)
-{
-	array.forEach( function (item) {
+function setVisible(array, value) {
+	array.forEach(function (item) {
 		item.setVisible(value);
 	});
 }
 
-function updatePlots(){
+function updatePlots() {
 	// console.log(this.plots);
-	for(i=0; i<fief.plots.length; i++)
-	{
-		switch(fief.plots[i]){
+	for (i = 0; i < fief.plots.length; i++) {
+		switch (fief.plots[i]) {
 			case "Empty": this.plots[i].setTexture('log').refreshBody();
-			break;
+				break;
 			case "Farm": this.plots[i].setTexture('mill').refreshBody();
-			break;
+				break;
 			case "Locked": {
 				this.plots[i].setTexture('lockIcon').refreshBody();
 				this.plots[i].y = 680;
-				this.plots[i].setDisplaySize(75,75);
-			} 
-			break;
+				this.plots[i].setDisplaySize(75, 75);
+			}
+				break;
 		}
 	}
 }
 
-function homeOverTest(player, body){
+function homeOverTest(player, body) {
 	// console.log("overlap house");
 }
 
@@ -485,7 +536,8 @@ class Fiefdom extends Phaser.Scene {
 
 		//Background Images
 
-		this.load.image('arrow', 'assets/tempArrow.png');
+		this.load.image('leftArrow', 'assets/leftArrow.png');
+		this.load.image('rightArrow', 'assets/rightArrow.png');
 		this.load.image('mill', 'assets/mill.png');
 		this.load.image('log', 'assets/logPile.png');
 		this.load.image('bg', 'assets/BG.png');
@@ -561,7 +613,7 @@ class Fiefdom extends Phaser.Scene {
 		this.cursors = this.input.keyboard.createCursorKeys();
 
 
-		this.music = this.sound.add('synth', {volume: 0.25});
+		this.music = this.sound.add('synth', { volume: 0.25 });
 		this.anvil = this.sound.add('anvil');
 		this.boo = this.sound.add('boo');
 		this.hammer = this.sound.add('hammer');
@@ -571,13 +623,13 @@ class Fiefdom extends Phaser.Scene {
 		this.frog2 = this.sound.add('frog2');
 		this.grunt = this.sound.add('grunt');
 		this.step = this.sound.add('step');
-		this.rabble = this.sound.add('rabble', {volume: 1.2});
+		this.rabble = this.sound.add('rabble', { volume: 1.2 });
 		this.order = this.sound.add('order');
-		this.toot = this.sound.add('toot', {volume: 1.5});
+		this.toot = this.sound.add('toot', { volume: 1.5 });
 		this.cheers = this.sound.add('cheers');
 
 		this.music.loop = true;
-		this.music.play();
+		//is.music.play();
 
 
 
@@ -602,21 +654,20 @@ class Fiefdom extends Phaser.Scene {
 		updateBackground.call(this);
 		updatePlayerUi.call(this);
 		updateUi.call(this);
-		if(Phaser.Input.Keyboard.JustDown(this.mKey)){
+		if (Phaser.Input.Keyboard.JustDown(this.mKey)) {
 			toggleMarket.call(this);
 		}
-		if(Phaser.Input.Keyboard.JustDown(this.vKey)){
+		if (Phaser.Input.Keyboard.JustDown(this.vKey)) {
 			toggleVote.call(this);
 		}
-		if(Phaser.Input.Keyboard.JustDown(this.qKey)){
+		if (Phaser.Input.Keyboard.JustDown(this.qKey)) {
 			this.toot.play();
 		}
-		if(Phaser.Input.Keyboard.JustDown(this.pKey)){
+		if (Phaser.Input.Keyboard.JustDown(this.pKey)) {
 			this.frog2.play();
 		}
 
-		if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150)
-		{
+		if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150) {
 			setVisible(this.buildMenu, false);
 		}
 		updatePlots.call(this);
