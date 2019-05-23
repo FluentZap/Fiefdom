@@ -198,8 +198,6 @@ function createBackgrounds() {
 
 };
 
-
-
 function handleClick(id)
 {
 	console.log("You did it" + id);
@@ -405,12 +403,11 @@ function updateUi() {
 						break;
 				}
 			}
-			this.sbTaxText.setText(taxTotal + "%");
+			this.sbTaxText.setText("+" + taxTotal + "%");
 			this.sbFoodText.setText("-" + foodDiscount + "%");
 			this.sbWoodText.setText("-" + woodDiscount + "%");
 			this.sbStoneText.setText("-" + stoneDiscount + "%");
 		}
-		// this.sbTaxText.setText(fief.edicts[0].target + fief.edicts[1].type + fief.edicts[2].type);
 	}
 	if (this.seasonSound == fief.gameState.season ){
 		this.frog.play();
@@ -512,7 +509,7 @@ function updatePlots(){
 		// 		this.plots[i].setTexture('lockIcon').refreshBody();
 		// 		this.plots[i].y = 680;
 		// 		this.plots[i].setDisplaySize(75,75);
-		// 	} 
+		// 	}
 		// 	break;
 		// }
 	}
