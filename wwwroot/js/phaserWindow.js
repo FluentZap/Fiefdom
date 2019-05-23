@@ -131,8 +131,8 @@ function createBackgrounds() {
 
 	//confirm menu group
 	this.confirmIcon = this.add.image(0,0, 'upgradeIcon').setDisplaySize(100,100).setVisible(false).setDepth(307);
-	this.confirmName = this.add.text(0, 0, 'Building Name:').setVisible(false).setDepth(308);
-	this.confirmCost = this.add.text(0,0, ' Cost').setVisible(false).setDepth(309);
+	this.confirmName = this.add.text(0, 0, 'Building Name:', { font: "32px Alagard", fill: "#000000", align: "center" }).setVisible(false).setDepth(308);
+	this.confirmCost = this.add.text(0,0, ' Cost', { font: "32px Alagard", fill: "#000000", align: "center" }).setVisible(false).setDepth(309);
 	this.confirmGroup = [this.confirmIcon, this.confirmName, this.confirmCost];
 
 	//voting window
