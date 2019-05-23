@@ -88,39 +88,54 @@ function createBackgrounds() {
 	// this.ground.body.immovable = true;
 
 	//buildings
-	this.home = this.physics.add.staticImage(1925, 620, 'home').setDisplaySize(350, 250).refreshBody();
-	this.castle = this.add.tileSprite(2000, 164, 560, 556, 'castle').setOrigin(0, 0);
+	// this.home = this.physics.add.staticImage(1925, 620, 'home').setDisplaySize(350, 250).refreshBody();
+	// this.castle = this.add.tileSprite(2000, 164, 560, 556, 'castle').setOrigin(0, 0).setVisible(false);
+	this.building1 = this.add.image(1925, 470, 'building1').setDepth(100);
+	this.building2 = this.add.image(500, 530, 'building2').setVisible(false).setDepth(80);
+	this.building3 = this.add.image(1070, 420, 'building3').setVisible(false);
+	this.building4 = this.add.image(2500, 385, 'building4').setVisible(false).setDepth(90);
+	this.building5 = this.add.image(1500, 380, 'building5').setDisplaySize(400, 690).setVisible(false).setDepth(99);
+	this.building6 = this.add.image(3000, 450, 'building6').setVisible(false);
+	this.building7 = this.add.image(3500, 420, 'building7').setVisible(false);
+	this.building8 = this.add.image(4000, 400, 'building8').setVisible(false).setDepth(70);
+	this.building9 = this.add.image(4600, 440, 'building9').setVisible(false);
+	this.building10 = this.add.image(4250, 380, 'building5').setDisplaySize(400, 690).setVisible(false);
+	this.building11 = this.add.image(0, 420, 'building7').setVisible(false).setDepth(81);
+	this.buildingGroup = [this.building1, this.building2, this.building3, this.building4, this.building5, this.building6, this.building7, this.building8, this.building9, this.building10]
+	
 
+
+	
 	//build menu group
-	this.foodIcon = this.add.image(0, 0, 'foodIcon').setDisplaySize(100, 100).setVisible(false);
+	this.foodIcon = this.add.image(0,0, 'foodIcon').setDisplaySize(100,100).setVisible(false).setDepth(300);
 	this.foodIcon.Id = "BuildSelect Farm";
-	this.woodIcon = this.add.image(0, 0, 'woodIcon').setDisplaySize(100, 100).setVisible(false);
+	this.woodIcon = this.add.image(0,0, 'woodIcon').setDisplaySize(100,100).setVisible(false).setDepth(301);
 	this.woodIcon.Id = "BuildSelect WoodCutter";
-	this.stoneIcon = this.add.image(0, 0, 'stoneIcon').setDisplaySize(100, 100).setVisible(false);
+	this.stoneIcon = this.add.image(0,0, 'stoneIcon').setDisplaySize(100,100).setVisible(false).setDepth(302);
 	this.stoneIcon.Id = "BuildSelect Quarry";
-	this.barracksIcon = this.add.image(0, 0, 'barracksIcon').setDisplaySize(100, 100).setVisible(false);
+	this.barracksIcon = this.add.image(0,0, 'barracksIcon').setDisplaySize(100,100).setVisible(false).setDepth(304);
 	this.barracksIcon.Id = "BuildSelect Barracks";
-	this.innIcon = this.add.image(0, 0, 'innIcon').setDisplaySize(100, 100).setVisible(false);
+	this.innIcon = this.add.image(0,0, 'innIcon').setDisplaySize(100,100).setVisible(false).setDepth(305);
 	this.innIcon.Id = "BuildSelect Inn";
-	this.goldIcon = this.add.image(0, 0, 'goldIcon').setDisplaySize(100, 100).setVisible(false);
+	this.goldIcon = this.add.image(0,0, 'goldIcon').setDisplaySize(100,100).setVisible(false).setDepth(306);
 	this.goldIcon.Id = "BuildSelect Gold";
 	this.buildMenu = [this.foodIcon, this.woodIcon, this.stoneIcon, this.barracksIcon, this.innIcon, this.goldIcon];
 
 	//confirm menu group
-	this.confirmIcon = this.add.image(0, 0, 'upgradeIcon').setDisplaySize(100, 100).setVisible(false);
-	this.confirmName = this.add.text(0, 0, 'Building Name:').setVisible(false);
-	this.confirmCost = this.add.text(0, 0, ' Cost').setVisible(false);
+	this.confirmIcon = this.add.image(0,0, 'upgradeIcon').setDisplaySize(100,100).setVisible(false).setDepth(307);
+	this.confirmName = this.add.text(0, 0, 'Building Name:').setVisible(false).setDepth(308);
+	this.confirmCost = this.add.text(0,0, ' Cost').setVisible(false).setDepth(309);
 	this.confirmGroup = [this.confirmIcon, this.confirmName, this.confirmCost];
 
 	//voting window
-	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteText = this.add.text(440, 100, "", { font: "28px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteYes1 = this.add.image(400, 120, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteNo1 = this.add.image(900, 120, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteYes2 = this.add.image(400, 185, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteNo2 = this.add.image(900, 185, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteYes3 = this.add.image(400, 250, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteNo3 = this.add.image(900, 250, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false).setDepth(10).setDepth(400);
+	this.voteText = this.add.text(440, 100, "", { font: "28px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setVisible(false).setDepth(401);
+	this.voteYes1 = this.add.image(400, 120, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(402);
+	this.voteNo1 = this.add.image(900, 120, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(403);
+	this.voteYes2 = this.add.image(400, 185, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(405);
+	this.voteNo2 = this.add.image(900, 185, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(406);
+	this.voteYes3 = this.add.image(400, 250, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(407);
+	this.voteNo3 = this.add.image(900, 250, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(408);
 	// this.voteYes2 = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 	// this.voteNo2 = this.add.image(900, 270, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 
@@ -168,25 +183,25 @@ function createBackgrounds() {
 	});
 
 	//resource group
-	this.rbGold = this.add.image(30, 40, 'goldIcon').setDisplaySize(50, 50).setScrollFactor(0);
-	this.gold = this.add.text(65, 20, "Fiefdom", {
+	this.rbGold = this.add.image(30, 40, 'goldIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(600);
+	this.gold = this.add.text(65, 20, "Fiefdom", {		
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.rbFood = this.add.image(200, 40, 'foodIcon').setDisplaySize(50, 50).setScrollFactor(0);
+	this.rbFood = this.add.image(200, 40, 'foodIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(601);
 	this.food = this.add.text(235, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.rbWood = this.add.image(370, 40, 'woodIcon').setDisplaySize(50, 50).setScrollFactor(0);
+	this.rbWood = this.add.image(370, 40, 'woodIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(602);
 	this.wood = this.add.text(405, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.rbStone = this.add.image(540, 40, 'stoneIcon').setDisplaySize(50, 50).setScrollFactor(0);
+	this.rbStone = this.add.image(540, 40, 'stoneIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(603);
 	this.stone = this.add.text(575, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
@@ -194,7 +209,7 @@ function createBackgrounds() {
 	}).setScrollFactor(0);
 
 	//game time group
-	this.date = this.add.text(800, 20, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0);
+	this.date = this.add.text(800, 20, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(604);
 
 
 
@@ -288,7 +303,7 @@ function toggleVote() {
 function createPlayer() {
 
 	//Add Character
-	this.player = this.physics.add.sprite(1925, game.config.height, 'character');
+	this.player = this.physics.add.sprite(1925, game.config.height, 'character').setDepth(9999);
 	this.player.setBounce(0.2);
 	this.player.setCollideWorldBounds(true);
 	this.player.setScale(3);
@@ -334,7 +349,7 @@ function buildPlots() {
 		if (x == 1750) {
 			x = 2450;
 		}
-		this.plots[i] = plotGroup.create(x, y, imgKey);
+		this.plots[i] = plotGroup.create(x, y, imgKey).setDisplaySize(75,75).setDepth(500);
 		this.plots[i].Id = i;
 	}
 }
@@ -507,19 +522,28 @@ function setVisible(array, value) {
 
 function updatePlots() {
 	// console.log(this.plots);
-	for (i = 0; i < fief.plots.length; i++) {
-		switch (fief.plots[i]) {
-			case "Empty": this.plots[i].setTexture('log').refreshBody();
-				break;
-			case "Farm": this.plots[i].setTexture('mill').refreshBody();
-				break;
-			case "Locked": {
-				this.plots[i].setTexture('lockIcon').refreshBody();
-				this.plots[i].y = 680;
-				this.plots[i].setDisplaySize(75, 75);
-			}
-				break;
+	for(i=0; i<fief.plots.length; i++)
+	{
+		if(fief.plots[i] != "Empty" && fief.plots[i] != "Locked") {
+			this.plots[i].setVisible(false);
+			this.buildingGroup[i].setVisible(true);
 		}
+		// switch(fief.plots[i]){
+		// 	case "Empty": this.plots[i].setTexture('log').refreshBody();
+		// 	break;
+		// 	case "Farm": {
+		// 		this.plots[i].setVisible(false);
+		// 		this.building2.setVisible(true);
+		// 		UpdateFiefdom.call(this);
+		// 	}
+		// 	break;
+		// 	case "Locked": {
+		// 		this.plots[i].setTexture('lockIcon').refreshBody();
+		// 		this.plots[i].y = 680;
+		// 		this.plots[i].setDisplaySize(75,75);
+		// 	} 
+		// 	break;
+		// }
 	}
 }
 
@@ -549,6 +573,17 @@ class Fiefdom extends Phaser.Scene {
 		this.load.image('thumbsUp', 'assets/thumbsup.png');
 		this.load.image('thumbsDown', 'assets/thumbsdown.png');
 
+		//buildings
+		this.load.image('building1', 'assets/buildings/building1.png');
+		this.load.image('building2', 'assets/buildings/building2.png');
+		this.load.image('building3', 'assets/buildings/building3.png');
+		this.load.image('building4', 'assets/buildings/building4.png');
+		this.load.image('building5', 'assets/buildings/building5.png');
+		this.load.image('building6', 'assets/buildings/building6.png');
+		this.load.image('building7', 'assets/buildings/building7.png');
+		this.load.image('building8', 'assets/buildings/building8.png');
+		this.load.image('building9', 'assets/buildings/building9.png');
+
 
 		//menu backgrounds
 		// this.load.image('buildMenuBG', 'assets/blank.png');
@@ -568,7 +603,6 @@ class Fiefdom extends Phaser.Scene {
 		this.load.image('bg4', 'assets/plx-4.png');
 		this.load.image('bg5', 'assets/plx-5.png');
 		this.load.image('castle', 'assets/castle.png');
-		this.load.image('home', 'assets/house.png');
 
 		//Sprite Sheets
 
@@ -650,7 +684,7 @@ class Fiefdom extends Phaser.Scene {
 		this.cheers = this.sound.add('cheers');
 
 		this.music.loop = true;
-		//is.music.play();
+		// this.music.play();
 
 
 
