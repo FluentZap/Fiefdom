@@ -66,15 +66,22 @@ namespace Fiefdom
 			{
 				using (var db = new FiefContext())
 				{
-					int price = db.Market.Where(x => x.Type == item.Key).FirstOrDefault().Price;
-					price += (int)((100 - price) * 0.1);
+					var res = db.Market.Where(x => x.Type == item.Key).FirstOrDefault();
+					res.Price += (int)((100 - res.Price) * 0.1);
 
-					price += (item.Value % 50);
-					if (price < 10) price = 10;
-					if (price > 1000) price = 1000;
+					res.Price += item.Value / 10;
+					res.Price++;
+					if (res.Price < 10) res.Price = 10;
+					if (res.Price > 1000) res.Price = 1000;
 					db.SaveChanges();
 				}
 			}
+
+			foreach (var item in FiefdomActions.Transactions.ToArray())
+			{
+				FiefdomActions.Transactions[item.Key] = 0;
+			}
+
 		}
 		public void ProcessVotes()
 		{

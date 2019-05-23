@@ -42,9 +42,9 @@ namespace Fiefdom
 
 				if (db.Market.ToList().Count == 0)
 				{
-					db.Market.Add(new Market { Type = "Food", Price = 100 });
-					db.Market.Add(new Market { Type = "Wood", Price = 100 });					
+					db.Market.Add(new Market { Type = "Wood", Price = 100 });
 					db.Market.Add(new Market { Type = "Stone", Price = 100 });
+					db.Market.Add(new Market { Type = "Food", Price = 100 });
 				}
 				db.SaveChanges();
 			}
