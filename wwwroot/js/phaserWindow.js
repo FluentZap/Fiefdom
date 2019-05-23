@@ -22,8 +22,12 @@ function createBackgrounds() {
 	this.bg5.setDisplaySize(game.config.width, game.config.height);
 	this.bg5.setScale(ratio);
 
+	//Depth guide
+	//Menu Backgrounds	10
+	//Menu Items				15
+
 	//market
-	this.marketBackground = this.add.tileSprite(0, 60, 821, 507, 'marketBorder').setOrigin(0, 0).setScrollFactor(0);
+	this.marketBackground = this.add.tileSprite(game.config.width / 2, game.config.height / 2, 821, 507, 'marketBorder').setScrollFactor(0).setDepth(10);	
 	this.buttonRight = this.add.image(400,400,'arrow').setOrigin(0,0).setScrollFactor(0);
 	this.buttonRight.setInteractive().on('pointerdown', buy);
 	this.buttonLeft = this.add.image(350,400,'arrow').setOrigin(0,0).setScrollFactor(0);
@@ -60,14 +64,14 @@ function createBackgrounds() {
 	this.confirmGroup = [this.confirmIcon, this.confirmName, this.confirmCost];
 
 	//voting window
-	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false);
-	this.voteText = this.add.text(440, 100, "",{ font: "28px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setVisible(false);
-	this.voteYes1 = this.add.image(400, 120, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteNo1 = this.add.image(900, 120, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteYes2 = this.add.image(400, 185, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteNo2 = this.add.image(900, 185, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteYes3 = this.add.image(400, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
-	this.voteNo3 = this.add.image(900, 250, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
+	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteText = this.add.text(440, 100, "", { font: "28px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteYes1 = this.add.image(400, 120, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteNo1 = this.add.image(900, 120, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteYes2 = this.add.image(400, 185, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteNo2 = this.add.image(900, 185, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteYes3 = this.add.image(400, 250, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteNo3 = this.add.image(900, 250, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
 	// this.voteYes2 = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 	// this.voteNo2 = this.add.image(900, 270, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 
