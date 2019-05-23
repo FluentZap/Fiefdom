@@ -13,7 +13,7 @@ fief.sellMarket = [];
 fief.ballots = [];
 fief.tax = 0;
 fief.edicts = [{ type: "Empty", Amount: 0 }, { type: "Empty", Amount: 0 }, { type: "Empty", Amount: 0 }];
-
+fief.vote = ["vote", "vote", "vote"];
 
 var initialStart = false;
 var market = {};
@@ -149,8 +149,12 @@ connection.on("RecieveFiefdomData", function (plots, gameState, gameValues) {
 
 	gameValues.sellMarket.forEach(function (p) {
 		fief.sellMarket.push(p);
-	});				
-	// console.log(fief.edicts);
+	});
+
+	fief.vote[0] = plots.ballot1;
+	fief.vote[1] = plots.ballot2;
+	fief.vote[2] = plots.ballot3;
+
 	if (initialStart === false) {
 		game.scene.run('scene');
 		initialStart = true;

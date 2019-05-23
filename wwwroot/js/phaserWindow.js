@@ -1,6 +1,10 @@
 var sprite;
 var marketVisable = false;
 let ratio = 720 / 216;
+var vote = [];
+vote.push("None");
+vote.push("None");
+vote.push("None");
 
 //create canvas objects
 function createBackgrounds() {
@@ -223,20 +227,23 @@ function handleClick(id) {
 		BuildPlot(this.selectedPlot, this.buildItem);
 		setVisible(this.confirmGroup, false);
 		setVisible(this.buildMenu, false);
-		this.hammer.play();
+		if (!this.hammer.isPlaying) this.hammer.play();
 	}
 
 	if (type[0] == "Vote") {
-		if (type[1] == "Fore") {
-			SubmitVote(type[2], "Fore");
-			this.rabble.play();
+
+		if (fief.vote[type[2]] == type[1]) {
+			fief.vote[type[2]] = "vote";
+			SubmitVote(type[2], "vote");
+		} else {
+			fief.vote[type[2]] = type[1];
+			SubmitVote(type[2], type[1]);
 		}
-		if (type[1] == "Nay") {
-			SubmitVote(type[2], "Nay");
-			this.boo.play();
-		}
-		//submitVote(string, type[1])
-		this.order.play();
+
+		
+		if (!this.rabble.isPlaying) this.rabble.play();
+
+		//this.order.play();
 	}
 
 	if (type[0] == "Market") {
@@ -271,8 +278,10 @@ function build(id) {
 
 function toggleVote() {
 	this.voteGroup.toggleVisible();
-	this.rabble.play();
-	setTimeout(function () { this.order.play(); }, 5000);
+	if (!this.rabble.isPlaying) this.rabble.play();
+
+	if (!this.order.isPlaying) this.order.play();
+	//setTimeout(function () { this.order.play(); }, 5000);
 	// setVisible(this.voteGroup, true);
 }
 
@@ -347,7 +356,7 @@ function updatePlayerUi() {
 	let moving = false;
 	if (cursors.up.isDown && onGround) {
 		player.setVelocityY(-330);
-		this.grunt.play();
+		if (!this.grunt.isPlaying) this.grunt.play();
 		//BuildPlot(6,'Farm')
 		//UpdateFiefdom();
 		//console.log(fief.plots);
@@ -395,15 +404,27 @@ function updateUi() {
 		this.edicts.setText(fief.edicts[0].type + fief.edicts[1].type + fief.edicts[2].type);
 	}
 	if (this.seasonSound != fief.gameState.season) {
-		this.frog.play();
+		if (!this.frog.isPlaying) this.frog.play();
 		this.seasonSound = fief.gameState.season
 	}
 	//console.log(fief);
 	for (i = 0; i < fief.baseMarket.length; i++) {
 		this.marketCost[i * 3 + 1].setText(fief.sellMarket[i].price + "\n" + fief.sellMarket[i].price * 10);
-		this.marketCost[i * 3 + 2].setText(fief.buyMarket[i].price + "\n" + fief.buyMarket[i].price * 10);		
+		this.marketCost[i * 3 + 2].setText(fief.buyMarket[i].price + "\n" + fief.buyMarket[i].price * 10);
 		this.marketCost[i * 3].setText(fief.baseMarket[i].price + "\n" + fief.baseMarket[i].price * 10);
 	}
+
+	if (fief.vote[0] == "Fore") { this.voteYes1.setTint(0x00ff00); this.voteNo1.setTint(0xff0000); }
+	if (fief.vote[0] == "Nay") { this.voteYes1.setTint(0xff0000); this.voteNo1.setTint(0x00ff00); }
+	if (fief.vote[0] == "vote") { this.voteYes1.setTint(0xffffff); this.voteNo1.setTint(0xffffff); }
+
+	if (fief.vote[1] == "Fore") { this.voteYes2.setTint(0x00ff00); this.voteNo2.setTint(0xff0000); }
+	if (fief.vote[1] == "Nay") { this.voteYes2.setTint(0xff0000); this.voteNo2.setTint(0x00ff00); }
+	if (fief.vote[1] == "vote") { this.voteYes2.setTint(0xffffff); this.voteNo2.setTint(0xffffff); }
+
+	if (fief.vote[2] == "Fore") { this.voteYes3.setTint(0x00ff00); this.voteNo3.setTint(0xff0000); }
+	if (fief.vote[2] == "Nay") { this.voteYes3.setTint(0xff0000); this.voteNo3.setTint(0x00ff00); }
+	if (fief.vote[2] == "vote") { this.voteYes3.setTint(0xffffff); this.voteNo3.setTint(0xffffff); }
 
 
 }
@@ -449,7 +470,7 @@ function plotMenuDisplay(player, plot) {
 
 	this.selectedPlot = plot.Id;
 
-	this.anvil.play();
+	if (!this.anvil.isPlaying) this.anvil.play();
 
 	//console.log(fief.plots[plot.Id]);
 	if (fief.plots[plot.Id] != "Locked") {
@@ -469,12 +490,12 @@ function buildConfirmMenu(plot, confirmGroup) {
 	confirmGroup[0].y = plot.y - 400;
 }
 
-function toggleMarket() {	
+function toggleMarket() {
 	marketVisable = !marketVisable;
 	setVisible(this.marketMenu, marketVisable);
 	setVisible(this.marketCost, marketVisable);
 	this.marketBackground.setVisible(marketVisable);
-	this.chaching.play();
+	if (!this.chaching.isPlaying) this.chaching.play();
 }
 
 
@@ -661,10 +682,10 @@ class Fiefdom extends Phaser.Scene {
 			toggleVote.call(this);
 		}
 		if (Phaser.Input.Keyboard.JustDown(this.qKey)) {
-			this.toot.play();
+			if (!this.toot.isPlaying) this.toot.play();
 		}
 		if (Phaser.Input.Keyboard.JustDown(this.pKey)) {
-			this.frog2.play();
+			if (!this.frog2.isPlaying) this.frog2.play();
 		}
 
 		if (this.player.x > this.woodIcon.x + 150 || this.player.x < this.woodIcon.x - 150) {
