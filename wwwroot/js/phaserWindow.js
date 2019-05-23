@@ -89,9 +89,10 @@ function createBackgrounds() {
 	this.marketCost.push(this.add.text(520, 365, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
 	this.marketCost.push(this.add.text(740, 365, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
 
+	this.marketTitleText = this.add.text(640, 200, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false);
+
 	this.titleButton = this.add.image(960, 550, 'titleIcon').setScrollFactor(0).setDepth(600).setVisible(false).setDisplaySize(50,50);
-	// this.titleButton = fief.sessionId;
-	this.titleButton.setInteractive().on('pointerdown', (item) => { BuyTitle(); UpdateFiefdom().call(this) });
+	this.titleButton.setInteractive().on('pointerdown', (item) => { BuyTitle(); UpdateFiefdom.call(this) });
 	this.marketCost.push(this.add.text(700, 530, "Buy New Title", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
 	this.marketMenu.push(this.titleButton);
 
@@ -326,10 +327,11 @@ function toggleVote() {
 	
 	if (voteVisable)
 	{
-		marketVisable = false;
+		this.marketVisable = false;
 		setVisible(this.marketMenu, false);
 		setVisible(this.marketCost, false);
 		this.marketBackground.setVisible(false);
+		this.marketTitleText.setVisible(false);
 	}
 	
 	//setTimeout(function () { this.order.play(); }, 5000);
@@ -499,7 +501,21 @@ function updateUi() {
 	if (fief.vote[2] == "Fore") { this.voteYes3.setTint(0x00ff00); this.voteNo3.setTint(0xff0000); }
 	if (fief.vote[2] == "Nay") { this.voteYes3.setTint(0xff0000); this.voteNo3.setTint(0x00ff00); }
 	if (fief.vote[2] == "vote") { this.voteYes3.setTint(0xffffff); this.voteNo3.setTint(0xffffff); }
-
+	switch(fief.title)
+	{
+		case 0:
+		this.marketTitleText.setText("Yeoman")
+		break;
+		case 1:
+		this.marketTitleText.setText("Patrician")
+		break;
+		case 2:
+		this.marketTitleText.setText("Baron")
+		break;
+		case 3:
+		this.marketTitleText.setText("Lord")
+		break;
+	}
 
 }
 
@@ -569,9 +585,9 @@ function toggleMarket() {
 	setVisible(this.marketMenu, marketVisable);
 	setVisible(this.marketCost, marketVisable);	
 	this.marketBackground.setVisible(marketVisable);
-
+	this.marketTitleText.setVisible(marketVisable);
 	if (marketVisable)
-	{
+	{	
 		voteVisable = false;
 		setVisible(this.voteGroup, false);
 		setVisible(this.voteGroup, false);
@@ -593,6 +609,12 @@ function updatePlots() {
 		if(fief.plots[i] != "Empty" && fief.plots[i] != "Locked") {
 			this.plots[i].setVisible(false);
 			this.buildingGroup[i].setVisible(true);
+		}
+
+		if(fief.plots[i] == "Empty") {
+			this.plots[i].setTexture('unlocked');
+			// this.plots[i].setVisible(false);
+			// this.buildingGroup[i].setVisible(true);
 		}
 		
 		// switch(fief.plots[i]){
@@ -636,6 +658,7 @@ class Fiefdom extends Phaser.Scene {
 		this.load.image('barracksIcon', 'assets/icons/barracksIcon.png');
 		this.load.image('thumbsUp', 'assets/thumbsup.png');
 		this.load.image('thumbsDown', 'assets/thumbsdown.png');
+		this.load.image('unlocked', 'assets/icons/unlockedIcon.png');
 
 		//buildings
 		this.load.image('building1', 'assets/buildings/building1.png');
@@ -657,8 +680,6 @@ class Fiefdom extends Phaser.Scene {
 
 		this.load.image('leftArrow', 'assets/leftArrow.png');
 		this.load.image('rightArrow', 'assets/rightArrow.png');
-		this.load.image('mill', 'assets/mill.png');
-		this.load.image('log', 'assets/logPile.png');
 		this.load.image('bg', 'assets/BG.png');
 		this.load.image('bg1', 'assets/plx-1.png');
 		this.load.image('bg2', 'assets/plx-2.png');
