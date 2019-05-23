@@ -161,12 +161,13 @@ function createBackgrounds() {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
-	}).setScrollFactor(0);
+	}).setScrollFactor(0).setVisible(false);
 	this.edicts = this.add.text(40, 310, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
+	this.edicts.setVisible(false);
 
 	//sidebar
 	this.sbTaxIcon = this.add.image(30, 150, "coinIcon").setDisplaySize(50,50).setScrollFactor(0).setDepth(620);
@@ -174,22 +175,22 @@ function createBackgrounds() {
 	this.sbWoodIcon = this.add.image(30, 300, "woodIcon").setDisplaySize(50,50).setScrollFactor(0).setDepth(622);
 	this.sbStoneIcon = this.add.image(30, 375, "stoneIcon").setDisplaySize(50,50).setScrollFactor(0).setDepth(623);
 
-	this.sbTaxText = this.add.text(65, 125,  "Fiefdom", {
+	this.sbTaxText = this.add.text(65, 125, "", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0).setDepth(624);
-	this.sbFoodText = this.add.text(65, 200,  "Fiefdom", {
+	this.sbFoodText = this.add.text(65, 200,  "", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0).setDepth(624);
-	this.sbWoodText = this.add.text(65, 275,  "Fiefdom", {
+	this.sbWoodText = this.add.text(65, 275,  "", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0).setDepth(624);
-	this.sbStoneText = this.add.text(65, 350,  "Fiefdom", {
+	this.sbStoneText = this.add.text(65, 350,  "", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
@@ -381,24 +382,41 @@ function updateUi() {
 	this.date.setText("Day " + fief.gameState.day + "  Season " + fief.gameState.season + "  Year " + fief.gameState.year);
 	var influence = parseInt(fief.resources.Gold / 1000 + (1+fief.title) *  10);
 
-	this.voteText.setText("Influence: " + influence + "\n" + fief.ballots[0] + "\n" + fief.ballots[1] + "\n" + fief.ballots[2]);	
+	this.voteText.setText("Influence: " + influence + "\n" + fief.ballots[0] + "\n" + fief.ballots[1] + "\n" + fief.ballots[2])
 	//parse Text
-	this.ballots.setText(fief.ballots[0] + fief.ballots[1] + fief.ballots[2]);
+	// this.ballots.setText(fief.ballots[0] + fief.ballots[1] + fief.ballots[2]);
 	if (fief.edicts.length === 3)
 	{
-		this.edicts.setText(fief.edicts[0].type + fief.edicts[1].type + fief.edicts[2].type);
+		var foodDiscount = 0;
+		var stoneDiscount = 0;
+		var woodDiscount = 0;
+		var taxTotal = 0;
+		for(i=0; i < fief.edicts.length; i++){
+			if(fief.edicts[i].type == "Tax"){
+				taxTotal = taxTotal + parseInt(fief.edicts[i].amount);
+			}
+			if(fief.edicts[i].type == "Market"){
+				switch(fief.edicts[i].target){
+					case "Food": foodDiscount += parseInt(fief.edicts[i].amount);
+						break;
+					case "Wood": woodDiscount += parseInt(fief.edicts[i].amount);
+						break;
+					case "Stone": stoneDiscount += parseInt(fief.edicts[i].amount);
+						break;
+				}
+			}
+			this.sbTaxText.setText(taxTotal + "%");
+			this.sbFoodText.setText("-" + foodDiscount + "%");
+			this.sbWoodText.setText("-" + woodDiscount + "%");
+			this.sbStoneText.setText("-" + stoneDiscount + "%");
+		}
+		// this.sbTaxText.setText(fief.edicts[0].target + fief.edicts[1].type + fief.edicts[2].type);
 	}
 	if (this.seasonSound == fief.gameState.season ){
 		this.frog.play();
 		this.seasonSound = fief.gameState.season
 	}
 }
-
-function updateSideBar() {
-
-}
-
-
 
 //keydown objects/events
 function initKeys(){
@@ -500,9 +518,6 @@ function updatePlots(){
 	}
 }
 
-function homeOverTest(player, body){
-	// console.log("overlap house");
-}
 
 class Fiefdom extends Phaser.Scene {
 
@@ -594,7 +609,6 @@ class Fiefdom extends Phaser.Scene {
 
 		//overlaps
 		this.physics.add.overlap(this.player, this.plotGroup, plotMenuDisplay, downIsDown, this);
-		this.physics.add.overlap(this.player, this.home, homeOverTest);
 
 		//gamebounds and camera
 		this.physics.world.bounds.width = 6000;
