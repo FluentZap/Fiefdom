@@ -281,7 +281,7 @@ function handleClick(id) {
 		} else {
 			fief.vote[type[2]] = type[1];
 			SubmitVote(type[2], type[1]);
-			if (!this.boo.isPlaying) this.boo.play();
+			if (!this.boo.isPlaying && type[1] == 'Nay') this.boo.play();
 
 		}
 		if (!this.rabble.isPlaying) this.rabble.play();
