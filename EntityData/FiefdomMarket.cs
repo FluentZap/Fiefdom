@@ -11,6 +11,7 @@ namespace Fiefdom
 	public static partial class FiefdomActions
 	{
 		//Market
+		public static Dictionary<string, int> Transactions = new Dictionary<string, int> { { "Wood", 0 }, { "Stone", 0 }, { "Food", 0 } };
 
 		public static void UnlockPlot(Fief fief)
 		{
@@ -47,6 +48,7 @@ namespace Fiefdom
 				gold.Quantity -= quantity * price;				
 				buyItem.Quantity += quantity;
 
+				Transactions[buyItem.Type] += quantity;
 				//Random rnd = new Random();
 				//int diff = Math.Abs(price.Price - 10);
 				//if (rnd.Next(1, 1000) % (10 - diff) > 1)
@@ -76,6 +78,7 @@ namespace Fiefdom
 				gold.Quantity += quantity * GetMarketSellPrice(sellItem.Type, 100);
 				sellItem.Quantity -= quantity;
 
+				Transactions[sellItem.Type] -= quantity;
 				//Random rnd = new Random();
 				//int diff = Math.Abs(price.Price - 10);
 				//if (rnd.Next(1, 1000) % (10 - diff) > 1)
@@ -91,11 +94,11 @@ namespace Fiefdom
 			int modifier = 0;
 			foreach (Edict edict in Edicts)
 			{
-				if (edict.Type == "Market" && edict.Target == type)
+				if (edict.Type == "Market" && edict.Target == type && edict.Passed)
 					modifier += edict.Amount;
 			}
 
-			return (int)(cost - cost * (modifier + MarketTax) * .01);
+			return (int)(cost - cost * ((modifier + MarketTax) * .01));
 		}
 
 		public static int GetMarketBuyPrice(string type, int cost)
@@ -103,7 +106,7 @@ namespace Fiefdom
 			int modifier = 0;
 			foreach (Edict edict in Edicts)
 			{
-				if (edict.Type == "Market" && edict.Target == type)
+				if (edict.Type == "Market" && edict.Target == type && edict.Passed)
 				{
 					modifier += edict.Amount;
 				}
