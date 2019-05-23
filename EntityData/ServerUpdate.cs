@@ -48,7 +48,7 @@ namespace Fiefdom
 						gameState.Day = 1;
 						gameState.Season += 1;
 					}
-					if (gameState.Season >= 4)
+					if (gameState.Season > 4)
 					{
 						gameState.Season = 1;
 						gameState.Year++;
