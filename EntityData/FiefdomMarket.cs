@@ -16,14 +16,14 @@ namespace Fiefdom
 		public static void UnlockPlot(Fief fief)
 		{
 			int theta = 0;
-			for (int x = 4; x >= 0 && x <= 9; x += theta)
+			for (int x = 5; x >= 0 && x <= 9; x += theta)
 			{
 				if (fief.FiefdomPlot[x].Type == "Locked")
 				{
 					fief.FiefdomPlot[x].Type = "Empty";
 					return;
 				}
-				theta += theta > 0 ? 1 : -1;
+				theta += theta >= 0 ? 1 : -1;
 				theta = -theta;
 			}
 		}
@@ -155,6 +155,7 @@ namespace Fiefdom
 						{
 							fiefdom.Title = 4;
 							gold.Quantity -= 1000;
+							UnlockPlot(fiefdom);
 							UnlockPlot(fiefdom);
 							UnlockPlot(fiefdom);
 						}

@@ -132,8 +132,8 @@ function createBackgrounds() {
 	//confirm menu group
 	this.confirmIcon = this.add.image(0,0, 'upgradeIcon').setDisplaySize(100,100).setVisible(false).setDepth(307);
 	this.confirmName = this.add.text(0, 0, 'Building Name:', { font: "32px Alagard", fill: "#000000", align: "center" }).setVisible(false).setDepth(308);
-	this.confirmCost = this.add.text(0,0, ' Cost', { font: "32px Alagard", fill: "#000000", align: "center" }).setVisible(false).setDepth(309);
-	this.confirmGroup = [this.confirmIcon, this.confirmName, this.confirmCost];
+	// this.confirmCost = this.add.text(0,0, ' Cost', { font: "32px Alagard", fill: "#000000", align: "center" }).setVisible(false).setDepth(309); 
+	this.confirmGroup = [this.confirmIcon, this.confirmName];
 
 	//voting window
 	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false).setDepth(10).setDepth(400);
@@ -261,7 +261,7 @@ function handleClick(id) {
 		setVisible(this.confirmGroup, true);
 		this.buildItem = type[1];
 		this.confirmName.setText(type[1]);
-		this.confirmCost.setText(100);
+		// this.confirmCost.setText(100);
 	}
 
 	if (type[0] == "Build") {
@@ -573,8 +573,8 @@ function buildConfirmMenu(plot, confirmGroup) {
 	confirmGroup[1].x = plot.x - 120;
 	confirmGroup[1].y = plot.y - 400;
 
-	confirmGroup[2].x = plot.x;
-	confirmGroup[2].y = plot.y - 400;
+	// confirmGroup[2].x = plot.x;
+	// confirmGroup[2].y = plot.y - 400;
 
 	confirmGroup[0].x = plot.x + 180;
 	confirmGroup[0].y = plot.y - 400;
