@@ -82,6 +82,13 @@ function createBackgrounds() {
 	this.marketCost.push(this.add.text(520, 290, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
 	this.marketCost.push(this.add.text(740, 290, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
 
+	this.titleButton = this.add.image(960, 550, 'titleIcon').setScrollFactor(0).setDepth(15).setVisible(false).setDisplaySize(50,50);
+	// this.titleButton = fief.sessionId;
+	// this.titleButton.setInteractive().on('pointerdown', (item) => { handleClick.call(this  );
+	this.marketCost.push(this.add.text(700, 530, "Buy New Title", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketMenu.push(this.titleButton);
+
+
 	//ground
 	this.ground = this.add.tileSprite(0, game.config.height - 20, 6000, 20, 'bg').setOrigin(0, 0);
 	this.ground.setScale(ratio);
