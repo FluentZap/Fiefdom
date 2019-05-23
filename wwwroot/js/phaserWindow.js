@@ -27,7 +27,7 @@ function createBackgrounds() {
 	//Menu Items				15
 
 	//market
-	this.marketBackground = this.add.tileSprite(game.config.width / 2, game.config.height / 2, 821, 507, 'marketBorder').setScrollFactor(0).setDepth(999);
+	this.marketBackground = this.add.tileSprite(game.config.width / 2, game.config.height / 2, 821, 507, 'marketBorder').setScrollFactor(0).setDepth(500);
 	this.buttonRight = this.add.image(400,400,'arrow').setOrigin(0,0).setScrollFactor(0);
 	this.buttonRight.setInteractive().on('pointerdown', buy);
 	this.buttonLeft = this.add.image(350,400,'arrow').setOrigin(0,0).setScrollFactor(0);
@@ -58,35 +58,35 @@ function createBackgrounds() {
 
 	
 	//build menu group
-	this.foodIcon = this.add.image(0,0, 'foodIcon').setDisplaySize(100,100).setVisible(false);
+	this.foodIcon = this.add.image(0,0, 'foodIcon').setDisplaySize(100,100).setVisible(false).setDepth(300);
 	this.foodIcon.Id = "BuildSelect Farm";
-	this.woodIcon = this.add.image(0,0, 'woodIcon').setDisplaySize(100,100).setVisible(false);
+	this.woodIcon = this.add.image(0,0, 'woodIcon').setDisplaySize(100,100).setVisible(false).setDepth(301);
 	this.woodIcon.Id = "BuildSelect WoodCutter";
-	this.stoneIcon = this.add.image(0,0, 'stoneIcon').setDisplaySize(100,100).setVisible(false);
+	this.stoneIcon = this.add.image(0,0, 'stoneIcon').setDisplaySize(100,100).setVisible(false).setDepth(302);
 	this.stoneIcon.Id = "BuildSelect Quarry";
-	this.barracksIcon = this.add.image(0,0, 'barracksIcon').setDisplaySize(100,100).setVisible(false);
+	this.barracksIcon = this.add.image(0,0, 'barracksIcon').setDisplaySize(100,100).setVisible(false).setDepth(304);
 	this.barracksIcon.Id = "BuildSelect Barracks";
-	this.innIcon = this.add.image(0,0, 'innIcon').setDisplaySize(100,100).setVisible(false);
+	this.innIcon = this.add.image(0,0, 'innIcon').setDisplaySize(100,100).setVisible(false).setDepth(305);
 	this.innIcon.Id = "BuildSelect Inn";
-	this.goldIcon = this.add.image(0,0, 'goldIcon').setDisplaySize(100,100).setVisible(false);
+	this.goldIcon = this.add.image(0,0, 'goldIcon').setDisplaySize(100,100).setVisible(false).setDepth(306);
 	this.goldIcon.Id = "BuildSelect Gold";
 	this.buildMenu = [this.foodIcon, this.woodIcon, this.stoneIcon, this.barracksIcon, this.innIcon, this.goldIcon];
 
 	//confirm menu group
-	this.confirmIcon = this.add.image(0,0, 'upgradeIcon').setDisplaySize(100,100).setVisible(false);
-	this.confirmName = this.add.text(0, 0, 'Building Name:').setVisible(false);
-	this.confirmCost = this.add.text(0,0, ' Cost').setVisible(false);
+	this.confirmIcon = this.add.image(0,0, 'upgradeIcon').setDisplaySize(100,100).setVisible(false).setDepth(307);
+	this.confirmName = this.add.text(0, 0, 'Building Name:').setVisible(false).setDepth(308);
+	this.confirmCost = this.add.text(0,0, ' Cost').setVisible(false).setDepth(309);
 	this.confirmGroup = [this.confirmIcon, this.confirmName, this.confirmCost];
 
 	//voting window
-	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteText = this.add.text(440, 100, "", { font: "28px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteYes1 = this.add.image(400, 120, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteNo1 = this.add.image(900, 120, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteYes2 = this.add.image(400, 185, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteNo2 = this.add.image(900, 185, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteYes3 = this.add.image(400, 250, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
-	this.voteNo3 = this.add.image(900, 250, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(10);
+	this.voteBG = this.add.image(650, 200, 'voteBG').setScrollFactor(0).setVisible(false).setDepth(10).setDepth(400);
+	this.voteText = this.add.text(440, 100, "", { font: "28px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setVisible(false).setDepth(401);
+	this.voteYes1 = this.add.image(400, 120, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(402);
+	this.voteNo1 = this.add.image(900, 120, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(403);
+	this.voteYes2 = this.add.image(400, 185, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(405);
+	this.voteNo2 = this.add.image(900, 185, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(406);
+	this.voteYes3 = this.add.image(400, 250, "thumbsUp").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(407);
+	this.voteNo3 = this.add.image(900, 250, "thumbsDown").setDisplaySize(75, 75).setScrollFactor(0).setVisible(false).setDepth(408);
 	// this.voteYes2 = this.add.image(800, 250, "thumbsUp").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 	// this.voteNo2 = this.add.image(900, 270, "thumbsDown").setDisplaySize(75,75).setScrollFactor(0).setVisible(false);
 
@@ -134,25 +134,25 @@ function createBackgrounds() {
 	});
 
 	//resource group
-	this.rbGold = this.add.image(30, 40, 'goldIcon').setDisplaySize(50,50).setScrollFactor(0);
+	this.rbGold = this.add.image(30, 40, 'goldIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(600);
 	this.gold = this.add.text(65, 20, "Fiefdom", {		
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.rbFood = this.add.image(200, 40, 'foodIcon').setDisplaySize(50,50).setScrollFactor(0);
+	this.rbFood = this.add.image(200, 40, 'foodIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(601);
 	this.food = this.add.text(235, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.rbWood = this.add.image(370, 40, 'woodIcon').setDisplaySize(50,50).setScrollFactor(0);
+	this.rbWood = this.add.image(370, 40, 'woodIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(602);
 	this.wood = this.add.text(405, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
 	}).setScrollFactor(0);
-	this.rbStone = this.add.image(540, 40, 'stoneIcon').setDisplaySize(50,50).setScrollFactor(0);
+	this.rbStone = this.add.image(540, 40, 'stoneIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(603);
 	this.stone = this.add.text(575, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
@@ -160,7 +160,7 @@ function createBackgrounds() {
 	}).setScrollFactor(0);
 
 	//game time group
-	this.date = this.add.text(800, 20, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0);
+	this.date = this.add.text(800, 20, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(604);
 
 
 
