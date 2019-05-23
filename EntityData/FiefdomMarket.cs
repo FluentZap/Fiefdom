@@ -133,28 +133,28 @@ namespace Fiefdom
 						}
 						break;
 					case 1:
-						if (gold.Quantity >= 5000)
+						if (gold.Quantity >= 1000)
 						{
 							fiefdom.Title = 2;
-							gold.Quantity -= 5000;
+							gold.Quantity -= 1000;
 							UnlockPlot(fiefdom);
 							UnlockPlot(fiefdom);
 						}
 						break;
 					case 2:
-						if (gold.Quantity >= 10000)
+						if (gold.Quantity >= 1000)
 						{
 							fiefdom.Title = 3;
-							gold.Quantity -= 10000;
+							gold.Quantity -= 1000;
 							UnlockPlot(fiefdom);
 							UnlockPlot(fiefdom);
 						}
 						break;
 					case 3:
-						if (gold.Quantity >= 20000)
+						if (gold.Quantity >= 1000)
 						{
 							fiefdom.Title = 4;
-							gold.Quantity -= 20000;
+							gold.Quantity -= 1000;
 							UnlockPlot(fiefdom);
 							UnlockPlot(fiefdom);
 						}

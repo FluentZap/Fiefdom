@@ -91,7 +91,7 @@ function createBackgrounds() {
 
 	this.titleButton = this.add.image(960, 550, 'titleIcon').setScrollFactor(0).setDepth(600).setVisible(false).setDisplaySize(50,50);
 	// this.titleButton = fief.sessionId;
-	// this.titleButton.setInteractive().on('pointerdown', (item) => { handleClick.call(this  );
+	this.titleButton.setInteractive().on('pointerdown', (item) => { BuyTitle(); UpdateFiefdom().call(this) });
 	this.marketCost.push(this.add.text(700, 530, "Buy New Title", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(600).setVisible(false));
 	this.marketMenu.push(this.titleButton);
 
@@ -187,25 +187,25 @@ function createBackgrounds() {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
-	}).setScrollFactor(0);
+	}).setScrollFactor(0).setDepth(640);
 	this.rbFood = this.add.image(200, 40, 'foodIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(601);
 	this.food = this.add.text(235, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
-	}).setScrollFactor(0);
+	}).setScrollFactor(0).setDepth(641);
 	this.rbWood = this.add.image(370, 40, 'woodIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(602);
 	this.wood = this.add.text(405, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
-	}).setScrollFactor(0);
+	}).setScrollFactor(0).setDepth(643);
 	this.rbStone = this.add.image(540, 40, 'stoneIcon').setDisplaySize(50,50).setScrollFactor(0).setDepth(603);
 	this.stone = this.add.text(575, 20, "Fiefdom", {
 		font: "40px Alagard",
 		fill: "#000000",
 		align: "center"
-	}).setScrollFactor(0);
+	}).setScrollFactor(0).setDepth(644);
 
 	//game time group
 	this.date = this.add.text(800, 20, "Fiefdom", { font: "40px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(604);
@@ -280,12 +280,11 @@ function handleClick(id) {
 		} else {
 			fief.vote[type[2]] = type[1];
 			SubmitVote(type[2], type[1]);
+			if (!this.boo.isPlaying) this.boo.play();
+
 		}
-
-
 		if (!this.rabble.isPlaying) this.rabble.play();
 
-		//this.order.play();
 	}
 
 	if (type[0] == "Market") {

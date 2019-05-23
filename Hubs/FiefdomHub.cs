@@ -106,6 +106,12 @@ namespace Fiefdom.Hubs
 			FiefdomActions.SellResource(Context.ConnectionId, type, quantity);
         }
 
+		    public async Task BuyTitle()
+        {			
+			FiefdomActions.BuyTitle(Context.ConnectionId);
+        }
+
+
 		public async Task GetMarketPrice()
         {
 			await Clients.Caller.SendAsync("ReceiveMarketPrices", FiefdomActions.GetMarketPrice());

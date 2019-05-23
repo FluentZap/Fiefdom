@@ -54,6 +54,13 @@ function BuyResource(type, quantity) {
 	});
 };
 
+function BuyTitle() {
+	//console.log("bought");
+	connection.invoke("BuyTitle").catch(function (err) {
+		return console.error(err.toString());
+	});
+};
+
 function SellResource(type, quantity) {
 	connection.invoke("SellResource", type, quantity).catch(function (err) {
 		return console.error(err.toString());
