@@ -458,8 +458,11 @@ function updateUi() {
 		var foodDiscount = 0;
 		var stoneDiscount = 0;
 		var woodDiscount = 0;
-		var taxTotal = 0;
+		var taxTotal = 0;		
 		for(i=0; i < fief.edicts.length; i++){
+			if (fief.edicts[i].passed)
+			{
+
 			if(fief.edicts[i].type == "Tax"){
 				taxTotal = taxTotal + parseInt(fief.edicts[i].amount);
 			}
@@ -473,11 +476,12 @@ function updateUi() {
 						break;
 				}
 			}
-			this.sbTaxText.setText("+" + taxTotal + "%");
-			this.sbFoodText.setText("-" + foodDiscount + "%");
-			this.sbWoodText.setText("-" + woodDiscount + "%");
-			this.sbStoneText.setText("-" + stoneDiscount + "%");
+			}			
 		}
+		this.sbTaxText.setText("+" + taxTotal + "%");
+		this.sbFoodText.setText("-" + foodDiscount + "%");
+		this.sbWoodText.setText("-" + woodDiscount + "%");
+		this.sbStoneText.setText("-" + stoneDiscount + "%");
 	}
 	if (this.seasonSound != fief.gameState.season) {
 		if (!this.frog.isPlaying) this.frog.play();
