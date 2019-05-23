@@ -11,7 +11,7 @@ namespace Fiefdom
 	public static partial class FiefdomActions
 	{
 		//Market
-		public static Dictionary<string, int> Transactions = new Dictionary<string, int> { { "Wood", 0 }, { "Stone", 0 }, { "Food", 0 } };
+		public static Dictionary<string, int> Transactions = new Dictionary<string, int> { { "Food", 0 }, { "Stone", 0 }, { "Wood", 0 } };
 
 		public static void UnlockPlot(Fief fief)
 		{
@@ -37,8 +37,8 @@ namespace Fiefdom
 				var buyItem = fiefdom.FiefdomResources.Where(x => x.Type == type).FirstOrDefault();
 				var marketPrice = db.Market.Where(w => w.Type == type).FirstOrDefault();
 
-				//int price = GetMarketBuyPrice(buyItem.Type, marketPrice.Price);
-				int price = GetMarketBuyPrice(buyItem.Type, 100);
+				int price = GetMarketBuyPrice(buyItem.Type, marketPrice.Price);
+				//int price = GetMarketBuyPrice(buyItem.Type, 100);
 
 				int canBuy = gold.Quantity / price;
 				if (canBuy < quantity)
@@ -74,8 +74,8 @@ namespace Fiefdom
 					quantity = sellItem.Quantity;
 				}
 
-				//gold.Quantity += quantity * GetMarketSellPrice(sellItem.Type, price.Price);
-				gold.Quantity += quantity * GetMarketSellPrice(sellItem.Type, 100);
+				gold.Quantity += quantity * GetMarketSellPrice(sellItem.Type, price.Price);
+				//gold.Quantity += quantity * GetMarketSellPrice(sellItem.Type, 100);
 				sellItem.Quantity -= quantity;
 
 				Transactions[sellItem.Type] -= quantity;
@@ -112,7 +112,7 @@ namespace Fiefdom
 				}
 			}
 
-			return (int)(cost + cost * ((modifier + MarketTax) * .01));
+			return (int)(cost - cost * ((modifier + MarketTax) * .01));
 		}
 
 		public static void BuyTitle(string sessionId)

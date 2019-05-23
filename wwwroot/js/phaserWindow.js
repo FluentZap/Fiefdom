@@ -75,17 +75,18 @@ function createBackgrounds() {
 
 
 	this.marketCost = [];
-	this.marketCost.push(this.add.text(640, 365, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketCost.push(this.add.text(520, 365, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketCost.push(this.add.text(740, 365, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	//food
+	this.marketCost.push(this.add.text(640, 290, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(520, 290, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(740, 290, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
 
 	this.marketCost.push(this.add.text(640, 440, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
 	this.marketCost.push(this.add.text(520, 440, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
 	this.marketCost.push(this.add.text(740, 440, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
 
-	this.marketCost.push(this.add.text(640, 290, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketCost.push(this.add.text(520, 290, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
-	this.marketCost.push(this.add.text(740, 290, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(640, 365, "", { font: "32px Alagard", fill: "#000000", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(520, 365, "", { font: "32px Alagard", fill: "#77dd77", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
+	this.marketCost.push(this.add.text(740, 365, "", { font: "32px Alagard", fill: "#ff6961", align: "center" }).setScrollFactor(0).setDepth(15).setVisible(false));
 
 	//ground
 	this.ground = this.add.tileSprite(0, game.config.height - 20, 6000, 20, 'bg').setOrigin(0, 0);
