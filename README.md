@@ -9,7 +9,7 @@
 
 ### Dawn of a new Fiefdom <img src="https://imgur.com/ffnClEF.png">
 
->Each player starts in his own Fiefdom and several plots of land to build upon. 
+>Each player starts in his own Fiefdom with several plots of land to build upon.
 <hr>
 
 ### Build new structure<img src="https://imgur.com/pw61O0H.png"> 
