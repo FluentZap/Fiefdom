@@ -5,7 +5,8 @@
 #### _By Todd Aden, Dustin Herboldshimer, Jared Farkas, and  Brian Hensley_
 
 ## _Description_
->This is a rad program that simulates a player creating their own medieval fiefdom; for maximum cool. 😎 
+>This is a rad program that simulates a player creating their own medieval fiefdom 😎
+>It was built in 3 days as a coding project during C# Epicodus Project Week
 
 ### Dawn of a new Fiefdom <img src="https://imgur.com/ffnClEF.png">
 
